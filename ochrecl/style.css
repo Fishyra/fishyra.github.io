@@ -577,3 +577,16 @@
       nav { row-gap: 4px; }
       .docs-main { padding-top: 40px; }
     }
+
+    /* 网盘提取码：显示在各平台下载按钮下方。 */
+    .download-card .download-password {
+      margin: 12px 0 0;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .download-password strong {
+      color: var(--text);
+      letter-spacing: .12em;
+      user-select: all;
+    }
