@@ -1,1 +1,190 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Fishyra，一个属于好奇心与自由创作的小宇宙。"><link rel="stylesheet" href="style.css"><script>try{document.documentElement.dataset.theme=localStorage.getItem('fishyra-theme')||'dark'}catch(e){}</script><meta name="robots" content="noindex,nofollow"><title>内容管理 — Fishyra</title></head><body data-page="admin"><header><div class="wrap"><a class="brand" href="index.html" aria-label="Fishyra 首页"><svg viewBox="0 0 120 120" aria-hidden="true"><ellipse cx="60" cy="62" rx="55" ry="15" transform="rotate(-35 60 62)" fill="none" stroke="#b6c6ed" stroke-width="6"/><circle cx="60" cy="60" r="34" fill="var(--bg)" stroke="#59c9f5" stroke-width="13"/><path d="M 105 30 A 55 15 -35 0 1 15 94" fill="none" stroke="#b6c6ed" stroke-width="6"/><path d="M70 3 Q73 16 86 19 Q73 22 70 35 Q67 22 54 19 Q67 16 70 3Z" fill="var(--fg)"/></svg><span>Fishyra</span></a><nav><a href="index.html">返回首页 ↗</a><button id="theme" aria-label="切换黑白主题">◐</button></nav></div></header><main class="wrap"><div id="message" role="status" aria-live="polite">正在检查登录状态…</div><section id="login" class="login panel" hidden><div class="eyebrow">FISHYRA / ADMIN</div><h1>欢迎回来。</h1><p class="muted">登录后，继续你的创作。</p><form id="loginForm"><label for="email">邮箱地址</label><input id="email" type="email" autocomplete="username" required><label for="password">密码</label><input id="password" type="password" autocomplete="current-password" required><button class="primary" style="width:100%;margin-top:24px">登录</button></form><p class="muted">仅限指定管理员，不开放注册。</p></section><section id="dashboard" hidden><div class="toolbar"><h1 class="admin-title">内容工作台</h1><button id="newPost">＋ 新建内容</button><button id="reload">刷新列表</button><button id="logout">退出登录</button></div><div class="admin-layout"><aside><label for="filter">筛选内容</label><select id="filter"><option value="all">全部内容</option><option value="project">Fishyra的项目们</option><option value="news">动态</option></select><div id="postList" style="margin-top:20px"></div></aside><form id="editor" class="panel"><h2 id="editorTitle" style="font-size:26px;margin:0">新建内容</h2><label for="type">内容类型</label><select id="type" name="type"><option value="project">Fishyra的项目们</option><option value="news">动态</option></select><label for="title">标题 *</label><input id="title" name="title" required maxlength="200"><label for="summary">简介</label><textarea id="summary" name="summary" rows="3"></textarea><label for="body">正文（纯文本，保留换行）</label><textarea id="body" name="body" rows="12"></textarea><label for="cover_url">封面图片网址（选填，https://）</label><input id="cover_url" name="cover_url" type="url" placeholder="https://…"><small>第一版使用图片链接，暂不支持本地上传。</small><label for="project_url">项目链接（选填，https://）</label><input id="project_url" name="project_url" type="url" placeholder="https://github.com/…"><label for="tags">标签（用英文或中文逗号分隔）</label><input id="tags" name="tags" placeholder="Python, AI, Raspberry Pi"><p id="postStatus" class="muted">尚未保存</p><div class="toolbar"><button type="button" id="draft">保存为草稿</button><button type="submit" class="primary">发布内容</button><button type="button" id="remove" class="danger" hidden>删除</button></div><small>已发布内容保存为草稿后，将从首页撤下。</small></form></div></section></main><script src="theme.js?v=2"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script src="config.js"></script><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Fishyra，一个属于好奇心与自由创作的小宇宙。">
+    <link rel="stylesheet" href="style.css">
+    <script>
+      try{document.documentElement.dataset.theme=localStorage.getItem('fishyra-theme')||'dark'}catch(e){}
+    </script>
+    <meta name="robots" content="noindex,nofollow">
+    <title>
+      内容管理 — Fishyra
+    </title>
+  </head>
+  <body data-page="admin">
+    <header>
+      <div class="wrap">
+        <a class="brand" href="index.html" aria-label="Fishyra 首页">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <ellipse cx="60" cy="62" rx="55" ry="15" transform="rotate(-35 60 62)" fill="none" stroke="#b6c6ed" stroke-width="6"/>
+            <circle cx="60" cy="60" r="34" fill="var(--bg)" stroke="#59c9f5" stroke-width="13"/>
+            <path d="M 105 30 A 55 15 -35 0 1 15 94" fill="none" stroke="#b6c6ed" stroke-width="6"/>
+            <path d="M70 3 Q73 16 86 19 Q73 22 70 35 Q67 22 54 19 Q67 16 70 3Z" fill="var(--fg)"/>
+          </svg>
+          <span>
+            Fishyra
+          </span>
+        </a>
+        <nav>
+          <a href="index.html">
+            返回首页 ↗
+          </a>
+          <button id="theme" aria-label="切换黑白主题">
+            ◐
+          </button>
+        </nav>
+      </div>
+    </header>
+    <main class="wrap">
+      <div id="message" role="status" aria-live="polite">
+        正在检查登录状态…
+      </div>
+      <section id="login" class="login panel" hidden>
+        <div class="eyebrow">
+          FISHYRA / ADMIN
+        </div>
+        <h1>
+          欢迎回来。
+        </h1>
+        <p class="muted">
+          登录后，继续你的创作。
+        </p>
+        <form id="loginForm">
+          <label for="email">
+            邮箱地址
+          </label>
+          <input id="email" type="email" autocomplete="username" required>
+          <label for="password">
+            密码
+          </label>
+          <input id="password" type="password" autocomplete="current-password" required>
+          <button class="primary" style="width:100%;margin-top:24px">
+            登录
+          </button>
+        </form>
+        <p class="muted">
+          仅限指定管理员，不开放注册。
+        </p>
+      </section>
+      <section id="dashboard" hidden>
+        <div class="toolbar">
+          <h1 class="admin-title">
+            内容工作台
+          </h1>
+          <button id="newPost">
+            ＋ 新建内容
+          </button>
+          <button id="reload">
+            刷新列表
+          </button>
+          <button id="logout">
+            退出登录
+          </button>
+        </div>
+        <div class="admin-layout">
+          <aside>
+            <label for="filter">
+              筛选内容
+            </label>
+            <select id="filter">
+              <option value="all">
+                全部内容
+              </option>
+              <option value="project">
+                Fishyra的项目们
+              </option>
+              <option value="news">
+                动态
+              </option>
+            </select>
+            <div id="postList" style="margin-top:20px">
+            </div>
+          </aside>
+          <form id="editor" class="panel">
+            <h2 id="editorTitle" style="font-size:26px;margin:0">
+              新建内容
+            </h2>
+            <label for="type">
+              内容类型
+            </label>
+            <select id="type" name="type">
+              <option value="project">
+                Fishyra的项目们
+              </option>
+              <option value="news">
+                动态
+              </option>
+            </select>
+            <!-- 数字越小，列表位置越靠前 -->
+            <label for="sort_order">
+              排序数字
+            </label>
+            <input id="sort_order" name="sort_order" type="number" step="1" value="0" required>
+            <small>
+              数字越小越靠前，可填负数。相同数字按创建时间倒序排列。
+            </small>
+            <label for="title">
+              标题 *
+            </label>
+            <input id="title" name="title" required maxlength="200">
+            <label for="summary">
+              简介
+            </label>
+            <textarea id="summary" name="summary" rows="3">
+            </textarea>
+            <label for="body">
+              正文（纯文本，保留换行）
+            </label>
+            <textarea id="body" name="body" rows="12">
+            </textarea>
+            <label for="cover_url">
+              封面图片网址（选填，https://）
+            </label>
+            <input id="cover_url" name="cover_url" type="url" placeholder="https://…">
+            <small>
+              第一版使用图片链接，暂不支持本地上传。
+            </small>
+            <label for="project_url">
+              项目链接（选填，https://）
+            </label>
+            <input id="project_url" name="project_url" type="url" placeholder="https://github.com/…">
+            <label for="tags">
+              标签（用英文或中文逗号分隔）
+            </label>
+            <input id="tags" name="tags" placeholder="Python, AI, Raspberry Pi">
+            <p id="postStatus" class="muted">
+              尚未保存
+            </p>
+            <div class="toolbar">
+              <button type="button" id="saveChanges">
+                保存修改
+              </button>
+              <button type="button" id="draft">
+                保存为草稿
+              </button>
+              <button type="submit" class="primary">
+                发布内容
+              </button>
+              <button type="button" id="remove" class="danger" hidden>
+                删除
+              </button>
+            </div>
+            <small>
+              已发布内容保存为草稿后，将从首页撤下。
+            </small>
+          </form>
+        </div>
+      </section>
+    </main>
+    <script src="theme.js?v=2">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js">
+    </script>
+    <script src="config.js">
+    </script>
+    <script src="app.js?v=sorting-1">
+    </script>
+  </body>
+</html>

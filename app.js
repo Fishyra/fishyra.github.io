@@ -175,7 +175,7 @@ async function start() {
         ? Math.min(parsedPage, 100000)
         : 1;
 
-    const pageSize = 6;
+    const pageSize = 30;
     const first = (currentPage - 1) * pageSize;
 
     const result = await request(
@@ -184,6 +184,7 @@ async function start() {
         .select("*")
         .eq("status", "published")
         .eq("type", page === "works" ? "project" : "news")
+        .order("sort_order", { ascending: true })
         .order("created_at", { ascending: false })
         .order("id", { ascending: false })
         .range(first, first + pageSize)
@@ -350,17 +351,18 @@ async function start() {
       "body",
       "cover_url",
       "project_url",
-      "tags"
+      "tags",
+      "sort_order"
     ];
 
     fields.forEach((name) => {
-      let value = name === "type" ? "project" : "";
+      let value = name === "type" ? "project" : (name === "sort_order" ? 0 : "");
 
       if (post) {
         value =
           name === "tags"
             ? (post.tags || []).join(", ")
-            : post[name] || "";
+            : name === "sort_order" ? (post.sort_order ?? 0) : (post[name] || "");
       }
 
       form.elements[name].value = value;
@@ -425,7 +427,7 @@ async function start() {
 
       button.type = "button";
       button.append(
-        element("small", `${type} / ${status}`)
+        element("small", `${type} / ${status} / 排序：${post.sort_order ?? 0}`)
       );
 
       button.onclick = () => {
@@ -443,6 +445,7 @@ async function start() {
       db
         .from("posts")
         .select("*")
+        .order("sort_order", { ascending: true })
         .order("created_at", { ascending: false })
     );
 
@@ -613,6 +616,14 @@ async function start() {
       .map((tag) => tag.trim())
       .filter(Boolean);
 
+    const order = Number(values.sort_order);
+
+    if (!Number.isInteger(order) || order < -2147483648 || order > 2147483647) {
+      message("排序请填写整数，例如 -10、0、10。");
+      return;
+    }
+
+    values.sort_order = order;
     values.status = status;
 
     setBusy(true);
@@ -672,6 +683,11 @@ async function start() {
   form.onsubmit = (event) => {
     event.preventDefault();
     save("published");
+  };
+
+  // 保存编辑内容，同时保留原来的发布状态。
+  $("saveChanges").onclick = () => {
+    save(selected ? selected.status : "draft");
   };
 
   $("draft").onclick = () => {
