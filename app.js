@@ -92,6 +92,96 @@ async function request(operation) {
   }
 }
 
+// ---------- Markdown 渲染 ----------
+
+let markdownLoader;
+
+function loadMarkdown() {
+  if (!markdownLoader) {
+    markdownLoader = Promise.all([
+      loadLocalScript("vendor/marked.js", () => window.marked),
+      loadLocalScript("vendor/purify.js", () => window.DOMPurify)
+    ]).catch((error) => {
+      markdownLoader = null;
+      throw error;
+    });
+  }
+  return markdownLoader;
+}
+
+function loadLocalScript(path, available) {
+  if (available()) return Promise.resolve();
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = new URL(path, document.baseURI).href;
+    const timer = setTimeout(() => {
+      script.remove();
+      reject(new Error("Markdown 组件加载超时，请确认 vendor 文件夹已上传。"));
+    }, 12000);
+    script.onload = () => {
+      clearTimeout(timer);
+      if (available()) resolve();
+      else reject(new Error("Markdown 组件内容不完整。"));
+    };
+    script.onerror = () => {
+      clearTimeout(timer);
+      script.remove();
+      reject(new Error("Markdown 组件加载失败，请确认 vendor 文件夹已上传。"));
+    };
+    document.head.append(script);
+  });
+}
+
+async function renderMarkdown(target, source) {
+  await loadMarkdown();
+  const html = window.marked.parse(source || "", {
+    gfm: true,
+    breaks: true
+  });
+  const clean = window.DOMPurify.sanitize(html, {
+    USE_PROFILES: { html: true },
+    FORBID_TAGS: ["style", "form", "input", "button", "textarea", "select"],
+    FORBID_ATTR: ["style", "id", "name"]
+  });
+  target.innerHTML = clean;
+  target.className = "markdown-body";
+  target.querySelectorAll("img").forEach((image) => {
+    image.loading = "lazy";
+    image.referrerPolicy = "no-referrer";
+  });
+  target.querySelectorAll("a[href]").forEach((link) => {
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+  });
+}
+
+const markdownStyle = document.createElement("style");
+markdownStyle.textContent = `
+  .markdown-body { white-space: normal; overflow-wrap: anywhere; line-height: 1.9; }
+  .markdown-body > :first-child { margin-top: 0; }
+  .markdown-body h1 { font-size: 32px; letter-spacing: -1px; line-height: 1.4; margin: 32px 0 16px; }
+  .markdown-body h2 { font-size: 27px; line-height: 1.4; margin: 28px 0 14px; }
+  .markdown-body h3 { font-size: 22px; margin: 24px 0 12px; }
+  .markdown-body h4, .markdown-body h5, .markdown-body h6 { font-size: 18px; margin: 20px 0 10px; }
+  .markdown-body p { margin: 0 0 18px; }
+  .markdown-body img { display: block; max-width: 100%; height: auto; border-radius: 8px; margin: 20px 0; }
+  .markdown-body a { text-decoration: underline; text-underline-offset: 4px; }
+  .markdown-body blockquote { border-left: 3px solid var(--muted); margin: 20px 0; padding: 4px 20px; color: var(--muted); }
+  .markdown-body ul, .markdown-body ol { padding-left: 26px; margin-bottom: 20px; }
+  .markdown-body li { margin: 5px 0; }
+  .markdown-body code { background: var(--surface); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; font-size: .9em; }
+  .markdown-body pre { overflow-x: auto; padding: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+  .markdown-body pre code { padding: 0; background: none; }
+  .markdown-body table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 20px 0; }
+  .markdown-body th, .markdown-body td { border: 1px solid var(--line); padding: 8px 14px; text-align: left; }
+  .markdown-body hr { border: 0; border-top: 1px solid var(--line); margin: 28px 0; }
+  .markdown-tools { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; }
+  .markdown-tools button { font-size: 13px; padding: 8px 12px; }
+  .markdown-help { color: var(--muted); font-size: 12px; margin-bottom: 10px; }
+  #markdownPreview { padding: 20px; border: 1px solid var(--line); border-radius: 8px; margin-top: 15px; }
+`;
+document.head.append(markdownStyle);
+
 // ---------- 启动 ----------
 
 async function start() {
@@ -413,8 +503,17 @@ async function start() {
 
     content.append(
       element("p", post.summary || "", "muted"),
-      element("div", post.body || "", "body-text")
+      element("div", post.body || "", "body-text markdown-pending")
     );
+
+    const articleBody = content.querySelector(".markdown-pending");
+    try {
+      await renderMarkdown(articleBody, post.body || "");
+    } catch (error) {
+      // 组件不可用时仍保留原文，避免正文消失。
+      message(error.message + " 当前显示原文。");
+      return;
+    }
 
     const projectURL = safeURL(post.project_url);
 
@@ -438,6 +537,63 @@ async function start() {
   let busy = false;
 
   const form = $("editor");
+
+  const bodyInput = form.elements.body;
+  const bodyLabel = form.querySelector('label[for="body"]');
+  if (bodyLabel) bodyLabel.textContent = "正文（支持 Markdown 和图片）";
+  bodyInput.placeholder = "## 标题\n\n正文内容，可使用 **加粗**。\n\n![图片说明](https://图片网址)";
+
+  const tools = element("div", undefined, "markdown-tools");
+  const previewButton = element("button", "预览正文");
+  const imageButton = element("button", "插入图片");
+  previewButton.type = "button";
+  imageButton.type = "button";
+  tools.append(previewButton, imageButton);
+  bodyInput.before(tools);
+
+  const help = element("p", "图片写法：![图片说明](图片网址)。也可以点击“插入图片”，粘贴图片链接。", "markdown-help");
+  const preview = element("div");
+  preview.id = "markdownPreview";
+  preview.hidden = true;
+  bodyInput.after(help, preview);
+
+  imageButton.onclick = () => {
+    const supplied = prompt("粘贴图片网址（HTTP 或 HTTPS）：");
+    if (supplied === null) return;
+    const url = safeURL(supplied.trim());
+    if (!url) { message("请输入有效的图片网址。"); return; }
+    const description = prompt("图片说明（可以留空）：", "") ?? "";
+    const label = description.replace(/[\[\]\\]/g, "");
+    const encodedURL = url.replace(/\(/g, "%28").replace(/\)/g, "%29");
+    bodyInput.setRangeText("\n\n![" + label + "](" + encodedURL + ")\n\n",
+      bodyInput.selectionStart, bodyInput.selectionEnd, "end");
+    bodyInput.dispatchEvent(new Event("input", { bubbles: true }));
+    bodyInput.focus();
+  };
+
+  previewButton.onclick = async () => {
+    if (!preview.hidden) {
+      preview.hidden = true;
+      previewButton.textContent = "预览正文";
+      return;
+    }
+    previewButton.disabled = true;
+    try {
+      await renderMarkdown(preview, bodyInput.value);
+      preview.hidden = false;
+      previewButton.textContent = "关闭预览";
+    } catch (error) {
+      message(error.message);
+    } finally {
+      previewButton.disabled = false;
+    }
+  };
+
+  bodyInput.addEventListener("input", () => {
+    preview.hidden = true;
+    previewButton.textContent = "预览正文";
+  });
+
 
   form.addEventListener("input", () => {
     dirty = true;
@@ -489,6 +645,8 @@ async function start() {
   form.elements.type.addEventListener("change", syncSortingField);
 
   function edit(post) {
+    preview.hidden = true;
+    previewButton.textContent = "预览正文";
     selected = post;
 
     const fields = [
