@@ -158,6 +158,101 @@ async function start() {
     return card;
   }
 
+  // ---------- 动态时间线与项目搜索样式 ----------
+
+  const listStyle = element("style");
+  listStyle.textContent = `
+    body[data-page="news"] #listing {
+      display: block;
+      border-top: 1px solid var(--line);
+    }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 125px minmax(0, 1fr);
+      gap: 30px;
+      border-bottom: 1px solid var(--line);
+      padding: 30px 0;
+    }
+    .timeline-date {
+      font: 12px/1.8 ui-monospace, monospace;
+      color: var(--muted);
+      padding-top: 5px;
+    }
+    .timeline-content {
+      position: relative;
+      border-left: 1px solid var(--line);
+      padding-left: 30px;
+    }
+    .timeline-content::before {
+      content: "";
+      position: absolute;
+      top: 9px;
+      left: -4px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--fg);
+    }
+    .timeline-content h3 {
+      margin: 0 0 12px;
+      font-size: 23px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+    .timeline-content p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .timeline-read { font-size: 13px; }
+    .timeline-read:hover { text-decoration: underline; }
+    .project-search {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 0 0 28px;
+    }
+    .project-search input {
+      flex: 1 1 200px;
+      width: auto;
+      min-width: 0;
+    }
+    .project-search button { flex-shrink: 0; }
+    .project-search a { align-self: center; font-size: 13px; }
+    @media (max-width: 600px) {
+      .timeline-item { grid-template-columns: 1fr; gap: 10px; padding: 25px 0; }
+      .timeline-content { padding-left: 20px; }
+      .timeline-content h3 { font-size: 20px; }
+    }
+  `;
+  document.head.append(listStyle);
+
+  function createTimelineItem(post) {
+    const row = element("article", undefined, "timeline-item");
+    const date = new Date(post.created_at);
+    const time = element("time", date.toLocaleDateString("zh-CN", {
+      year: "numeric", month: "2-digit", day: "2-digit"
+    }), "timeline-date");
+    time.dateTime = post.created_at;
+
+    const content = element("div", undefined, "timeline-content");
+    const title = element("h3");
+    const titleLink = element("a", post.title);
+    titleLink.href = "post.html?id=" + encodeURIComponent(post.id);
+    title.append(titleLink);
+
+    const read = element("a", "阅读全文 ↗", "timeline-read");
+    read.href = titleLink.href;
+    content.append(title, element("p", post.summary || ""), read);
+    row.append(time, content);
+    return row;
+  }
+
   // ---------- 项目与动态列表 ----------
 
   if (page === "works" || page === "news") {
@@ -178,14 +273,51 @@ async function start() {
     const pageSize = 30;
     const first = (currentPage - 1) * pageSize;
 
+    const keyword = (parameter.get("q") || "").trim();
+
+    if (page === "works") {
+      const searchForm = element("form", undefined, "project-search");
+      searchForm.setAttribute("role", "search");
+      const input = element("input");
+      input.type = "search";
+      input.name = "q";
+      input.value = keyword;
+      input.placeholder = "搜索项目标题或简介…";
+      input.setAttribute("aria-label", "搜索 Fishyra 的项目");
+      const submit = element("button", "搜索", "primary");
+      submit.type = "submit";
+      searchForm.append(input, submit);
+      if (keyword) {
+        const clear = element("a", "清除搜索");
+        clear.href = "works.html";
+        searchForm.append(clear);
+      }
+      searchForm.onsubmit = (event) => {
+        event.preventDefault();
+        const query = new URLSearchParams();
+        if (input.value.trim()) query.set("q", input.value.trim());
+        location.href = "works.html" + (query.size ? "?" + query.toString() : "");
+      };
+      $("listing").before(searchForm);
+    }
+
+    let query = db.from("posts")
+      .select("*")
+      .eq("status", "published")
+      .eq("type", page === "works" ? "project" : "news");
+
+    if (page === "works") {
+      query = query.order("sort_order", { ascending: true });
+      if (keyword) {
+        // 引号包裹过滤词，转义通配符与 PostgREST 特殊字符。
+        const escaped = keyword.replace(/[\\%_"]/g, (character) => "\\" + character);
+        const pattern = '"%' + escaped + '%"';
+        query = query.or("title.ilike." + pattern + ",summary.ilike." + pattern);
+      }
+    }
+
     const result = await request(
-      db
-        .from("posts")
-        .select("*")
-        .eq("status", "published")
-        .eq("type", page === "works" ? "project" : "news")
-        .order("sort_order", { ascending: true })
-        .order("created_at", { ascending: false })
+      query.order("created_at", { ascending: false })
         .order("id", { ascending: false })
         .range(first, first + pageSize)
     );
@@ -198,23 +330,24 @@ async function start() {
     listing.replaceChildren();
 
     rows.slice(0, pageSize).forEach((post) => {
-      listing.append(createCard(post));
+      listing.append(page === "news" ? createTimelineItem(post) : createCard(post));
     });
 
-    message(rows.length ? "" : "这一页暂无内容。");
+    message(rows.length ? (page === "works" && keyword ? `搜索：${keyword}` : "") : (keyword ? "没有找到匹配的项目。" : "这一页暂无内容。"));
 
     $("pageNumber").textContent = `第 ${currentPage} 页`;
 
     previous.disabled = currentPage === 1;
     next.disabled = rows.length <= pageSize;
 
-    previous.onclick = () => {
-      location.href = `${page}.html?page=${currentPage - 1}`;
-    };
-
-    next.onclick = () => {
-      location.href = `${page}.html?page=${currentPage + 1}`;
-    };
+    function goToPage(number) {
+      const parameters = new URLSearchParams();
+      parameters.set("page", String(number));
+      if (page === "works" && keyword) parameters.set("q", keyword);
+      location.href = `${page}.html?${parameters.toString()}`;
+    }
+    previous.onclick = () => goToPage(currentPage - 1);
+    next.onclick = () => goToPage(currentPage + 1);
 
     return;
   }
@@ -341,6 +474,20 @@ async function start() {
     message(text);
   }
 
+  // 动态固定按时间排列；只有项目可调整排序。
+  function syncSortingField() {
+    const input = form.elements.sort_order;
+    if (!input) return;
+    const isProject = form.elements.type.value === "project";
+    input.hidden = !isProject;
+    input.required = isProject;
+    const label = form.querySelector('label[for="sort_order"]');
+    if (label) label.hidden = !isProject;
+    const hint = input.nextElementSibling;
+    if (hint && hint.tagName === "SMALL") hint.hidden = !isProject;
+  }
+  form.elements.type.addEventListener("change", syncSortingField);
+
   function edit(post) {
     selected = post;
 
@@ -387,6 +534,7 @@ async function start() {
       $("postStatus").textContent = "尚未保存";
     }
 
+    syncSortingField();
     dirty = false;
   }
 
@@ -427,7 +575,7 @@ async function start() {
 
       button.type = "button";
       button.append(
-        element("small", `${type} / ${status} / 排序：${post.sort_order ?? 0}`)
+        element("small", `${type} / ${status}` + (post.type === "project" ? ` / 排序：${post.sort_order ?? 0}` : ""))
       );
 
       button.onclick = () => {
@@ -616,7 +764,7 @@ async function start() {
       .map((tag) => tag.trim())
       .filter(Boolean);
 
-    const order = Number(values.sort_order);
+    const order = values.type === "project" ? Number(values.sort_order) : 0;
 
     if (!Number.isInteger(order) || order < -2147483648 || order > 2147483647) {
       message("排序请填写整数，例如 -10、0、10。");
