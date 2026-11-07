@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f3ea">
+  <meta name="description"
+        content="ØchreCL 是 Fishyra 旗下基于 HMCL 开发的 Minecraft Java 版启动器，集成游戏管理与本地服务器管理功能。">
+  <link rel="canonical" href="https://fishyra.github.io/ochrecl/">
+  <title>ØchreCL · Fishyra</title>
+
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="ØchreCL 首页">
+        <!-- 可替换为正式图标：
+             <img class="brand-mark" src="./assets/icon.png" alt=""> -->
+        <svg class="brand-mark" viewBox="0 0 40 46"
+             aria-hidden="true" fill="none">
+          <path d="M20 2 38 12v22L20 44 2 34V12Z"
+                fill="#d8ece9" stroke="#356b70" stroke-width="2"/>
+          <path d="m20 8 12 7v15l-12 7-12-7V15Z" fill="#f3dfb5"/>
+          <path d="m2 12 18 11 18-11M20 23v21"
+                stroke="#356b70" stroke-width="2"/>
+        </svg>
+        <span>ØchreCL</span>
+      </a>
+
+      <nav aria-label="主导航">
+        <a href="#features">功能</a>
+        <a href="#screenshots">截图</a>
+        <a href="#download">下载</a>
+        <a href="./docs/">使用说明</a>
+        <a href="#about">关于</a>
+        <a class="studio-link" href="/">Fishyra ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="container">
+    <div class="hero">
+      <div>
+        <span class="status">开发测试中</span>
+        <h1>ØchreCL</h1>
+        <p class="subtitle">Minecraft Java 版启动器</p>
+
+        <p class="description">
+          Fishyra 旗下基于 HMCL 开发的启动器。
+          提供游戏实例、附加内容与本地服务器管理，
+          采用米白色界面和可调整的桌面布局。
+        </p>
+
+        <div class="actions">
+          <a class="button" href="#download">查看下载状态 <span aria-hidden="true">↓</span></a>
+          <a class="button secondary" href="./docs/">使用说明 ↗</a>
+        </div>
+
+        <p class="note">当前版本仍在测试，平台支持情况见下方说明。</p>
+      </div>
+
+      <div>
+        <div class="preview" role="img"
+             aria-label="ØchreCL 界面示意：左侧窄导航，中间工作区，右侧游戏封面与启动按钮">
+          <div class="preview-title">
+            <span>ØchreCL</span>
+            <span class="window-controls" aria-hidden="true">
+              <i></i><i></i><i></i>
+            </span>
+          </div>
+
+          <div class="preview-body" aria-hidden="true">
+            <div class="preview-rail">
+              <span class="rail-item"></span>
+              <span class="rail-item active"></span>
+              <span class="rail-item"></span>
+              <span class="rail-item"></span>
+              <span class="rail-gap"></span>
+              <span class="rail-item"></span>
+            </div>
+
+            <div></div>
+
+            <div class="preview-detail">
+              <div class="cover"></div>
+              <strong>游戏实例</strong>
+              <small>Minecraft Java Edition</small>
+              <span class="preview-tag">FABRIC</span>
+              <small>运行环境<br>按实例设置选择 Java</small>
+              <div class="preview-launch">启动游戏</div>
+            </div>
+          </div>
+        </div>
+        <p class="preview-caption">布局示意，实际界面以发布版本为准</p>
+      </div>
+    </div>
+
+    <section id="features" aria-labelledby="features-title">
+      <div class="section-header">
+        <h2 id="features-title">功能</h2>
+        <p>游戏与本地服务器，集中管理。</p>
+      </div>
+
+      <div class="feature-grid">
+        <article class="card">
+          <span class="feature-number">01 / 游戏</span>
+          <h3>实例管理</h3>
+          <p>安装游戏版本、切换实例、调整运行配置，为不同玩法保留独立设置。</p>
+        </article>
+
+        <article class="card">
+          <span class="feature-number">02 / 内容</span>
+          <h3>附加内容下载</h3>
+          <p>浏览模组、整合包、资源包和光影，选择适合当前实例的内容。</p>
+        </article>
+
+        <article class="card">
+          <span class="feature-number">03 / 服务器</span>
+          <h3>核心下载与部署</h3>
+          <p>支持原版、Paper、Purpur、Fabric、Forge 等核心，提供配置与部署入口。</p>
+        </article>
+
+        <article class="card">
+          <span class="feature-number">04 / 扩展</span>
+          <h3>服务器附加项</h3>
+          <p>根据服务器版本与核心筛选插件及服务端模组，查看版本并安装。</p>
+        </article>
+
+        <article class="card">
+          <span class="feature-number">05 / 运行</span>
+          <h3>日志与资源面板</h3>
+          <p>查看游戏和服务器的运行日志、资源负载与状态，管理进程启停。</p>
+        </article>
+
+        <article class="card">
+          <span class="feature-number">06 / 维护</span>
+          <h3>本地服务器维护</h3>
+          <p>提供玩家管理、配置、备份，以及 SFTP 与 OpenFrp 接入功能。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 真实截图区：收到截图后，将下方占位块替换为 figure + img。 -->
+    <section id="screenshots" aria-labelledby="screenshots-title">
+      <div class="section-header">
+        <h2 id="screenshots-title">界面截图</h2>
+        <p>真实截图将在后续补充。</p>
+      </div>
+
+      <!-- 替换示例：
+      <figure class="screenshot-figure">
+        <img src="./assets/screenshot-home.png"
+             alt="ØchreCL 启动器主界面"
+             loading="lazy"
+             width="1440" height="900">
+        <figcaption>启动器主界面</figcaption>
+      </figure>
+      -->
+      <div class="screenshot-placeholder">
+        <span class="feature-number">SCREENSHOTS</span>
+        <h3>界面截图整理中</h3>
+        <p>上方展示的是布局示意，真实界面截图将在这里更新。</p>
+      </div>
+    </section>
+
+    <section id="download" aria-labelledby="download-title">
+      <div class="section-header">
+        <h2 id="download-title">下载</h2>
+        <p>仅在完成验证后提供对应平台的公开构建。</p>
+      </div>
+
+      <div class="download-grid">
+        <article class="card download-card">
+          <span class="tag">主要开发平台</span>
+          <h3>macOS</h3>
+          <p>当前以 Apple Silicon 设备进行开发与测试，公开下载包正在准备。</p>
+
+          <!-- 发布后替换为真实链接：
+          <a class="button" href="安装包真实地址">下载 macOS 版</a>
+          -->
+          <span class="button unavailable" aria-disabled="true">公开下载准备中</span>
+        </article>
+
+        <article class="card download-card">
+          <span class="tag">内部测试</span>
+          <h3>Windows</h3>
+          <p>已制作 x64 便携测试构建，仍需验证游戏启动、服务器流程与兼容性。</p>
+          <span class="button unavailable" aria-disabled="true">测试中，暂不提供下载</span>
+        </article>
+
+        <article class="card download-card">
+          <span class="tag">尚未发布</span>
+          <h3>Linux</h3>
+          <p>尚未完成独立发行包的适配与验证，具体支持情况以后续公告为准。</p>
+          <span class="button unavailable" aria-disabled="true">适配计划中</span>
+        </article>
+      </div>
+
+      <div class="notice">
+        当前项目处于开发测试阶段。请在迁移、更新或修改服务器前备份重要存档。
+        下载开放后，本页将同步提供版本说明与文件校验信息。
+      </div>
+    </section>
+
+    <section id="about" aria-labelledby="about-title">
+      <div class="about">
+        <div>
+          <h2 id="about-title">关于项目</h2>
+          <p>由 Fishyra 持续开发与维护。</p>
+          <a class="text-link" href="/">返回 Fishyra 官网 ↗</a>
+        </div>
+
+        <div>
+          <p>
+            ØchreCL（Øchre 启动器）基于
+            Hello Minecraft! Launcher（HMCL）开发。
+            我们重新设计了界面，并逐步加入游戏与本地服务器管理功能。
+          </p>
+          <p>
+            感谢 HMCL 开发者及相关开源项目的贡献。
+            本项目保留上游版权、许可证及第三方声明。
+          </p>
+          <a class="text-link"
+             href="https://github.com/HMCL-dev/HMCL"
+             target="_blank" rel="noopener noreferrer">
+            查看 HMCL 原项目 ↗
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© 2026 Fishyra · ØchreCL</span>
+      <span>非 Mojang 或 Microsoft 官方产品，亦未获得其认可。</span>
+    </div>
+  </footer>
+</body>
+</html>
