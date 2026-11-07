@@ -1,5 +1,298 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Fishyra，一个属于好奇心与自由创作的小宇宙。"><link rel="stylesheet" href="style.css?v=4"><script>try{document.documentElement.dataset.theme=localStorage.getItem('fishyra-theme')||'dark'}catch(e){}</script><title>Fishyra — A little universe of ideas.</title></head><body data-page="home" class="landing"><header><div class="wrap"><a class="brand" href="index.html" aria-label="Fishyra 首页"><svg viewBox="0 0 120 120" aria-hidden="true"><ellipse cx="60" cy="62" rx="55" ry="15" transform="rotate(-35 60 62)" fill="none" stroke="#b6c6ed" stroke-width="6"/><circle cx="60" cy="60" r="34" fill="var(--bg)" stroke="#59c9f5" stroke-width="13"/><path d="M 105 30 A 55 15 -35 0 1 15 94" fill="none" stroke="#b6c6ed" stroke-width="6"/><path d="M70 3 Q73 16 86 19 Q73 22 70 35 Q67 22 54 19 Q67 16 70 3Z" fill="var(--fg)"/></svg><span>Fishyra</span></a><nav aria-label="主导航"><a href="works.html">Fishyra的项目们</a><a href="news.html">动态</a><a href="about.html">关于</a><button id="theme" aria-label="切换黑白主题">◐</button></nav></div></header><main class="wrap landing-main"><div class="landing-hero"><h1 lang="en">A little universe<br>of <span>ideas.</span></h1><p class="muted">写代码、做实验，创造一些有趣的东西。</p></div><section class="portal-section" aria-label="探索 Fishyra"><div class="portal-heading"><span>EXPLORE FISHYRA</span></div><div class="portal-grid">
-<a href="works.html" class="portal-card"><span class="portal-index">01 / PROJECTS</span><div class="portal-art" aria-hidden="true"><svg viewBox="0 0 320 180"><rect x="62" y="30" width="196" height="119" rx="5"/><path d="M62 54h196M91 42h1m10 0h1m10 0h1M130 82l-22 20 22 20m60-40 22 20-22 20m-20-46-18 52M131 160h58"/></svg></div><div class="portal-title"><h3>Fishyra的项目们</h3><span aria-hidden="true">↗</span></div><p>把脑海里的想法，变成可以运行、<br>可以体验的东西。</p><span class="portal-bottom">软件 / 游戏 / 硬件 / 实验</span></a>
-<a href="news.html" class="portal-card"><span class="portal-index">02 / UPDATES</span><div class="portal-art" aria-hidden="true"><svg viewBox="0 0 320 180"><path d="M72 43h132v87H72zM94 65h85M94 81h60M94 107h30M118 130v25h131V68h-45M221 91h8m-8 19h8m-88 27h88"/><circle cx="239" cy="36" r="6"/></svg></div><div class="portal-title"><h3>动态</h3><span aria-hidden="true">↗</span></div><p>新的尝试，细小的进展，<br>还有创作过程中那些值得记录的瞬间。</p><span class="portal-bottom">进展 / 记录 / 灵感</span></a>
-<a href="about.html" class="portal-card"><span class="portal-index">03 / ABOUT</span><div class="portal-art" aria-hidden="true"><svg viewBox="0 0 320 180"><ellipse cx="160" cy="93" rx="99" ry="24" transform="rotate(-24 160 93)"/><circle cx="160" cy="90" r="49"/><path d="M217 26v20m-10-10h20M87 131v12m-6-6h12"/><circle cx="240" cy="131" r="3"/></svg></div><div class="portal-title"><h3>关于 Fishyra</h3><span aria-hidden="true">↗</span></div><p>从一个人的好奇心开始。<br>认识这个小宇宙，以及它背后的创作者。</p><span class="portal-bottom">好奇 / 创造 / 探索</span></a>
-</div></section></main><footer><div class="wrap footer-inner"><span>© 2026 Fishyra</span><div><a href="https://github.com/Fishyra" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="admin.html">管理后台 ↗</a></div></div></footer><script src="theme.js?v=2"></script></body></html>
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Fishyra，一个属于好奇心与自由创作的小宇宙。">
+    <link rel="stylesheet" href="style.css?v=4">
+    <script>
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem('fishyra-theme') || 'dark';
+      } catch (error) {
+        document.documentElement.dataset.theme = 'dark';
+      }
+    </script>
+    <title>
+      Fishyra — A little universe of ideas.
+    </title>
+    <style>
+      .landing-hero {
+        display:grid;
+        grid-template-columns:minmax(0,1fr) minmax(230px,31%);
+        align-items:center;
+        gap:38px;
+      }
+      .hero-copy {
+        min-width:0;
+      }
+      .landing-hero h1 {
+        font-size:clamp(46px,5.8vw,76px);
+      }
+      .hero-emblem {
+        width:100%;
+        max-width:330px;
+        justify-self:end;
+        overflow:visible;
+      }
+      .hero-emblem .emblem-circle {
+        transform-origin:60px 62px;
+        animation:emblem-circle-in .7s cubic-bezier(.2,.75,.25,1) both;
+      }
+      .hero-emblem .orbit-reveal {
+        stroke-dasharray:100;
+        stroke-dashoffset:100;
+        animation:emblem-orbit-in 1.5s .65s cubic-bezier(.4,0,.2,1) forwards;
+      }
+      .hero-emblem .emblem-star {
+        transform-origin:91px 17px;
+        animation:emblem-star-in .55s 2.15s cubic-bezier(.2,.8,.3,1.3) both;
+      }
+      @keyframes emblem-circle-in {
+        from {
+          opacity:0;
+          transform:scale(.78);
+        }
+        to {
+          opacity:1;
+          transform:scale(1);
+        }
+      }
+      @keyframes emblem-orbit-in {
+        to {
+          stroke-dashoffset:0;
+        }
+      }
+      @keyframes emblem-star-in {
+        from {
+          opacity:0;
+          transform:scale(.2) rotate(-20deg);
+        }
+        to {
+          opacity:1;
+          transform:scale(1) rotate(0deg);
+        }
+      }
+      @media(max-width:850px) {
+        .landing-hero {
+          gap:18px;
+          grid-template-columns:minmax(0,1fr) 27%;
+        }
+        .landing-hero h1 {
+          font-size:clamp(38px,6vw,58px);
+        }
+      }
+      @media(max-width:600px) {
+        .landing-hero {
+          grid-template-columns:1fr;
+          gap:32px;
+        }
+        .landing-hero h1 {
+          font-size:clamp(43px,10vw,60px);
+        }
+        .hero-emblem {
+          width:180px;
+          justify-self:center;
+          max-width:48vw;
+        }
+        .landing-hero {
+          padding-bottom:40px;
+        }
+      }
+      @media(prefers-reduced-motion:reduce) {
+        .hero-emblem .emblem-circle,.hero-emblem .emblem-star {
+          animation:none;
+          opacity:1;
+          transform:none;
+        }
+        .hero-emblem .orbit-reveal {
+          animation:none;
+          stroke-dashoffset:0;
+        }
+      }
+    </style>
+  </head>
+  <body data-page="home" class="landing">
+    <!-- 顶部导航栏 -->
+    <header>
+      <div class="wrap">
+        <a class="brand" href="index.html" aria-label="Fishyra 首页">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <ellipse cx="60" cy="62" rx="55" ry="15" transform="rotate(-35 60 62)" fill="none" stroke="#b6c6ed" stroke-width="6"/>
+            <circle cx="60" cy="60" r="34" fill="var(--bg)" stroke="#59c9f5" stroke-width="13"/>
+            <path d="M 105 30 A 55 15 -35 0 1 15 94" fill="none" stroke="#b6c6ed" stroke-width="6"/>
+            <path d="M70 3 Q73 16 86 19 Q73 22 70 35 Q67 22 54 19 Q67 16 70 3Z" fill="var(--fg)"/>
+          </svg>
+          <span>
+            Fishyra
+          </span>
+        </a>
+        <nav aria-label="主导航">
+          <a href="works.html">
+            Fishyra的项目们
+          </a>
+          <a href="news.html">
+            动态
+          </a>
+          <a href="about.html">
+            关于
+          </a>
+          <button id="theme" aria-label="切换黑白主题">
+            ◐
+          </button>
+        </nav>
+      </div>
+    </header>
+    <!-- 首页主体 -->
+    <main class="wrap landing-main">
+      <div class="landing-hero">
+        <!-- 英文主标题与简介 -->
+        <div class="hero-copy">
+          <h1 lang="en">
+            A little universe
+            <br>
+            of
+            <span>
+              ideas.
+            </span>
+          </h1>
+          <p class="muted">
+            写代码、做实验，创造一些有趣的东西。
+          </p>
+        </div>
+        <!-- 大 Logo：圆圈 → 顺时针星环 → 右上角星星 -->
+        <svg class="hero-emblem" viewBox="-8 -12 136 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fishyra 星环标志">
+          <defs>
+            <mask id="hero-orbit-mask" maskUnits="userSpaceOnUse" x="-8" y="-8" width="136" height="140">
+              <path class="orbit-reveal" d="M115 62 A55 15 0 0 1 5 62 A55 15 0 0 1 115 62" pathLength="100" fill="none" stroke="white" stroke-width="12" stroke-linecap="butt"/>
+            </mask>
+            <clipPath id="hero-orbit-front">
+              <rect x="-8" y="62" width="136" height="62"/>
+            </clippath>
+          </defs>
+          <g transform="rotate(-35 60 62)">
+            <ellipse cx="60" cy="62" rx="55" ry="15" fill="none" stroke="#b6c6ed" stroke-width="5" mask="url(#hero-orbit-mask)"/>
+          </g>
+          <circle class="emblem-circle" cx="60" cy="62" r="34" fill="var(--bg)" stroke="#59c9f5" stroke-width="12"/>
+          <g transform="rotate(-35 60 62)">
+            <g clip-path="url(#hero-orbit-front)">
+              <ellipse cx="60" cy="62" rx="55" ry="15" fill="none" stroke="#b6c6ed" stroke-width="5" mask="url(#hero-orbit-mask)"/>
+            </g>
+          </g>
+          <path class="emblem-star" d="M91 3 Q93.5 14.5 105 17 Q93.5 19.5 91 31 Q88.5 19.5 77 17 Q88.5 14.5 91 3Z" fill="var(--fg)"/>
+        </svg>
+      </div>
+      <!-- 三个板块的入口卡片 -->
+      <section class="portal-section" aria-label="探索 Fishyra">
+        <div class="portal-heading">
+          <span>
+            EXPLORE FISHYRA
+          </span>
+        </div>
+        <div class="portal-grid">
+          <a href="works.html" class="portal-card">
+            <span class="portal-index">
+              01 / PROJECTS
+            </span>
+            <div class="portal-art" aria-hidden="true">
+              <svg viewBox="0 0 320 180">
+                <rect x="62" y="30" width="196" height="119" rx="5"/>
+                <path d="M62 54h196M91 42h1m10 0h1m10 0h1M130 82l-22 20 22 20m60-40 22 20-22 20m-20-46-18 52M131 160h58"/>
+              </svg>
+            </div>
+            <div class="portal-title">
+              <h3>
+                Fishyra的项目们
+              </h3>
+              <span aria-hidden="true">
+                ↗
+              </span>
+            </div>
+            <p>
+              把脑海里的想法，变成可以运行、
+              <br>
+              可以体验的东西。
+            </p>
+            <span class="portal-bottom">
+              软件 / 游戏 / 硬件 / 实验
+            </span>
+          </a>
+          <a href="news.html" class="portal-card">
+            <span class="portal-index">
+              02 / UPDATES
+            </span>
+            <div class="portal-art" aria-hidden="true">
+              <svg viewBox="0 0 320 180">
+                <path d="M72 43h132v87H72zM94 65h85M94 81h60M94 107h30M118 130v25h131V68h-45M221 91h8m-8 19h8m-88 27h88"/>
+                <circle cx="239" cy="36" r="6"/>
+              </svg>
+            </div>
+            <div class="portal-title">
+              <h3>
+                动态
+              </h3>
+              <span aria-hidden="true">
+                ↗
+              </span>
+            </div>
+            <p>
+              新的尝试，细小的进展，
+              <br>
+              还有创作过程中那些值得记录的瞬间。
+            </p>
+            <span class="portal-bottom">
+              进展 / 记录 / 灵感
+            </span>
+          </a>
+          <a href="about.html" class="portal-card">
+            <span class="portal-index">
+              03 / ABOUT
+            </span>
+            <div class="portal-art" aria-hidden="true">
+              <svg viewBox="0 0 320 180">
+                <ellipse cx="160" cy="93" rx="99" ry="24" transform="rotate(-24 160 93)"/>
+                <circle cx="160" cy="90" r="49"/>
+                <path d="M217 26v20m-10-10h20M87 131v12m-6-6h12"/>
+                <circle cx="240" cy="131" r="3"/>
+              </svg>
+            </div>
+            <div class="portal-title">
+              <h3>
+                关于 Fishyra
+              </h3>
+              <span aria-hidden="true">
+                ↗
+              </span>
+            </div>
+            <p>
+              从一个人的好奇心开始。
+              <br>
+              认识这个小宇宙，以及它背后的创作者。
+            </p>
+            <span class="portal-bottom">
+              好奇 / 创造 / 探索
+            </span>
+          </a>
+        </div>
+      </section>
+    </main>
+    <!-- 页脚 -->
+    <footer>
+      <div class="wrap footer-inner">
+        <span>
+          © 2026 Fishyra
+        </span>
+        <div>
+          <a href="https://github.com/Fishyra" target="_blank" rel="noopener noreferrer">
+            GitHub ↗
+          </a>
+          <a href="admin.html">
+            管理后台 ↗
+          </a>
+        </div>
+      </div>
+    </footer>
+    <script src="theme.js?v=2">
+    </script>
+  </body>
+</html>
