@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fishyra — Independent Development Studio</title>
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont,
+                   "Segoe UI", sans-serif;
+      background: #080e1b;
+      color: #f3f6ff;
+    }
+    nav {
+      padding: 24px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ffffff18;
+    }
+    .logo { font-size: 24px; font-weight: 800; }
+    a { color: inherit; text-decoration: none; }
+    nav a { color: #aab6d2; }
+    .hero {
+      min-height: 65vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 60px 20px;
+      background: radial-gradient(
+        ellipse at center, #192c53, #080e1b 70%
+      );
+    }
+    h1 {
+      font-size: clamp(48px, 9vw, 100px);
+      margin: 0;
+      letter-spacing: -4px;
+    }
+    .hero p {
+      color: #aab6d2;
+      font-size: 18px;
+      max-width: 550px;
+      line-height: 1.7;
+    }
+    .button {
+      margin-top: 24px;
+      padding: 14px 28px;
+      background: #638cff;
+      color: white;
+      border-radius: 30px;
+      font-weight: 600;
+    }
+    section { padding: 70px 8%; }
+    h2 { font-size: 32px; }
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .project {
+      padding: 30px;
+      background: #111d32;
+      border: 1px solid #283955;
+      border-radius: 18px;
+    }
+    .project h3 { font-size: 24px; }
+    .project p { color: #aab6d2; line-height: 1.6; }
+    .tag { color: #8db0ff; font-size: 13px; }
+    footer {
+      padding: 30px 8%;
+      border-top: 1px solid #ffffff18;
+      color: #8897b4;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">✦ Fishyra</div>
+    <a href="#projects">Projects</a>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <h1>Fishyra.</h1>
+      <p>
+        A universe of ideas.<br>
+        An independent development studio exploring
+        software, technology and creativity.
+      </p>
+      <a class="button" href="#projects">Explore Projects ↓</a>
+    </div>
+
+    <section id="projects">
+      <h2>Selected Projects</h2>
+      <div class="projects">
+        <div class="project">
+          <div class="tag">AI · Raspberry Pi · NAS</div>
+          <h3>ØMAN</h3>
+          <p>
+            An experimental intelligent NAS platform,
+            combining local storage and AI.
+          </p>
+        </div>
+        <div class="project">
+          <div class="tag">Java · Minecraft</div>
+          <h3>LiveSpear</h3>
+          <p>
+            A custom Minecraft plugin exploring
+            advanced spear mechanics.
+          </p>
+        </div>
+        <div class="project">
+          <div class="tag">Coming Soon</div>
+          <h3>Next Project</h3>
+          <p>
+            More experiments and creative projects
+            are on the way.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 Fishyra · Built with curiosity.
+  </footer>
+</body>
+</html>
