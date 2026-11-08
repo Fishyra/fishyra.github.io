@@ -46,7 +46,7 @@
       </div>
       <section id="login" class="login panel" hidden>
         <div class="eyebrow">
-          FISHYRA / ADMIN
+          FISHYRA / MEMBERS
         </div>
         <h1>
           欢迎回来。
@@ -56,9 +56,9 @@
         </p>
         <form id="loginForm">
           <label for="email">
-            邮箱地址
+            用户名 / 管理员邮箱
           </label>
-          <input id="email" type="email" autocomplete="username" required>
+          <input id="email" type="text" autocomplete="username" required>
           <label for="password">
             密码
           </label>
@@ -68,8 +68,33 @@
           </button>
         </form>
         <p class="muted">
-          仅限指定管理员，不开放注册。
+          成员可管理自己的项目与动态，管理员可管理全部内容。
         </p>
+        <button id="joinFishyra" type="button" style="width:100%;margin-top:12px">
+          加入 Fishyra
+        </button>
+      </section>
+
+      <!-- 用户名注册，不要求填写邮箱。 -->
+      <section id="signup" class="login panel" hidden>
+        <div class="eyebrow">JOIN FISHYRA</div>
+        <h1>加入 Fishyra。</h1>
+        <p class="muted">创建账号，发布你的项目与动态。</p>
+        <form id="signupForm">
+          <label for="signupUsername">用户名</label>
+          <input id="signupUsername" type="text" autocomplete="username"
+                 minlength="3" maxlength="24" pattern="[A-Za-z0-9_]{3,24}"
+                 aria-describedby="usernameHelp" required>
+          <small id="usernameHelp">3–24 位英文字母、数字或下划线，不区分大小写。</small>
+          <label for="signupPassword">密码</label>
+          <input id="signupPassword" type="password" autocomplete="new-password"
+                 minlength="8" required>
+          <label for="signupPasswordAgain">重复密码</label>
+          <input id="signupPasswordAgain" type="password" autocomplete="new-password"
+                 minlength="8" required>
+          <button class="primary" style="width:100%;margin-top:24px">注册并加入</button>
+        </form>
+        <button id="backToLogin" type="button" style="width:100%;margin-top:12px">返回登录</button>
       </section>
       <section id="dashboard" hidden>
         <div class="toolbar">
@@ -187,7 +212,7 @@
     </script>
     <script src="config.js">
     </script>
-    <script src="app.js?v=sorting-1">
+    <script src="app.js?v=members-1">
     </script>
   </body>
 </html>

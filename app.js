@@ -533,6 +533,9 @@ async function start() {
 
   let posts = [];
   let selected = null;
+  let currentUser = null;
+  let isAdmin = false;
+  let memberProfile = null;
   let dirty = false;
   let busy = false;
 
@@ -617,7 +620,7 @@ async function start() {
     busy = value;
 
     document
-      .querySelectorAll("#dashboard button, #loginForm button")
+      .querySelectorAll("#dashboard button, #loginForm button, #signup button, #joinFishyra")
       .forEach((button) => {
         button.disabled = value;
       });
@@ -626,6 +629,7 @@ async function start() {
   function showLogin(text) {
     $("login").hidden = false;
     $("dashboard").hidden = true;
+    $("signup").hidden = true;
 
     message(text);
   }
@@ -647,6 +651,10 @@ async function start() {
   function edit(post) {
     preview.hidden = true;
     previewButton.textContent = "预览正文";
+    if (post && !isAdmin && post.author_id !== currentUser?.id) {
+      message("你只能编辑自己的内容。");
+      return;
+    }
     selected = post;
 
     const fields = [
@@ -733,7 +741,7 @@ async function start() {
 
       button.type = "button";
       button.append(
-        element("small", `${type} / ${status}` + (post.type === "project" ? ` / 排序：${post.sort_order ?? 0}` : ""))
+        element("small", `${type} / ${status}${isAdmin ? (post.author_id ? " / 有作者" : " / 历史内容") : ""}` + (post.type === "project" ? ` / 排序：${post.sort_order ?? 0}` : ""))
       );
 
       button.onclick = () => {
@@ -747,68 +755,119 @@ async function start() {
   }
 
   async function loadPosts() {
+    let query = db.from("posts").select("*");
+    if (!isAdmin) query = query.eq("author_id", currentUser.id);
     const result = await request(
-      db
-        .from("posts")
-        .select("*")
-        .order("sort_order", { ascending: true })
+      query.order("sort_order", { ascending: true })
         .order("created_at", { ascending: false })
     );
-
     if (result.error) throw result.error;
-
     posts = result.data || [];
     renderList();
   }
 
   async function checkAccess() {
     const result = await request(db.auth.getUser());
-
     if (result.error) {
-      if (
-        result.error.name === "AuthSessionMissingError" ||
-        result.error.status === 401 ||
-        result.error.status === 403
-      ) {
-        showLogin("请输入管理员邮箱和密码。");
+      if (result.error.name === "AuthSessionMissingError" ||
+          result.error.status === 401 || result.error.status === 403) {
+        showLogin("请输入用户名和密码；管理员也可以使用邮箱登录。");
         return;
       }
-
       throw result.error;
     }
-
-    const user = result.data.user;
-
-    if (!user) {
-      showLogin("请输入管理员邮箱和密码。");
+    currentUser = result.data.user;
+    if (!currentUser) {
+      showLogin("请输入用户名和密码；管理员也可以使用邮箱登录。");
       return;
     }
 
-    const admin = await request(
-      db
-        .from("admins")
-        .select("user_id")
-        .eq("user_id", user.id)
-        .maybeSingle()
-    );
-
+    const [admin, profile] = await Promise.all([
+      request(db.from("admins").select("user_id")
+        .eq("user_id", currentUser.id).maybeSingle()),
+      request(db.from("members").select("username")
+        .eq("user_id", currentUser.id).maybeSingle())
+    ]);
     if (admin.error) throw admin.error;
-
-    if (!admin.data) {
+    if (profile.error) throw profile.error;
+    isAdmin = Boolean(admin.data);
+    memberProfile = profile.data;
+    if (!isAdmin && !memberProfile) {
       await request(db.auth.signOut({ scope: "local" }));
-
-      showLogin("此账号没有管理员权限。");
+      currentUser = null;
+      showLogin("此账号还没有成员身份，请使用“加入 Fishyra”创建账号。");
       return;
     }
 
     await loadPosts();
-
     $("login").hidden = true;
+    $("signup").hidden = true;
     $("dashboard").hidden = false;
-
+    const allOption = $("filter").querySelector('option[value="all"]');
+    if (allOption) allOption.textContent = isAdmin ? "全部内容" : "我的全部内容";
+    const heading = document.querySelector(".admin-title");
+    if (heading) heading.textContent = isAdmin ? "内容工作台" : "我的创作";
     edit(null);
-    message(`已登录：${user.email || ""}`);
+    message(`已登录：${memberProfile?.username || currentUser.email} · ${isAdmin ? "管理员" : "成员"}`);
   }
+
+  function usernameIdentity(value) {
+    const name = value.trim().toLowerCase();
+    if (!/^[a-z0-9_]{3,24}$/.test(name)) {
+      throw new Error("用户名需为 3–24 位英文字母、数字或下划线。");
+    }
+    return { username: name, email: name + "@members.fishyra.invalid" };
+  }
+
+  $("joinFishyra").onclick = () => {
+    if (busy) return;
+    $("login").hidden = true;
+    $("signup").hidden = false;
+    message("欢迎加入 Fishyra。填写用户名和密码即可注册。");
+    $("signupUsername").focus();
+  };
+  $("backToLogin").onclick = () => {
+    if (busy) return;
+    $("signupPassword").value = "";
+    $("signupPasswordAgain").value = "";
+    showLogin("请输入用户名或管理员邮箱登录。");
+  };
+  $("signupForm").onsubmit = async (event) => {
+    event.preventDefault();
+    if (busy) return;
+    try {
+      const identity = usernameIdentity($("signupUsername").value);
+      const password = $("signupPassword").value;
+      if (password !== $("signupPasswordAgain").value) {
+        throw new Error("两次输入的密码不一致。");
+      }
+      if (password.length < 8) throw new Error("密码至少需要 8 位。");
+      setBusy(true);
+      message("正在创建账号…");
+      const result = await request(db.auth.signUp({
+        email: identity.email,
+        password,
+        options: { data: { username: identity.username } }
+      }));
+      if (result.error) throw result.error;
+      if (!result.data.session) {
+        throw new Error("账号尚未完成登录。此项目需要关闭 Confirm email 后才能使用纯用户名注册，请联系管理员。");
+      }
+      $("signupForm").reset();
+      await checkAccess();
+    } catch (error) {
+      const known = {
+        user_already_exists: "用户名已被使用，请换一个。",
+        email_exists: "用户名已被使用，请换一个。",
+        signup_disabled: "注册尚未开启，请联系管理员。",
+        over_request_rate_limit: "操作太频繁，请稍后重试。",
+        weak_password: "密码强度不足，请使用更长的密码。"
+      };
+      message("注册未完成：" + (known[error.code] || error.message));
+    } finally {
+      setBusy(false);
+    }
+  };
 
   // ---------- 登录与退出 ----------
 
@@ -823,7 +882,9 @@ async function start() {
     try {
       const result = await request(
         db.auth.signInWithPassword({
-          email: $("email").value.trim(),
+          email: $("email").value.trim().includes("@")
+            ? $("email").value.trim()
+            : usernameIdentity($("email").value).email,
           password: $("password").value
         })
       );
@@ -853,6 +914,9 @@ async function start() {
       if (result.error) throw result.error;
 
       posts = [];
+      currentUser = null;
+      isAdmin = false;
+      memberProfile = null;
       edit(null);
 
       $("postList").replaceChildren();
@@ -931,6 +995,12 @@ async function start() {
 
     values.sort_order = order;
     values.status = status;
+    if (!currentUser) { message("请先登录。"); return; }
+    if (!selected) values.author_id = currentUser.id;
+    if (selected && !isAdmin && selected.author_id !== currentUser.id) {
+      message("你只能编辑自己的内容。");
+      return;
+    }
 
     setBusy(true);
     message("正在保存…");
@@ -977,7 +1047,7 @@ async function start() {
       message(
         status === "published"
           ? "已发布。项目或动态列表刷新后即可看到内容。"
-          : "草稿已保存，仅管理员可见。"
+          : "草稿已保存，仅作者和管理员可见。"
       );
     } catch (error) {
       message(`保存未确认：${error.message}`);
@@ -1004,6 +1074,10 @@ async function start() {
 
   $("remove").onclick = async () => {
     if (busy || !selected) return;
+    if (!isAdmin && selected.author_id !== currentUser?.id) {
+      message("你只能删除自己的内容。");
+      return;
+    }
 
     const confirmed = confirm(
       `确定永久删除“${selected.title}”？此操作无法撤销。`
