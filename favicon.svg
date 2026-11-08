@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <title>Fishyra</title>
+  <defs>
+    <mask id="back">
+      <rect width="128" height="128" fill="white"/>
+      <circle cx="64" cy="68" r="41" fill="black"/>
+    </mask>
+  </defs>
+  <ellipse cx="64" cy="68" rx="58" ry="17"
+           transform="rotate(-35 64 68)"
+           fill="none" stroke="#94a9d8" stroke-width="7"
+           mask="url(#back)"/>
+  <circle cx="64" cy="68" r="33"
+          fill="none" stroke="#59c9f5" stroke-width="13"/>
+  <path d="M122 68 A58 17 0 0 1 6 68"
+        transform="rotate(-35 64 68)"
+        fill="none" stroke="#94a9d8" stroke-width="7"
+        stroke-linecap="round"/>
+  <path d="M92 0 Q95 15 110 18 Q95 21 92 36 Q89 21 74 18 Q89 15 92 0Z"
+        fill="#94a9d8"/>
+</svg>
