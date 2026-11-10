@@ -1,0 +1,3 @@
+aceba5ec84ffb98bb7cb633311b225c999cad24fb39d6c64d09f061070d4f8de  OchreCL-0.2.0-beta.3-linux-x64.tar.gz
+97fa9dfdfcd6d29e3d6c53c5d233e1b917bee5af2976e4620ea143bc158d7b3a  OchreCL-0.2.0-beta.3-macos-arm64.dmg
+0bd0f146dc82276bc3badd34d014683e879f413a396b18a26aef82ecba56592d  OchreCL-0.2.0-beta.3-windows-x64.zip

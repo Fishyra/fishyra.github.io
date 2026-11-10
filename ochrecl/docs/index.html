@@ -1,70 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f3ea">
-  <meta name="description" content="ØchreCL 使用说明，正在整理中。">
-  <link rel="canonical" href="https://fishyra.github.io/ochrecl/docs/">
-  <link rel="stylesheet" href="../style.css">
-  <title>使用说明 · ØchreCL</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f4ec">
+<meta name="description" content="ØchreCL beta 0.2 安装与使用指南：macOS、Windows、Linux，游戏启动、本地服务器、任务管理与透明外观。">
+<link rel="canonical" href="https://fishyra.github.io/ochrecl/docs/">
+<link rel="icon" href="../assets/icon.png">
+<link rel="stylesheet" href="../style.css">
+<title>使用指南 · ØchreCL</title>
 </head>
-
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="../" aria-label="ØchreCL 首页">
-        <!-- 可替换为正式图标：
-             <img class="brand-mark" src="./assets/icon.png" alt=""> -->
-        <svg class="brand-mark" viewBox="0 0 40 46"
-             aria-hidden="true" fill="none">
-          <path d="M20 2 38 12v22L20 44 2 34V12Z"
-                fill="#d8ece9" stroke="#356b70" stroke-width="2"/>
-          <path d="m20 8 12 7v15l-12 7-12-7V15Z" fill="#f3dfb5"/>
-          <path d="m2 12 18 11 18-11M20 23v21"
-                stroke="#356b70" stroke-width="2"/>
-        </svg>
-        <span>ØchreCL</span>
-      </a>
-
-      <nav aria-label="主导航">
-        <a href="../#features">功能</a>
-        <a href="../#screenshots">截图</a>
-        <a href="../#download">下载</a>
-        <a href="./" aria-current="page">使用说明</a>
-        <a href="../#about">关于</a>
-        <a class="studio-link" href="/">Fishyra ↗</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container docs-main" id="top">
-    <!-- 使用说明暂未发布，后续在此补充正文。 -->
-    <span class="status">文档整理中</span>
-    <h1>ØchreCL 使用说明</h1>
-    <p class="docs-intro">
-      这里将提供 ØchreCL 的使用说明。
-      文档还在整理中，后续会逐步补充安装、游戏实例、
-      本地服务器管理和常见问题等内容。
-    </p>
-
-    <div class="card">
-      <h2>稍后见。</h2>
-      <p style="margin-top: 16px;">
-        你可以先返回产品页，查看功能介绍和各平台的下载状态。
-      </p>
-      <div class="actions">
-        <a class="button" href="../">返回产品页</a>
-        <a class="button secondary" href="../#download">查看下载状态</a>
-      </div>
-    </div>
-  </main>
-
-  <footer>
-    <div class="container footer-inner">
-      <span>© 2026 Fishyra · ØchreCL</span>
-      <span>非 Mojang 或 Microsoft 官方产品，亦未获得其认可。</span>
-    </div>
-  </footer>
+<header class="header">
+<nav class="wrap nav" aria-label="主导航">
+<a class="brand" href="../">
+<img src="../assets/icon.png" width="36" height="36" alt="">
+<span>ØchreCL<small>BY FISHYRA</small>
+</span>
+</a>
+<div class="nav-links">
+<a href="../">返回官网</a>
+<a href="https://github.com/Fishyra/OchreCL/issues">问题反馈 ↗</a>
+<a class="nav-download" href="../#download">下载 ↓</a>
+</div>
+</nav>
+</header>
+<main id="main" class="wrap docs-main">
+<p class="eyebrow">GETTING STARTED / BETA 0.2</p>
+<h1>先安装，再出发。</h1>
+<p>本指南对应 0.2.0-beta.3。启动器仍在测试中，更新前请备份重要配置、游戏与服务器存档。</p>
+<h2>选择对应的安装包</h2>
+<ul>
+<li>
+<b>macOS：</b>当前提供 Apple Silicon（M 系列芯片）版 DMG。打开后将 OchreCL.app 拖入 Applications。应用尚未进行 Apple 开发者签名与公证；若遇到安全提示，请确认文件来自本页提供的下载地址，并按系统安全设置处理。Intel Mac 暂无此安装包。</li>
+<li>
+<b>Windows：</b>下载 x64 ZIP，完整解压到本地目录，运行 <code>OchreCL.exe</code>。保留同目录的 <code>app</code> 与 <code>runtime</code>，不要只复制 EXE。当前建议先在真实 Windows 环境测试。</li>
+<li>
+<b>Linux：</b>下载 x64 TAR.GZ，完整解压后在图形桌面运行 <code>./OchreCL</code>。需要 glibc x86_64 与 GTK 3；不适用于 Alpine/musl 或 ARM。</li>
+</ul>
+<p>三个版本均内置启动器运行所需的 Java 和 JavaFX。Minecraft 本身可能需要另一版本的 Java，请根据游戏实例要求选择。Windows、Linux 包已完成打包完整性检查，尚未完成原生系统实测。</p>
+<p>所有蓝奏云下载的提取码均为 <code>1234</code>。可使用官网提供的 <a href="../assets/SHA256SUMS.txt">SHA-256 校验和</a>确认文件完整性。</p>
+<h2 id="game">启动你的第一个游戏</h2>
+<ol>
+<li>首次启动时按引导设置外观与主题色。</li>
+<li>在账号页面添加账号，再从下载页面选择游戏版本及所需加载器。</li>
+<li>完成安装后，在主页选择游戏实例，点击「启动游戏」。</li>
+</ol>
+<p>游戏启动进度与实时日志会在弹窗显示。选择「后台启动」可以收起进度；任务完成前可通过悬浮球返回。</p>
+<h2 id="server">管理本地服务器</h2>
+<ol>
+<li>从下载页面的「服务器」入口选择主流核心，或搜索其他服务器核心。</li>
+<li>选择游戏版本与构建，填写服务器名称、端口、内存等配置，阅读并自行决定是否接受 Minecraft EULA，再部署服务器。</li>
+<li>在服务器面板查看控制台、运行状态，管理玩家、附加项和备份。</li>
+</ol>
+<p>SFTP 和 OpenFrp 为可选功能。工具未安装时会提示下载安装；OpenFrp 需要你自己的账号和相应隧道配置，具体可用节点及配额以服务商为准。</p>
+<h2>悬浮球与后台任务</h2>
+<p>右键悬浮球可展开任务菜单，查看运行中的游戏、服务器与安装任务，点击跳转。安装时选择「静默安装」可收起进度弹窗；下载箭头表示安装任务，旋转进度指示表示游戏启动中。</p>
+<h2>让外观跟随你的背景</h2>
+<p>进入设置的外观页面，选择「沉浸式透明（实验）」并选取背景图片。组件显示半透明毛玻璃，主题色自动从背景取色，文字根据壁纸整体明暗调整。也可以使用必应壁纸。其他主题模式保留独立的主题色设置。</p>
+<h2>常见问题</h2>
+<details>
+<summary>微软账号为什么需要额外配置？</summary>
+<p>ØchreCL 的独立 Microsoft 应用 Client ID 尚需配置。设置中提供配置入口与注册说明；不要将密码或 Client Secret 填入 Client ID。公开版本的微软登录能力取决于有效的应用注册与相关授权。</p>
+</details>
+<details>
+<summary>Windows 或 Linux 无法打开怎么办？</summary>
+<p>先确认系统架构和安装包一致，并已完整解压。Linux 检查 GTK 3 和图形桌面。请记录系统版本、错误提示与日志后提交问题。不要在曾导致整机失去响应的兼容层中反复启动。</p>
+</details>
+<details>
+<summary>在哪里反馈问题？</summary>
+<p>请前往 <a href="https://github.com/Fishyra/OchreCL/issues">GitHub Issues</a>，附系统版本、启动器版本、复现步骤和已隐藏账号信息的日志。不要上传密码、令牌或完整个人数据目录。</p>
+</details>
+<div class="actions" style="margin-top:32px">
+<a class="button primary" href="../#download">前往下载 ↓</a>
+<a class="text-link" href="../">返回官网 ↗</a>
+</div>
+</main>
+<footer class="wrap footer">
+<span>© 2026 Fishyra · ØchreCL</span>
+<p>基于 HMCL 开发，保留上游与第三方版权及许可证声明。<br>非 Mojang 或 Microsoft 官方产品。</p>
+</footer>
 </body>
 </html>
