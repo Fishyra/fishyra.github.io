@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#f7f4ec">
-<meta name="description" content="ØchreCL beta 0.2 安装与使用指南：macOS、Windows、Linux，游戏启动、本地服务器、任务管理与透明外观。">
+<meta name="description" content="ØchreCL 0.3 Alpha 安装与使用指南：macOS、Windows、Linux，游戏启动、本地服务器、任务管理与透明外观。">
 <link rel="canonical" href="https://fishyra.github.io/ochrecl/docs/">
 <link rel="icon" href="../assets/icon.png">
 <link rel="stylesheet" href="../style.css">
@@ -26,9 +26,9 @@
 </nav>
 </header>
 <main id="main" class="wrap docs-main">
-<p class="eyebrow">GETTING STARTED / BETA 0.2</p>
+<p class="eyebrow">GETTING STARTED / ALPHA 0.3</p>
 <h1>先安装，再出发。</h1>
-<p>本指南对应 0.2.0-beta.3。启动器仍在测试中，更新前请备份重要配置、游戏与服务器存档。</p>
+<p>本指南对应 0.3.0-alpha.1。启动器仍在测试中，更新前请备份重要配置、游戏与服务器存档。</p>
 <h2>选择对应的安装包</h2>
 <ul>
 <li>
@@ -39,7 +39,7 @@
 <b>Linux：</b>下载 x64 TAR.GZ，完整解压后在图形桌面运行 <code>./OchreCL</code>。需要 glibc x86_64 与 GTK 3；不适用于 Alpine/musl 或 ARM。</li>
 </ul>
 <p>三个版本均内置启动器运行所需的 Java 和 JavaFX。Minecraft 本身可能需要另一版本的 Java，请根据游戏实例要求选择。Windows、Linux 包已完成打包完整性检查，尚未完成原生系统实测。</p>
-<p>所有蓝奏云下载的提取码均为 <code>1234</code>。可使用官网提供的 <a href="../assets/SHA256SUMS.txt">SHA-256 校验和</a>确认文件完整性。</p>
+<p>官网按钮直接下载 GitHub 托管的安装包，无需提取码，也不用先打开发行页面。可使用官网提供的 <a href="../assets/SHA256SUMS.txt">SHA-256 校验和</a>确认文件完整性。</p>
 <h2 id="game">启动你的第一个游戏</h2>
 <ol>
 <li>首次启动时按引导设置外观与主题色。</li>
@@ -55,9 +55,15 @@
 </ol>
 <p>SFTP 和 OpenFrp 为可选功能。工具未安装时会提示下载安装；OpenFrp 需要你自己的账号和相应隧道配置，具体可用节点及配额以服务商为准。</p>
 <h2>悬浮球与后台任务</h2>
-<p>右键悬浮球可展开任务菜单，查看运行中的游戏、服务器与安装任务，点击跳转。安装时选择「静默安装」可收起进度弹窗；下载箭头表示安装任务，旋转进度指示表示游戏启动中。</p>
+<p>右键悬浮球可展开任务菜单，查看运行中的游戏、服务器与安装任务，点击跳转。安装时选择「静默安装」可收起进度弹窗；下载箭头表示安装任务，轨道粒子动画表示游戏启动中。</p>
 <h2>让外观跟随你的背景</h2>
-<p>进入设置的外观页面，选择「沉浸式透明（实验）」并选取背景图片。组件显示半透明毛玻璃，主题色自动从背景取色，文字根据壁纸整体明暗调整。也可以使用必应壁纸。其他主题模式保留独立的主题色设置。</p>
+<p>进入设置的外观页面，选择「沉浸式透明（实验）」并选取背景图片。组件显示半透明毛玻璃，主题色自动从背景取色，文字根据壁纸整体明暗调整。可以直接使用已选或内置图片，退出透明模式会还原原背景。也可以使用必应壁纸。其他主题模式保留独立的主题色设置。</p>
+<h2>游戏设置与可选桥接</h2>
+<p>主页仅对实际 Minecraft 26.x 实例显示「操作游戏」。组件需要逐实例同意安装，重启游戏后生效，不要求 Fabric/Forge，也不改写游戏 JAR。目前已实测原版 26.2，可读取设置、调整声音与视频选项；其他 26.x 版本仍需验证。脚本工作区只用于新建、导入和保存草稿，目前不执行脚本。</p>
+<h2>通过启动器更新</h2>
+<p>先完整安装 0.3.0-alpha.1 以获得更新引导器。之后在「关于 → 启动器更新」检查新版，从本项目 GitHub 直接下载并校验更新包，确认后于下次启动加载；可以回退到内置版本。若 Java、JavaFX 或原生依赖变化，请下载安装完整包。不要将更新 JAR 当成安装程序。</p>
+<h2>服务器地址与导入</h2>
+<p>服务器页顶部可导入已有目录，原目录保留。部署与导入显示分步骤进度。地址下拉菜单区分本地、局域网及已配置穿透/公网地址；不会把未验证的公网入站显示成已连通。「网络检测」与异常应急为独立操作，异常监测不等于 DDoS 防护。</p>
 <h2>常见问题</h2>
 <details>
 <summary>微软账号为什么需要额外配置？</summary>
