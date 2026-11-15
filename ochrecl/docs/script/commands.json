@@ -44,14 +44,14 @@
   {
     "name": "player.snapshot",
     "signature": "player.snapshot()",
-    "body": "返回 Record：in_world、world、position、x/y/z、yaw/pitch、slot、item、count，以及 swimming/sprinting/crouching/underwater/fallflying/on_ground/flying/may_fly 等字段。世界外仅保证 in_world=false，请先检查。",
+    "body": "返回 Record：in_world、world、position、x/y/z、yaw/pitch、slot、item、count，以及 swimming/sprinting/crouching/underwater/fallflying/on_ground/flying/may_fly/jumping、inputs、vitals、container、screen。世界外仅保证 in_world=false，请先检查。",
     "example": "Record state = player.snapshot(); if (state.in_world) { print(state.position); }",
     "permission": "game.read"
   },
   {
     "name": "player.events",
     "signature": "player.events()",
-    "body": "返回此脚本上次读取之后的新观察记录 List，最多 64 条。10 Hz 采样，移动距离是采样位移，并非精确步行路程；游戏保留 256 条，遗漏时加入 type=overflow 记录。可能错过短于采样间隔的动作。",
+    "body": "返回此脚本上次读取之后的新观察记录 List，每页至多 64 条，并受消息大小限制；一次可能少于 64 条。状态以最高 10 Hz 采样，动作/伤害使用被动回调，移动距离是采样位移，并非精确步行路程；游戏保留 256 条，遗漏时加入 type=overflow 记录。可能错过短于采样间隔的动作。",
     "example": "for (event in player.events()) { print(event); }",
     "permission": "game.read"
   },
@@ -268,7 +268,7 @@
   {
     "name": "input.snapshot",
     "signature": "input.snapshot()",
-    "body": "读取当前游戏窗口的物理输入缓存，返回 Record：focused、keys（code/name 记录 List）、mouse_buttons（0..7 编号 List）。失去焦点时列表为空，不监听其他应用。覆盖 GLFW 支持的全部键盘键码，不能保证记录两次轮询间快速按下又松开的键。",
+    "body": "读取当前游戏窗口的物理输入缓存，返回 Record：focused、keys（code/name 记录 List）、mouse_buttons（0..7 编号 List）、position（窗口内鼠标 x/y）。失去焦点时列表为空，不监听其他应用。覆盖 GLFW 支持的全部键盘键码，不能保证记录两次轮询间快速按下又松开的键。",
     "example": "Record keys = input.snapshot(); print(keys.focused, keys.keys);",
     "permission": "game.read"
   },
@@ -285,5 +285,103 @@
     "body": "返回物理按键当前是否按下，key 为 GLFW 数字键码或 pressed_keys 返回的名称，字符串不区分大小写。SHIFT/CONTROL/ALT/SUPER 是左侧修饰键别名；右侧用 RIGHT_SHIFT 等。与可重绑的游戏动作输入不同，也不把脚本模拟的逻辑按键冒充为物理键。",
     "example": "print(input.is_key_down(\"W\"));",
     "permission": "game.read"
+  },
+  {
+    "name": "world.target",
+    "signature": "world.target()",
+    "body": "返回当前渲染器准星命中的 Record：kind 为 miss/block/entity，含 world。有效目标有 x/y/z、distance；方块还有 block_x/block_y/block_z、face；实体还有 id（UUID）、entity_id（运行时编号）、entity_type、name。菜单中的缓存可能陈旧；不是自动锁定。",
+    "example": "Record hit = world.target(); print(hit.kind);",
+    "permission": "game.read"
+  },
+  {
+    "name": "world.collision",
+    "signature": "world.collision(position)",
+    "body": "position 为玩家脚部 Vec3，范围 16 格。把当前姿态的真实玩家碰撞箱移到目标位置，返回 clear、supported、can_stand、world、distance。supported 仅表示向下 0.1 格会碰撞；区块未加载时报错，不生成区块。不是危险地形检测。",
+    "example": "Record space = world.collision(player.position); print(space.clear, space.supported);",
+    "permission": "game.read"
+  },
+  {
+    "name": "world.can_stand",
+    "signature": "world.can_stand(position)",
+    "body": "返回目标处碰撞箱无阻挡且脚下有支撑的 bool。与 collision 一样使用当前姿态和 16 格范围；不保证没有熔岩、火或摔落风险。",
+    "example": "print(world.can_stand(player.position));",
+    "permission": "game.read"
+  },
+  {
+    "name": "world.path_clear",
+    "signature": "world.path_clear(position)",
+    "body": "从当前脚部到目标脚部沿直线每 0.25 格检查一次真实碰撞箱，最多 16 格，返回 bool。只检查直线碰撞，不检查沿路支撑、危险、跳跃能力，不会寻路或移动。",
+    "example": "Vec3 here = player.position; print(world.path_clear(vec3(here.x + 1, here.y, here.z)));",
+    "permission": "game.read"
+  },
+  {
+    "name": "player.item_tags",
+    "signature": "player.item_tags()",
+    "body": "读取当前主手物品的注册标签，返回最多 128 个标签 ID 的 List。支持模组添加的标签，不用枚举每种剑的物品 ID。空物品同样返回其实际标签列表。",
+    "example": "print(player.item_tags());",
+    "permission": "game.read"
+  },
+  {
+    "name": "player.item_is",
+    "signature": "player.item_is(tag)",
+    "body": "tag 为完整命名空间标签字符串，例如 minecraft:swords；返回主手物品是否拥有该标签的 bool。未知标签返回 false。模组或数据包会改变实际标签内容。",
+    "example": "if (player.item_is(\"minecraft:swords\")) { print(\"Holding a sword\"); }",
+    "permission": "game.read"
+  },
+  {
+    "name": "player.container_slots",
+    "signature": "player.container_slots(offset=0, limit=24)",
+    "body": "分页读取当前容器（没有外部容器时为玩家背包），返回 token、total、slots。offset 为 0..512，不能超出实际槽位；limit 为 1..24。槽位有 slot、inventory_slot、item、count、empty、max_count、may_pickup、accepts_held（是否允许放入当前主手物品）。操作应使用 slot 菜单索引。",
+    "example": "Record page = player.container_slots(); for (slot in page.slots) { print(slot.slot, slot.item, slot.count); }",
+    "permission": "game.read"
+  },
+  {
+    "name": "player.container_move",
+    "signature": "player.container_move(from, to, count=0, token=...)",
+    "body": "按正常容器点击移动或拆分物品。from/to 是当前菜单槽位索引 0..511；count=0 为整组，1..64 为指定数量。必须提供最新 token，光标为空，来源允许取出，目标允许放入且兼容、有足够容量。返回 submitted_to_server；需再读取槽位核对服务端结果。",
+    "example": "Record menu = player.container; // Choose valid menu slot indices, then call player.container_move(from, to, count=1, token=menu.token);",
+    "permission": "inventory.write"
+  },
+  {
+    "name": "player.container_swap",
+    "signature": "player.container_swap(from, to, token=...)",
+    "body": "通过正常点击交换两个槽位，遵守两侧取放规则和容量。必须使用当前 token、空光标。相同且可合并的物品请使用 container_move，避免把合并误当交换。返回 submitted_to_server。",
+    "example": "Record menu = player.container; // player.container_swap(from, to, token=menu.token);",
+    "permission": "inventory.write"
+  },
+  {
+    "name": "player.container_quick_move",
+    "signature": "player.container_quick_move(from, token=...)",
+    "body": "正常 Shift 点击指定槽位，由原版或模组菜单决定目标槽位。来源允许取出、光标必须为空，token 必须匹配；返回 submitted_to_server，不保证移动量。",
+    "example": "Record menu = player.container; // player.container_quick_move(from, token=menu.token);",
+    "permission": "inventory.write"
+  },
+  {
+    "name": "script.wait_event",
+    "signature": "script.wait_event(type, timeout=5s)",
+    "body": "等待指定 type 事件，返回首个匹配 Record，超时返回 none。timeout 大于 0、不超过 60s，可停止。与 player.events 共用游标，会消费轮询页中的非匹配事件；第一次可能命中近期保留事件。检测频率仍受采样/游戏线程影响。",
+    "example": "Record hit = script.wait_event(\"hurt\", timeout=10s); if (hit != none) { print(hit.damage_type); }",
+    "permission": "game.read"
+  },
+  {
+    "name": "task.load",
+    "signature": "task.load(name, default=none)",
+    "body": "读取当前实例的命名检查点；不存在时返回 default。name 为 1..64 位英文字母、数字、下划线或连字符，不是文件路径。返回已保存的数值、字符串、bool、none、List 或 Record；文件损坏会报错。",
+    "example": "int stage = task.load(\"demo_stage\", default=0); print(stage);",
+    "permission": "storage.read"
+  },
+  {
+    "name": "task.save",
+    "signature": "task.save(name, value)",
+    "body": "在当前实例专属托管目录原子保存一份检查点。只接受有限数值、字符串、bool、none、List/Record；最多 16 KiB JSON、8 层嵌套，每个集合最多 128 项，每个实例最多 64 份。不同实例隔离；不开放任意文件访问。存储记录不自动恢复按键、目标或运行位置。",
+    "example": "task.save(\"demo_stage\", 1);",
+    "permission": "storage.write"
+  },
+  {
+    "name": "task.clear",
+    "signature": "task.clear(name)",
+    "body": "删除当前实例的一份命名检查点；存在并删除返回 true，不存在返回 false。名称规则与 load 相同。不会删除脚本文件。",
+    "example": "print(task.clear(\"demo_stage\"));",
+    "permission": "storage.write"
   }
 ]
