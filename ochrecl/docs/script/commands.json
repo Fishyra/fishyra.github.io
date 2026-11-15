@@ -264,5 +264,26 @@
     "body": "直接给游戏发送 press/release/repeat 键事件；世界内只支持真实绑定，repeat 要在游戏 UI 中使用。数字键码范围 32..348，组合修饰掩码 0..15。未处理事件报错，不模拟私有 F3 快捷逻辑。",
     "example": "input.send_key(\"LEFT\", action=\"press\", modifiers=0);",
     "permission": "input.keys"
+  },
+  {
+    "name": "input.snapshot",
+    "signature": "input.snapshot()",
+    "body": "读取当前游戏窗口的物理输入缓存，返回 Record：focused、keys（code/name 记录 List）、mouse_buttons（0..7 编号 List）。失去焦点时列表为空，不监听其他应用。覆盖 GLFW 支持的全部键盘键码，不能保证记录两次轮询间快速按下又松开的键。",
+    "example": "Record keys = input.snapshot(); print(keys.focused, keys.keys);",
+    "permission": "game.read"
+  },
+  {
+    "name": "input.pressed_keys",
+    "signature": "input.pressed_keys()",
+    "body": "返回当前按下的全部游戏窗口键盘键，List 中每项有 code（GLFW 数字键码）和 name。包括字母、数字、功能键、修饰键及小键盘；未提供专用名称的键以 KEY_加键码表示。鼠标请用 input.snapshot().mouse_buttons（先存入 Record 再读取字段）。",
+    "example": "for (key in input.pressed_keys()) { print(key.code, key.name); }",
+    "permission": "game.read"
+  },
+  {
+    "name": "input.is_key_down",
+    "signature": "input.is_key_down(key)",
+    "body": "返回物理按键当前是否按下，key 为 GLFW 数字键码或 pressed_keys 返回的名称，字符串不区分大小写。SHIFT/CONTROL/ALT/SUPER 是左侧修饰键别名；右侧用 RIGHT_SHIFT 等。与可重绑的游戏动作输入不同，也不把脚本模拟的逻辑按键冒充为物理键。",
+    "example": "print(input.is_key_down(\"W\"));",
+    "permission": "game.read"
   }
 ]
