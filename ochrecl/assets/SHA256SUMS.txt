@@ -1,6 +1,6 @@
-4e5bc43afa62e142acbe25457571c5506140ff309ed134500678eb2f059eb8d1  OchreCL-0.3.0-alpha.4-macos-arm64.dmg
-5fff6cc027e97bfc9811e7d86fe44dc7f8bc2a7b096242da6c0c0c38d7908ac5  OchreCL-0.3.0-alpha.4-macos-x64.dmg
-7b117ba0428dd1e43149522217523cec99e6881c4dd71b8b972dd7142d978963  OchreCL-0.3.0-alpha.4-windows-x64.zip
-a3279fc2e47a70154bb2b5f3c2cff9834ac45f268713b45a805e19f9e45237f6  OchreCL-0.3.0-alpha.4-linux-x64.tar.gz
-f2fde0c032f6eff2c432bce72649e59871f1c4f44b12ff2e59677d2d7887b11f  OchreCL-update.jar
-06da96adec9ebefcf776a2c8f05fd607bb77fb863276b5bfaf2fdf0c1e4ce913  OchreBridge-source.zip
+f3ffbe9bc07da755b474ccadd2657247879e1f2619994318aa3e587fc1697f22  OchreCL-0.3.0-alpha.5-macos-arm64.dmg
+42395e84a748caaa7e77df1a2b9fa1f9148af221ebdf2f96b92fb3a300e2d604  OchreCL-0.3.0-alpha.5-macos-x64.dmg
+e43e229c63e1fc245967ae725b8d230ae10aa451e4e982910a02427b9aaa44f7  OchreCL-0.3.0-alpha.5-windows-x64.zip
+81e198435768d4938d6ed7154b52ce77d2722f03ea13d13ff89ab4531c1950d5  OchreCL-0.3.0-alpha.5-linux-x64.tar.gz
+b20f4fefb766afb2fbc9592589031a59b80833f88f27f7f50f6c1508f7b03dbd  OchreCL-update.jar
+82bf52c578888680ba3c3fc112204d7d27b4e135b3edf20589012b0b4df43f98  OchreCL-source.zip
