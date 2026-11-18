@@ -141,6 +141,8 @@ h1{font-size:clamp(45px,5.8vw,80px);line-height:1.22;font-weight:650;margin-bott
 .docs-main details{padding:16px 0;border-bottom:1px solid var(--line)}
 .docs-main summary{cursor:pointer;font-size:15px}
 .docs-main details p{margin-bottom:0}
+.docs-main .feature-story{min-width:0}
+.docs-main .feature-story pre{width:100%;white-space:pre-wrap;overflow-wrap:anywhere}
 .docs-main ul,.docs-main ol{padding-left:22px}
 @keyframes float{50%{transform:translateY(-12px) rotate(3deg)}
 }
@@ -159,6 +161,7 @@ h1{font-size:clamp(45px,5.8vw,80px);line-height:1.22;font-weight:650;margin-bott
 .brand{font-size:20px}
 .nav-links{gap:16px;font-size:12px}
 .nav-links>a:nth-child(2),.nav-links>a:nth-child(3){display:none}
+.nav-links>a.nav-source{display:none}
 .nav-download{padding:10px 14px;gap:12px}
 .hero{grid-template-columns:1fr;padding-block:40px 55px;gap:40px}
 .hero-art{max-width:460px;width:100%;justify-self:center;aspect-ratio:1.2;border-top-left-radius:100px;border-top-right-radius:100px}

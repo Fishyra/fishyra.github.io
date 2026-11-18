@@ -1,0 +1,29 @@
+[
+  {
+    "file": "ochre-survival-v1.ochre",
+    "name": "生存状态检查",
+    "description": "检查当前血量和饱食度是否达到目标。",
+    "version": "1.0",
+    "requires": "0.3.0-alpha.6",
+    "usage": "if (!ochre_survival_ready(12, 8)) { say(\"先恢复血量和饱食度\"); }",
+    "sha256": "04381a8c273bd500f9f585c9be7c5203b3f69e8184890732a36d3d88d8a2af76"
+  },
+  {
+    "file": "ochre-terrain-v1.ochre",
+    "name": "落脚点检查",
+    "description": "查询脚底空间、支撑以及直线路径是否被挡住。",
+    "version": "1.0",
+    "requires": "0.3.0-alpha.6",
+    "usage": "Vec3 feet = player.position;\nprint(ochre_terrain_check(feet));",
+    "sha256": "1fb890144d4fc22930fc18d44f6b64a25de878a7f18d995ff4aa5140bb41f9ab"
+  },
+  {
+    "file": "ochre-bridge-forward-v1.ochre",
+    "name": "向前搭路",
+    "description": "面向缺口，自动从背包选取合适的建筑方块，跨越一至三格的同高缺口。",
+    "version": "1.0",
+    "requires": "0.3.0-alpha.7",
+    "usage": "if (ochre_bridge_forward()) { say(\"已到达对岸\"); }",
+    "sha256": "dc21b4ba45cf82e512f044206ec8d0d3a509f55c24e2d0c8f397a9c7edbba68e"
+  }
+]

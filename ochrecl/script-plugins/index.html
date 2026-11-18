@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="下载 Øchre Script 函数库，从现有脚本调用玩家状态检查、路线检查等功能。">
+  <link rel="canonical" href="https://fishyra.github.io/ochrecl/script-plugins/">
+  <link rel="icon" href="../assets/icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <title>脚本插件 · ØchreCL</title>
+</head>
+<body>
+  <a class="skip" href="#main">跳至正文</a>
+  <header class="header">
+    <nav class="wrap nav" aria-label="主导航">
+      <a class="brand" href="../"><img src="../assets/icon.png" width="36" height="36" alt="">ØchreCL</a>
+      <div class="nav-links"><a href="../docs/script/">脚本帮助</a><a class="nav-download" href="../#download">下载启动器</a></div>
+    </nav>
+  </header>
+  <main class="wrap docs-main" id="main">
+    <p class="eyebrow">ØCHRE SCRIPT / PLUGINS</p>
+    <h1>给脚本多几个帮手。</h1>
+    <p>这里的插件是可读、可修改的 <code>.ochre</code> 函数库，供其他脚本调用。首批模块支持 ØchreCL 0.3.0-alpha.6；读取游戏数据需要已连接的游戏桥接。</p>
+    <h2>怎么安装</h2>
+    <p>支持插件目录的启动器可在「实例管理 → 脚本管理 → 获取脚本插件」里直接安装。也可以手动导入：</p>
+    <ol>
+      <li>下载模块，保留原文件名。</li>
+      <li>在启动器的「实例管理 → 脚本管理」中，点击「＋」导入模块。若同名文件已存在，请先检查脚本库里的旧副本；导入时自动加编号的文件需用实际文件名引用。</li>
+      <li>另建或打开你的主脚本，在顶部写 <code>import</code>，再调用模块里的函数。检查语法后，运行主脚本并确认所需权限。</li>
+    </ol>
+    <p>导入文件不会执行代码。模块不能自行联网、安装游戏模组或新增底层游戏指令；模块里的函数沿用脚本运行器的权限检查。</p>
+    <h2>可用插件</h2>
+    <div class="feature-split">
+      <article class="feature-story server-story">
+        <p class="index">01 / 玩家状态 · v1.0</p>
+        <h3>生存状态检查</h3>
+        <p>读取血量和饱食度，返回是否达到脚本设定的门槛。适合在出发前检查，或者在状态太低时发出提示。</p>
+        <p>权限：<code>game.read</code></p>
+        <pre><code>import "ochre-survival-v1.ochre";
+if (!ochre_survival_ready(12, 8)) {
+    say("先恢复血量和饱食度");
+}</code></pre>
+        <p>两个参数依次是最低血量（12 表示 6 颗心）和最低饱食度（满值 20）。</p>
+        <a class="text-link" href="ochre-survival-v1.ochre" download>下载生存状态插件 ↓</a>
+      </article>
+      <article class="feature-story server-story">
+        <p class="index">02 / 世界读取 · v1.0</p>
+        <h3>落脚点检查</h3>
+        <p>检查某个坐标的落脚空间和支撑，并判断到那里的直线是否被挡住。适合在移动前筛选候选点。</p>
+        <p>权限：<code>game.read</code></p>
+        <pre><code>import "ochre-terrain-v1.ochre";
+Vec3 feet = player.position;
+print(ochre_terrain_check(feet));</code></pre>
+        <p>可换成 16 格内、已加载区域的目标脚底坐标。直线无碰撞不代表沿途有地面，也不会让角色移动。</p>
+        <a class="text-link" href="ochre-terrain-v1.ochre" download>下载落脚点插件 ↓</a>
+      </article>
+      <article class="feature-story server-story">
+        <p class="index">03 / 移动与建造 · v1.0</p>
+        <h3>向前搭路</h3>
+        <p>站在缺口紧邻的实心地面上，朝向对岸。插件按视线最接近的东西南北方向找落脚点，自动从背包选用足够的石头、圆石或木板等方块。</p>
+        <p>需要 0.3.0-alpha.7 或更新版本及新版桥接。权限：<code>game.read</code>、<code>inventory.write</code>、<code>player.look</code>、<code>player.move</code>、<code>world.place</code>。</p>
+        <pre><code>import "ochre-bridge-forward-v1.ochre";
+if (ochre_bridge_forward()) {
+    say("已到达对岸");
+}</code></pre>
+        <p>限一至三格宽、两端同高的缺口。材料在主背包时，需留一个空的快捷栏格子。导航优先走已有地面；必要时才建桥。</p>
+        <a class="text-link" href="ochre-bridge-forward-v1.ochre" download>下载向前搭路插件 ↓</a>
+      </article>
+    </div>
+    <h2>编写自己的模块</h2>
+    <p>把可复用的函数放进单独的 <code>.ochre</code> 文件，给函数名加上自己的前缀以避免冲突。模块顶部可以导入其他模块，函数外不要写直接执行的语句。分享时附上版本、调用示例和需要的权限。</p>
+    <p><a class="text-link" href="../docs/script/#organization">阅读函数与模块规则 ↗</a></p>
+  </main>
+</body>
+</html>
