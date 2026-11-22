@@ -91,6 +91,76 @@
     "permission": "game.read"
   },
   {
+    "name": "world.find_resource",
+    "signature": "world.find_resource(type, radius=16, exclude_column=...)",
+    "body": "在当前维度已加载区块中按资源类别查找最近的方块。半径为 1..24。支持 wood、coal、iron、copper、gold、redstone、lapis、diamond、emerald、quartz、ancient_debris、obsidian、nether_portal、end_portal。返回含 position、distance、type、evidence 的 Record，或 none。",
+    "example": "Record ore = world.find_resource(\"iron\", radius=24); if (ore != none) { print(ore.position, ore.evidence); }",
+    "permission": "game.read"
+  },
+  {
+    "name": "world.find_structure",
+    "signature": "world.find_structure(type, radius=16, exclude_column=...)",
+    "body": "查找已加载区块内最近的结构线索，半径为 1..24。支持 village、stronghold、nether_fortress、bastion_remnant、ruined_portal、ancient_city、end_city、ocean_monument。evidence 是实际方块 ID。同种方块也可能由玩家搭建。",
+    "example": "Record clue = world.find_structure(\"stronghold\", radius=24); if (clue != none) { print(clue.position, clue.evidence); }",
+    "permission": "game.read"
+  },
+  {
+    "name": "player.use_block",
+    "signature": "player.use_block(target, face=..., hand=\"main\", item=...)",
+    "body": "对坐标或方块记录执行一次普通右键交互。可指定命中面、主手或副手及预期物品 ID。返回 accepted、result、before、after，状态为客户端读数。",
+    "example": "Record result = player.use_block(vec3(100, 64, 200)); print(result.accepted);",
+    "permission": "world.interact + game.read + player.look"
+  },
+  {
+    "name": "player.use_item_on_block",
+    "signature": "player.use_item_on_block(target, face=..., hand=\"main\", item=...)",
+    "body": "对指定方块使用手持物品，与 use_block 使用同一原版交互。item 为可选物品 ID。",
+    "example": "Record frame = world.block(vec3(100, 32, 200)); player.use_item_on_block(frame, face=\"up\", item=\"minecraft:ender_eye\");",
+    "permission": "world.interact + game.read + player.look"
+  },
+  {
+    "name": "player.use_item",
+    "signature": "player.use_item(hand=\"main\", item=...)",
+    "body": "朝当前方向使用一次物品。hand 为 main 或 off，item 可锁定预期物品 ID。",
+    "example": "player.use_item(item=\"minecraft:snowball\");",
+    "permission": "player.use"
+  },
+  {
+    "name": "player.use_entity",
+    "signature": "player.use_entity(target, hand=\"main\", item=...)",
+    "body": "对准给定生物记录，核对 UUID、遮挡与距离，再执行一次普通交互。可以喂动物、挤奶等，取决于手持物品与游戏规则。",
+    "example": "Record cow = world.nearest_entity(\"minecraft:cow\", radius=4); if (cow != none) { player.use_entity(cow, item=\"minecraft:bucket\"); }",
+    "permission": "player.use + game.read + player.look"
+  },
+  {
+    "name": "player.open_trade",
+    "signature": "player.open_trade(target, timeout=4s)",
+    "body": "对准并打开村民或流浪商人交易菜单，等报价载入后返回第一页。timeout 为大于 0 且最多 15 秒。",
+    "example": "Record villager = world.nearest_entity(\"minecraft:villager\", radius=4); if (villager != none) { Record page = player.open_trade(villager); print(page.total); }",
+    "permission": "player.use + game.read + player.look"
+  },
+  {
+    "name": "player.trade_offers",
+    "signature": "player.trade_offers(offset=0, limit=8)",
+    "body": "读取当前交易菜单的报价，limit 为 1..12。返回 token、total、offers，报价含两项成本、产物、次数与售罄状态。",
+    "example": "Record page = player.trade_offers(); for (offer in page.offers) { print(offer.cost_item, offer.cost_count, offer.result_item); }",
+    "permission": "game.read"
+  },
+  {
+    "name": "player.trade",
+    "signature": "player.trade(offer, timeout=4s)",
+    "body": "执行一笔来自当前菜单的最新报价。复核成本、结果和容量后点击取出一份结果，观察到背包增加才返回 client_observed_trade。",
+    "example": "Record page = player.trade_offers(); for (offer in page.offers) { if (offer.result_item == \"minecraft:ender_pearl\" && !offer.out_of_stock) { print(player.trade(offer)); } }",
+    "permission": "inventory.write + game.read"
+  },
+  {
+    "name": "player.enter_portal",
+    "signature": "player.enter_portal(position, timeout=30s)",
+    "body": "从旁边走入已激活的下界或末地传送门，确认进入另一个维度后返回其 ID。position 指向门内的传送门方块。下界门选与脚同高的底部方块，末地门从无障碍的一侧进入。超时范围 (0s, 60s]。",
+    "example": "Record gate = world.find_resource(\"nether_portal\", radius=2); if (gate != none) { print(player.enter_portal(gate.position)); }",
+    "permission": "player.move + game.read + player.look"
+  },
+  {
     "name": "world.block",
     "signature": "world.block(position)",
     "body": "position 可为 Vec3 或之前的方块 Record。坐标向下取整，查询范围 64 格，只读取已加载区块；返回方块 Record。记录中的 world/id 会用于拒绝失效目标。",

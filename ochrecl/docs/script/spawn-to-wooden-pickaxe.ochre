@@ -109,11 +109,11 @@ function gather_wood(required) {
     }
     for (int index = 0; index < 11; index++) {
         string log_id = log_type(index);
-        Record tree = world.nearest_block(log_id, radius=12);
+        Record tree = world.nearest_block(log_id, radius=16);
         if (tree != none) {
             gather_trunk(tree.position, log_id, required - count_planks());
             if (make_planks(index, required)) { return true; }
-            Record alternate = world.nearest_block(log_id, radius=12, exclude_column=tree.position);
+            Record alternate = world.nearest_block(log_id, radius=16, exclude_column=tree.position);
             if (alternate != none) {
                 print("木板仍不足，尝试另一处树干：", log_id);
                 gather_trunk(alternate.position, log_id, required - count_planks());
