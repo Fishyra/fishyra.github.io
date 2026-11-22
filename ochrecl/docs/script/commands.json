@@ -85,8 +85,8 @@
   },
   {
     "name": "world.nearest_block",
-    "signature": "world.nearest_block(type, radius=16)",
-    "body": "type 为必填方块注册 ID，radius 为 1..16 整数；只扫描已加载区块。返回 Record 或 none，position 是方块中心，另有 distance/yaw/pitch。",
+    "signature": "world.nearest_block(type, radius=16, exclude_column=...)",
+    "body": "type 为必填方块注册 ID，radius 为 1..16 整数；只扫描已加载区块。返回 Record 或 none，position 是方块中心，另有 distance/yaw/pitch。可用 exclude_column 传入 Vec3，排除相同 X/Z 柱。",
     "example": "Record block = world.nearest_block(\"minecraft:stone\", radius=8); print(block);",
     "permission": "game.read"
   },
@@ -148,10 +148,31 @@
   },
   {
     "name": "player.walk_to",
-    "signature": "player.walk_to(...)",
-    "body": "此入口保留，但本版未接入寻路，调用会报能力不可用。不会通过传送代替。",
-    "example": "// player.walk_to(vec3(100, 64, 200));",
-    "permission": "player.move"
+    "signature": "player.walk_to(position, timeout=30s, bridge=false, straight=false)",
+    "body": "尝试通过普通移动到达脚部坐标。可以绕障、跳上一格或走下一格。bridge=true 允许消耗手持方块搭短桥，需要额外的 world.place 权限。straight=true 限定目标为同高的相邻一格。到达返回 arrived，无法到达时报错。",
+    "example": "player.walk_to(vec3(100, 64, 200));",
+    "permission": "player.move + game.read + player.look"
+  },
+  {
+    "name": "player.try_walk_to",
+    "signature": "player.try_walk_to(position, timeout=30s)",
+    "body": "仅步行。到达返回 arrived，无路、卡住、超时或支撑变化返回 unreachable。取消、手动干预和其他错误仍会报出。",
+    "example": "print(player.try_walk_to(vec3(100, 64, 200), timeout=8s));",
+    "permission": "player.move + game.read + player.look"
+  },
+  {
+    "name": "player.find_recipe",
+    "signature": "player.find_recipe(item)",
+    "body": "按产物 ID 查找已解锁且当前背包材料足够的配方。返回含 display_id 的 Record，未找到时返回 none。合成时还需要尺寸合适的合成网格。",
+    "example": "Record recipe = player.find_recipe(\"minecraft:stick\"); if (recipe != none) { player.craft(recipe.display_id); }",
+    "permission": "game.read"
+  },
+  {
+    "name": "player.open_crafting_table",
+    "signature": "player.open_crafting_table(position)",
+    "body": "对可见且在交互距离内的工作台执行普通交互。打开后可通过 player.container 确认菜单状态。",
+    "example": "player.open_crafting_table(vec3(100, 64, 200));",
+    "permission": "inventory.write + game.read + player.look"
   },
   {
     "name": "player.jump",
