@@ -23,7 +23,939 @@ for (event in player.events()) { print(event); }</code></pre><p>支持 if / else
 <li>按按钮、开门或插末影之眼时，先用 <code>world.block()</code> 取得方块记录。调用 <code>player.use_block()</code> 或 <code>player.use_item_on_block()</code> 后，再读取方块状态确认结果。使用末影之眼时，可指定 <code>item="minecraft:ender_eye"</code> 核对手持物品。<a href="#player.use_item_on_block">查看插眼示例</a></li>
 <li>用 <code>player.use_entity()</code> 对指定生物执行交互，例如给牛挤奶。朝当前方向投掷物品可使用 <code>player.use_item()</code>。<a href="#player.use_entity">查看生物交互示例</a></li>
 <li>用 <code>player.open_trade()</code> 打开交易界面，查看报价中的两项成本、产物和售罄状态，再用 <code>player.trade()</code> 完成一笔交易。每次成交后重新用 <code>player.trade_offers()</code> 读取报价。<a href="#player.trade">查看兑换末影珍珠示例</a></li>
-</ul></section><section id="commands"><h2>全部命令</h2><label for="search">搜索命令名称或说明</label><input id="search" type="search" placeholder="例如：mine、权限、文本、背包"><p id="count" aria-live="polite"></p><article class="command" id="print" data-search="print 将任意数量的值输出到脚本日志，以空格分隔；不接受命名参数。返回 none。"><h3>print</h3><p class="signature"><code>print(value, ...)</code></p><p>将任意数量的值输出到脚本日志，以空格分隔；不接受命名参数。返回 none。</p><p class="permission">所需能力：<code>无需额外能力</code></p><pre><code>print(&quot;Position:&quot;, player.position);</code></pre><a href="#print" class="anchor">链接到本命令 ↗</a></article><article class="command" id="sleep" data-search="sleep 必须使用 s 或 ms，范围 0..60s。等待结束才执行下一句，可随时停止。"><h3>sleep</h3><p class="signature"><code>sleep(duration)</code></p><p>必须使用 s 或 ms，范围 0..60s。等待结束才执行下一句，可随时停止。</p><p class="permission">所需能力：<code>无需额外能力</code></p><pre><code>sleep(200ms);</code></pre><a href="#sleep" class="anchor">链接到本命令 ↗</a></article><article class="command" id="vec3" data-search="vec3 三个有限数值，返回含 x/y/z 的坐标记录；不接受命名参数。"><h3>vec3</h3><p class="signature"><code>vec3(x, y, z)</code></p><p>三个有限数值，返回含 x/y/z 的坐标记录；不接受命名参数。</p><p class="permission">所需能力：<code>无需额外能力</code></p><pre><code>Vec3 position = vec3(100, 64, 200);</code></pre><a href="#vec3" class="anchor">链接到本命令 ↗</a></article><article class="command" id="say" data-search="say 气泡显示在游戏悬浮球旁，等待显示时长后再继续。text 为非空字符串，最多 256 个 UTF-16 单元；duration 大于 0、不超过 30s。只在本地显示，不发送聊天。"><h3>say</h3><p class="signature"><code>say(text, duration=3s)</code></p><p>气泡显示在游戏悬浮球旁，等待显示时长后再继续。text 为非空字符串，最多 256 个 UTF-16 单元；duration 大于 0、不超过 30s。只在本地显示，不发送聊天。</p><p class="permission">所需能力：<code>无需额外能力</code></p><pre><code>say(&quot;Hello!&quot;, duration=5s);</code></pre><a href="#say" class="anchor">链接到本命令 ↗</a></article><article class="command" id="script.logs" data-search="script.logs 返回本次运行先前的最多 200 行输出与错误，类型为 List；无参数，不读取任意文件。"><h3>script.logs</h3><p class="signature"><code>script.logs()</code></p><p>返回本次运行先前的最多 200 行输出与错误，类型为 List；无参数，不读取任意文件。</p><p class="permission">所需能力：<code>无需额外能力</code></p><pre><code>List lines = script.logs(); print(lines.length);</code></pre><a href="#script.logs" class="anchor">链接到本命令 ↗</a></article><article class="command" id="game.logs" data-search="game.logs limit 为 1..100 整数，返回此实例被启动器保留的游戏输出，可能为空；常见令牌形式会被脱敏。不是完整历史文件查询。"><h3>game.logs</h3><p class="signature"><code>game.logs(limit=40)</code></p><p>limit 为 1..100 整数，返回此实例被启动器保留的游戏输出，可能为空；常见令牌形式会被脱敏。不是完整历史文件查询。</p><p class="permission">所需能力：<code>logs.read</code></p><pre><code>print(game.logs(limit=10));</code></pre><a href="#game.logs" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.snapshot" data-search="player.snapshot 返回 Record：in_world、world、position、x/y/z、yaw/pitch、slot、item、count，以及 swimming/sprinting/crouching/underwater/fallflying/on_ground/flying/may_fly/jumping、inputs、vitals、container、screen。世界外仅保证 in_world=false，请先检查。"><h3>player.snapshot</h3><p class="signature"><code>player.snapshot()</code></p><p>返回 Record：in_world、world、position、x/y/z、yaw/pitch、slot、item、count，以及 swimming/sprinting/crouching/underwater/fallflying/on_ground/flying/may_fly/jumping、inputs、vitals、container、screen。世界外仅保证 in_world=false，请先检查。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Record state = player.snapshot(); if (state.in_world) { print(state.position); }</code></pre><a href="#player.snapshot" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.events" data-search="player.events 返回此脚本上次读取之后的新观察记录 List，每页至多 64 条，并受消息大小限制；一次可能少于 64 条。状态以最高 10 Hz 采样，动作/伤害使用被动回调，移动距离是采样位移，并非精确步行路程；游戏保留 256 条，遗漏时加入 type=overflow 记录。可能错过短于采样间隔的动作。"><h3>player.events</h3><p class="signature"><code>player.events()</code></p><p>返回此脚本上次读取之后的新观察记录 List，每页至多 64 条，并受消息大小限制；一次可能少于 64 条。状态以最高 10 Hz 采样，动作/伤害使用被动回调，移动距离是采样位移，并非精确步行路程；游戏保留 256 条，遗漏时加入 type=overflow 记录。可能错过短于采样间隔的动作。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>for (event in player.events()) { print(event); }</code></pre><a href="#player.events" class="anchor">链接到本命令 ↗</a></article><article class="command" id="world.find_player" data-search="world.find_player name 必填，使用字符串玩家名；在客户端已加载、128 格内的其他玩家中匹配，返回 Player 或 none。先检查 none 再访问字段。"><h3>world.find_player</h3><p class="signature"><code>world.find_player(name)</code></p><p>name 必填，使用字符串玩家名；在客户端已加载、128 格内的其他玩家中匹配，返回 Player 或 none。先检查 none 再访问字段。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Player target = world.find_player(&quot;BetaF1sh&quot;); if (target != none) { print(target.position); }</code></pre><a href="#world.find_player" class="anchor">链接到本命令 ↗</a></article><article class="command" id="world.nearby_players" data-search="world.nearby_players radius 为数值，大于 0、不超过 128。排除自己，按距离排序，最多返回 16 个含 id/name/position 的玩家记录。"><h3>world.nearby_players</h3><p class="signature"><code>world.nearby_players(radius=16)</code></p><p>radius 为数值，大于 0、不超过 128。排除自己，按距离排序，最多返回 16 个含 id/name/position 的玩家记录。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>List players = world.nearby_players(radius=32); print(players.length);</code></pre><a href="#world.nearby_players" class="anchor">链接到本命令 ↗</a></article><article class="command" id="world.nearest_player" data-search="world.nearest_player radius 为 1..64 整数，返回最近已加载玩家的记录或 none；记录包含 position、distance、yaw、pitch 和可用身份信息。"><h3>world.nearest_player</h3><p class="signature"><code>world.nearest_player(radius=16)</code></p><p>radius 为 1..64 整数，返回最近已加载玩家的记录或 none；记录包含 position、distance、yaw、pitch 和可用身份信息。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Record target = world.nearest_player(radius=32); print(target);</code></pre><a href="#world.nearest_player" class="anchor">链接到本命令 ↗</a></article><article class="command" id="world.nearest_entity" data-search="world.nearest_entity type 可省略以匹配任意已加载实体，或填写 minecraft:zombie 等注册 ID。radius 为 1..64 整数。返回最近实体 Record 或 none。"><h3>world.nearest_entity</h3><p class="signature"><code>world.nearest_entity(type=&quot;&quot;, radius=16)</code></p><p>type 可省略以匹配任意已加载实体，或填写 minecraft:zombie 等注册 ID。radius 为 1..64 整数。返回最近实体 Record 或 none。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Record target = world.nearest_entity(type=&quot;minecraft:zombie&quot;, radius=16);</code></pre><a href="#world.nearest_entity" class="anchor">链接到本命令 ↗</a></article><article class="command" id="world.nearest_block" data-search="world.nearest_block type 为必填方块注册 ID，radius 为 1..16 整数；只扫描已加载区块。返回 Record 或 none，position 是方块中心，另有 distance/yaw/pitch。可用 exclude_column 传入 Vec3，排除相同 X/Z 柱。"><h3>world.nearest_block</h3><p class="signature"><code>world.nearest_block(type, radius=16, exclude_column=...)</code></p><p>type 为必填方块注册 ID，radius 为 1..16 整数；只扫描已加载区块。返回 Record 或 none，position 是方块中心，另有 distance/yaw/pitch。可用 exclude_column 传入 Vec3，排除相同 X/Z 柱。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Record block = world.nearest_block(&quot;minecraft:stone&quot;, radius=8); print(block);</code></pre><a href="#world.nearest_block" class="anchor">链接到本命令 ↗</a></article><article class="command" id="world.find_resource" data-search="world.find_resource 在当前维度已加载区块中按资源类别查找最近的方块。半径为 1..24。支持 wood、coal、iron、copper、gold、redstone、lapis、diamond、emerald、quartz、ancient_debris、obsidian、nether_portal、end_portal。返回含 position、distance、type、evidence 的 Record，或 none。"><h3>world.find_resource</h3><p class="signature"><code>world.find_resource(type, radius=16, exclude_column=...)</code></p><p>在当前维度已加载区块中按资源类别查找最近的方块。半径为 1..24。支持 wood、coal、iron、copper、gold、redstone、lapis、diamond、emerald、quartz、ancient_debris、obsidian、nether_portal、end_portal。返回含 position、distance、type、evidence 的 Record，或 none。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Record ore = world.find_resource(&quot;iron&quot;, radius=24); if (ore != none) { print(ore.position, ore.evidence); }</code></pre><a href="#world.find_resource" class="anchor">链接到本命令 ↗</a></article><article class="command" id="world.find_structure" data-search="world.find_structure 查找已加载区块内最近的结构线索，半径为 1..24。支持 village、stronghold、nether_fortress、bastion_remnant、ruined_portal、ancient_city、end_city、ocean_monument。evidence 是实际方块 ID。同种方块也可能由玩家搭建。"><h3>world.find_structure</h3><p class="signature"><code>world.find_structure(type, radius=16, exclude_column=...)</code></p><p>查找已加载区块内最近的结构线索，半径为 1..24。支持 village、stronghold、nether_fortress、bastion_remnant、ruined_portal、ancient_city、end_city、ocean_monument。evidence 是实际方块 ID。同种方块也可能由玩家搭建。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Record clue = world.find_structure(&quot;stronghold&quot;, radius=24); if (clue != none) { print(clue.position, clue.evidence); }</code></pre><a href="#world.find_structure" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.use_block" data-search="player.use_block 对坐标或方块记录执行一次普通右键交互。可指定命中面、主手或副手及预期物品 ID。返回 accepted、result、before、after，状态为客户端读数。"><h3>player.use_block</h3><p class="signature"><code>player.use_block(target, face=..., hand=&quot;main&quot;, item=...)</code></p><p>对坐标或方块记录执行一次普通右键交互。可指定命中面、主手或副手及预期物品 ID。返回 accepted、result、before、after，状态为客户端读数。</p><p class="permission">所需能力：<code>world.interact + game.read + player.look</code></p><pre><code>Record result = player.use_block(vec3(100, 64, 200)); print(result.accepted);</code></pre><a href="#player.use_block" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.use_item_on_block" data-search="player.use_item_on_block 对指定方块使用手持物品，与 use_block 使用同一原版交互。item 为可选物品 ID。"><h3>player.use_item_on_block</h3><p class="signature"><code>player.use_item_on_block(target, face=..., hand=&quot;main&quot;, item=...)</code></p><p>对指定方块使用手持物品，与 use_block 使用同一原版交互。item 为可选物品 ID。</p><p class="permission">所需能力：<code>world.interact + game.read + player.look</code></p><pre><code>Record frame = world.block(vec3(100, 32, 200)); player.use_item_on_block(frame, face=&quot;up&quot;, item=&quot;minecraft:ender_eye&quot;);</code></pre><a href="#player.use_item_on_block" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.use_item" data-search="player.use_item 朝当前方向使用一次物品。hand 为 main 或 off，item 可锁定预期物品 ID。"><h3>player.use_item</h3><p class="signature"><code>player.use_item(hand=&quot;main&quot;, item=...)</code></p><p>朝当前方向使用一次物品。hand 为 main 或 off，item 可锁定预期物品 ID。</p><p class="permission">所需能力：<code>player.use</code></p><pre><code>player.use_item(item=&quot;minecraft:snowball&quot;);</code></pre><a href="#player.use_item" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.use_entity" data-search="player.use_entity 对准给定生物记录，核对 UUID、遮挡与距离，再执行一次普通交互。可以喂动物、挤奶等，取决于手持物品与游戏规则。"><h3>player.use_entity</h3><p class="signature"><code>player.use_entity(target, hand=&quot;main&quot;, item=...)</code></p><p>对准给定生物记录，核对 UUID、遮挡与距离，再执行一次普通交互。可以喂动物、挤奶等，取决于手持物品与游戏规则。</p><p class="permission">所需能力：<code>player.use + game.read + player.look</code></p><pre><code>Record cow = world.nearest_entity(&quot;minecraft:cow&quot;, radius=4); if (cow != none) { player.use_entity(cow, item=&quot;minecraft:bucket&quot;); }</code></pre><a href="#player.use_entity" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.open_trade" data-search="player.open_trade 对准并打开村民或流浪商人交易菜单，等报价载入后返回第一页。timeout 为大于 0 且最多 15 秒。"><h3>player.open_trade</h3><p class="signature"><code>player.open_trade(target, timeout=4s)</code></p><p>对准并打开村民或流浪商人交易菜单，等报价载入后返回第一页。timeout 为大于 0 且最多 15 秒。</p><p class="permission">所需能力：<code>player.use + game.read + player.look</code></p><pre><code>Record villager = world.nearest_entity(&quot;minecraft:villager&quot;, radius=4); if (villager != none) { Record page = player.open_trade(villager); print(page.total); }</code></pre><a href="#player.open_trade" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.trade_offers" data-search="player.trade_offers 读取当前交易菜单的报价，limit 为 1..12。返回 token、total、offers，报价含两项成本、产物、次数与售罄状态。"><h3>player.trade_offers</h3><p class="signature"><code>player.trade_offers(offset=0, limit=8)</code></p><p>读取当前交易菜单的报价，limit 为 1..12。返回 token、total、offers，报价含两项成本、产物、次数与售罄状态。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Record page = player.trade_offers(); for (offer in page.offers) { print(offer.cost_item, offer.cost_count, offer.result_item); }</code></pre><a href="#player.trade_offers" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.trade" data-search="player.trade 执行一笔来自当前菜单的最新报价。复核成本、结果和容量后点击取出一份结果，观察到背包增加才返回 client_observed_trade。"><h3>player.trade</h3><p class="signature"><code>player.trade(offer, timeout=4s)</code></p><p>执行一笔来自当前菜单的最新报价。复核成本、结果和容量后点击取出一份结果，观察到背包增加才返回 client_observed_trade。</p><p class="permission">所需能力：<code>inventory.write + game.read</code></p><pre><code>Record page = player.trade_offers(); for (offer in page.offers) { if (offer.result_item == &quot;minecraft:ender_pearl&quot; &amp;&amp; !offer.out_of_stock) { print(player.trade(offer)); } }</code></pre><a href="#player.trade" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.enter_portal" data-search="player.enter_portal 从旁边走入已激活的下界或末地传送门，确认进入另一个维度后返回其 ID。position 指向门内的传送门方块。下界门选与脚同高的底部方块，末地门从无障碍的一侧进入。超时范围 (0s, 60s]。"><h3>player.enter_portal</h3><p class="signature"><code>player.enter_portal(position, timeout=30s)</code></p><p>从旁边走入已激活的下界或末地传送门，确认进入另一个维度后返回其 ID。position 指向门内的传送门方块。下界门选与脚同高的底部方块，末地门从无障碍的一侧进入。超时范围 (0s, 60s]。</p><p class="permission">所需能力：<code>player.move + game.read + player.look</code></p><pre><code>Record gate = world.find_resource(&quot;nether_portal&quot;, radius=2); if (gate != none) { print(player.enter_portal(gate.position)); }</code></pre><a href="#player.enter_portal" class="anchor">链接到本命令 ↗</a></article><article class="command" id="world.block" data-search="world.block position 可为 Vec3 或之前的方块 Record。坐标向下取整，查询范围 64 格，只读取已加载区块；返回方块 Record。记录中的 world/id 会用于拒绝失效目标。"><h3>world.block</h3><p class="signature"><code>world.block(position)</code></p><p>position 可为 Vec3 或之前的方块 Record。坐标向下取整，查询范围 64 格，只读取已加载区块；返回方块 Record。记录中的 world/id 会用于拒绝失效目标。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Record block = world.block(vec3(100, 64, 200)); print(block.id, block.air);</code></pre><a href="#world.block" class="anchor">链接到本命令 ↗</a></article><article class="command" id="world.target_block" data-search="world.target_block 无参数；返回准星下可交互距离内的方块 Record（含 face），没有方块则为 none。"><h3>world.target_block</h3><p class="signature"><code>world.target_block()</code></p><p>无参数；返回准星下可交互距离内的方块 Record（含 face），没有方块则为 none。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Record block = world.target_block(); if (block != none) { print(block.position, block.face); }</code></pre><a href="#world.target_block" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.look" data-search="player.look yaw/pitch 必填，数值或 deg 单位；yaw 范围 ±360000，pitch 为 -90..90。duration 为 0..10s，按有限步骤插值。"><h3>player.look</h3><p class="signature"><code>player.look(yaw, pitch, duration=0s)</code></p><p>yaw/pitch 必填，数值或 deg 单位；yaw 范围 ±360000，pitch 为 -90..90。duration 为 0..10s，按有限步骤插值。</p><p class="permission">所需能力：<code>player.look</code></p><pre><code>player.look(yaw=90deg, pitch=15deg, duration=500ms);</code></pre><a href="#player.look" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.look_at" data-search="player.look_at target 为 Player 或 Vec3。玩家目标支持 eyes/center/feet；Vec3 直接作为坐标。duration 为 0..10s。right_arm/left_arm 仅保留枚举，当前调用会明确报错。"><h3>player.look_at</h3><p class="signature"><code>player.look_at(target, point=body.eyes, duration=0s)</code></p><p>target 为 Player 或 Vec3。玩家目标支持 eyes/center/feet；Vec3 直接作为坐标。duration 为 0..10s。right_arm/left_arm 仅保留枚举，当前调用会明确报错。</p><p class="permission">所需能力：<code>player.look</code></p><pre><code>player.look_at(vec3(100, 65, 200), duration=500ms);</code></pre><a href="#player.look_at" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.look_at_block" data-search="player.look_at_block position 是 Vec3，face 必填字符串，支持 up/down/north/south/east/west（top/bottom 为别名）。看向指定面的中心附近；duration 为 0..10s，不保证目标可挖或可放置。"><h3>player.look_at_block</h3><p class="signature"><code>player.look_at_block(position, face, duration=0s)</code></p><p>position 是 Vec3，face 必填字符串，支持 up/down/north/south/east/west（top/bottom 为别名）。看向指定面的中心附近；duration 为 0..10s，不保证目标可挖或可放置。</p><p class="permission">所需能力：<code>player.look</code></p><pre><code>player.look_at_block(vec3(100, 64, 200), face=&quot;north&quot;);</code></pre><a href="#player.look_at_block" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.lock_block" data-search="player.lock_block position 可为 Vec3 或方块 Record；在大于 0、不超过 60s 的时间内持续调整视角。目标世界或方块类型变化则失败。同步等待，不会启动后台永久锁定。"><h3>player.lock_block</h3><p class="signature"><code>player.lock_block(position, face=&quot;up&quot;, duration=2s)</code></p><p>position 可为 Vec3 或方块 Record；在大于 0、不超过 60s 的时间内持续调整视角。目标世界或方块类型变化则失败。同步等待，不会启动后台永久锁定。</p><p class="permission">所需能力：<code>player.look + game.read + player.look</code></p><pre><code>Record block = world.target_block(); if (block != none) { player.lock_block(block, face=block.face, duration=2s); }</code></pre><a href="#player.lock_block" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.walk_forward" data-search="player.walk_forward amount 必须是大于 0 的时间或距离：最多 60s 或 128blocks。timeout 使用时间单位，最多 60s；默认时间移动为 amount+2s，距离移动为 30s。阻挡会超时，不传送。60s 时间移动需显式 timeout=60s。"><h3>player.walk_forward</h3><p class="signature"><code>player.walk_forward(amount, timeout)</code></p><p>amount 必须是大于 0 的时间或距离：最多 60s 或 128blocks。timeout 使用时间单位，最多 60s；默认时间移动为 amount+2s，距离移动为 30s。阻挡会超时，不传送。60s 时间移动需显式 timeout=60s。</p><p class="permission">所需能力：<code>player.move</code></p><pre><code>player.walk_forward(3blocks, timeout=10s);</code></pre><a href="#player.walk_forward" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.run_forward" data-search="player.run_forward 参数与 walk_forward 相同，使用前进加疾跑按键；疾跑仍取决于游戏的饥饿、碰撞和服务端状态。距离按起点到当前点的水平直线距离计量。"><h3>player.run_forward</h3><p class="signature"><code>player.run_forward(amount, timeout)</code></p><p>参数与 walk_forward 相同，使用前进加疾跑按键；疾跑仍取决于游戏的饥饿、碰撞和服务端状态。距离按起点到当前点的水平直线距离计量。</p><p class="permission">所需能力：<code>player.move</code></p><pre><code>player.run_forward(3blocks, timeout=10s);</code></pre><a href="#player.run_forward" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.walk_to" data-search="player.walk_to 尝试通过普通移动到达脚部坐标。可以绕障、跳上一格或走下一格。bridge=true 允许消耗手持方块搭短桥，需要额外的 world.place 权限。straight=true 限定目标为同高的相邻一格。到达返回 arrived，无法到达时报错。"><h3>player.walk_to</h3><p class="signature"><code>player.walk_to(position, timeout=30s, bridge=false, straight=false)</code></p><p>尝试通过普通移动到达脚部坐标。可以绕障、跳上一格或走下一格。bridge=true 允许消耗手持方块搭短桥，需要额外的 world.place 权限。straight=true 限定目标为同高的相邻一格。到达返回 arrived，无法到达时报错。</p><p class="permission">所需能力：<code>player.move + game.read + player.look</code></p><pre><code>player.walk_to(vec3(100, 64, 200));</code></pre><a href="#player.walk_to" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.try_walk_to" data-search="player.try_walk_to 仅步行。到达返回 arrived，无路、卡住、超时或支撑变化返回 unreachable。取消、手动干预和其他错误仍会报出。"><h3>player.try_walk_to</h3><p class="signature"><code>player.try_walk_to(position, timeout=30s)</code></p><p>仅步行。到达返回 arrived，无路、卡住、超时或支撑变化返回 unreachable。取消、手动干预和其他错误仍会报出。</p><p class="permission">所需能力：<code>player.move + game.read + player.look</code></p><pre><code>print(player.try_walk_to(vec3(100, 64, 200), timeout=8s));</code></pre><a href="#player.try_walk_to" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.find_recipe" data-search="player.find_recipe 按产物 ID 查找已解锁且当前背包材料足够的配方。返回含 display_id 的 Record，未找到时返回 none。合成时还需要尺寸合适的合成网格。"><h3>player.find_recipe</h3><p class="signature"><code>player.find_recipe(item)</code></p><p>按产物 ID 查找已解锁且当前背包材料足够的配方。返回含 display_id 的 Record，未找到时返回 none。合成时还需要尺寸合适的合成网格。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Record recipe = player.find_recipe(&quot;minecraft:stick&quot;); if (recipe != none) { player.craft(recipe.display_id); }</code></pre><a href="#player.find_recipe" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.open_crafting_table" data-search="player.open_crafting_table 对可见且在交互距离内的工作台执行普通交互。打开后可通过 player.container 确认菜单状态。"><h3>player.open_crafting_table</h3><p class="signature"><code>player.open_crafting_table(position)</code></p><p>对可见且在交互距离内的工作台执行普通交互。打开后可通过 player.container 确认菜单状态。</p><p class="permission">所需能力：<code>inventory.write + game.read + player.look</code></p><pre><code>player.open_crafting_table(vec3(100, 64, 200));</code></pre><a href="#player.open_crafting_table" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.jump" data-search="player.jump 无参数；须在世界中且脚踩地面，执行普通跳跃。空中调用会失败。"><h3>player.jump</h3><p class="signature"><code>player.jump()</code></p><p>无参数；须在世界中且脚踩地面，执行普通跳跃。空中调用会失败。</p><p class="permission">所需能力：<code>player.move</code></p><pre><code>player.jump();</code></pre><a href="#player.jump" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.hit" data-search="player.hit count 必填整数 1..100，针对当前准星实体发起普通攻击尝试。interval 与 duration 二选一，间隔须为 0.1..60s，总计划最长 120s；duration 按 count-1 段分配。检查距离、冷却和模式，不保证造成伤害。"><h3>player.hit</h3><p class="signature"><code>player.hit(count, interval=1s, duration)</code></p><p>count 必填整数 1..100，针对当前准星实体发起普通攻击尝试。interval 与 duration 二选一，间隔须为 0.1..60s，总计划最长 120s；duration 按 count-1 段分配。检查距离、冷却和模式，不保证造成伤害。</p><p class="permission">所需能力：<code>player.attack</code></p><pre><code>player.hit(count=3, interval=1s);</code></pre><a href="#player.hit" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.set_state" data-search="player.set_state name 为 crouching/sprinting/swimming/flying，value 必须为 bool。潜游需在水中，疾跑可能需足够饥饿值，飞行必须已由服务器授予 may_fly。下蹲与疾跑是临时按键，结束后释放。其他读取状态不一定可写。"><h3>player.set_state</h3><p class="signature"><code>player.set_state(name, value)</code></p><p>name 为 crouching/sprinting/swimming/flying，value 必须为 bool。潜游需在水中，疾跑可能需足够饥饿值，飞行必须已由服务器授予 may_fly。下蹲与疾跑是临时按键，结束后释放。其他读取状态不一定可写。</p><p class="permission">所需能力：<code>player.state</code></p><pre><code>player.set_state(&quot;crouching&quot;, true); sleep(1s); player.set_state(&quot;crouching&quot;, false);</code></pre><a href="#player.set_state" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.select_hotbar" data-search="player.select_hotbar slot 为 0..8 的整数，即快捷栏第 1..9 格；游戏中的实际物品不会凭空生成。"><h3>player.select_hotbar</h3><p class="signature"><code>player.select_hotbar(slot)</code></p><p>slot 为 0..8 的整数，即快捷栏第 1..9 格；游戏中的实际物品不会凭空生成。</p><p class="permission">所需能力：<code>inventory.write</code></p><pre><code>player.select_hotbar(2);</code></pre><a href="#player.select_hotbar" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.move_item" data-search="player.move_item from/to 为自身背包索引 0..35，不能相同；目标格必须为空，鼠标携带格也须为空。外部容器打开时拒绝操作，仍遵守槽位权限。"><h3>player.move_item</h3><p class="signature"><code>player.move_item(from, to)</code></p><p>from/to 为自身背包索引 0..35，不能相同；目标格必须为空，鼠标携带格也须为空。外部容器打开时拒绝操作，仍遵守槽位权限。</p><p class="permission">所需能力：<code>inventory.write</code></p><pre><code>player.move_item(0, 12);</code></pre><a href="#player.move_item" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.craft" data-search="player.craft display_id 必须来自本次游戏的 player.recipes 快照；需要解锁配方、足够材料和合适合成网格。只能在自身背包或工作台菜单中执行，鼠标及先前输出格须为空；最多等待 2.5s，返回 submitted_to_server，非最终服务器保证。"><h3>player.craft</h3><p class="signature"><code>player.craft(display_id)</code></p><p>display_id 必须来自本次游戏的 player.recipes 快照；需要解锁配方、足够材料和合适合成网格。只能在自身背包或工作台菜单中执行，鼠标及先前输出格须为空；最多等待 2.5s，返回 submitted_to_server，非最终服务器保证。</p><p class="permission">所需能力：<code>inventory.write</code></p><pre><code>for (recipe in player.recipes) { print(recipe.display_id); } // choose an ID before calling player.craft(id)</code></pre><a href="#player.craft" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.mine" data-search="player.mine position 为 Vec3 或方块 Record；timeout 大于 0、不超过 60s。检查已加载、距离、视线、目标类型及手动攻击占用，正常挖掘并轮询结果，返回 client_observed_break。工具和服务器权限仍适用。"><h3>player.mine</h3><p class="signature"><code>player.mine(position, face=&quot;up&quot;, timeout=30s)</code></p><p>position 为 Vec3 或方块 Record；timeout 大于 0、不超过 60s。检查已加载、距离、视线、目标类型及手动攻击占用，正常挖掘并轮询结果，返回 client_observed_break。工具和服务器权限仍适用。</p><p class="permission">所需能力：<code>world.break + game.read + player.look</code></p><pre><code>Record block = world.target_block(); if (block != none) { print(player.mine(block, face=block.face, timeout=15s)); }</code></pre><a href="#player.mine" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.place_block" data-search="player.place_block position 指支撑方块，目的格是其指定面的邻格；须手持主手方块物品且目的格可替换。timeout 大于 0、不超过 60s。检查实际射线与面，提交后回读并返回含 status=client_observed_placement 的 Record；服务端仍可能纠正。"><h3>player.place_block</h3><p class="signature"><code>player.place_block(position, face=&quot;up&quot;, timeout=2s)</code></p><p>position 指支撑方块，目的格是其指定面的邻格；须手持主手方块物品且目的格可替换。timeout 大于 0、不超过 60s。检查实际射线与面，提交后回读并返回含 status=client_observed_placement 的 Record；服务端仍可能纠正。</p><p class="permission">所需能力：<code>world.place + game.read + player.look</code></p><pre><code>Record support = world.target_block(); if (support != none) { print(player.place_block(support, face=support.face)); }</code></pre><a href="#player.place_block" class="anchor">链接到本命令 ↗</a></article><article class="command" id="game.command" data-search="game.command 字符串最多 256 字符，不允许换行；可带开头 /，会按普通玩家命令提交。返回 submitted_to_server，OP 与作弊权限由服务器决定。提交不等于执行成功。"><h3>game.command</h3><p class="signature"><code>game.command(text)</code></p><p>字符串最多 256 字符，不允许换行；可带开头 /，会按普通玩家命令提交。返回 submitted_to_server，OP 与作弊权限由服务器决定。提交不等于执行成功。</p><p class="permission">所需能力：<code>game.command</code></p><pre><code>print(game.command(&quot;time query daytime&quot;));</code></pre><a href="#game.command" class="anchor">链接到本命令 ↗</a></article><article class="command" id="chat.send" data-search="chat.send 真正发送聊天，返回 submitted_to_server；非空、最多 256 UTF-16 单元、不含控制字符，拒绝开头 /（命令用 game.command）。服务端可拒绝或限流。"><h3>chat.send</h3><p class="signature"><code>chat.send(text)</code></p><p>真正发送聊天，返回 submitted_to_server；非空、最多 256 UTF-16 单元、不含控制字符，拒绝开头 /（命令用 game.command）。服务端可拒绝或限流。</p><p class="permission">所需能力：<code>chat.send</code></p><pre><code>chat.send(&quot;Hello from Ochre Script!&quot;);</code></pre><a href="#chat.send" class="anchor">链接到本命令 ↗</a></article><article class="command" id="input.text" data-search="input.text 向当前游戏输入控件插入文本；世界中没有界面时会打开预填聊天框，但不会发送。没有可接收控件时返回 not_inserted，不报错；部分插入返回 partially_inserted。文本限制与 send_text 相同。"><h3>input.text</h3><p class="signature"><code>input.text(text)</code></p><p>向当前游戏输入控件插入文本；世界中没有界面时会打开预填聊天框，但不会发送。没有可接收控件时返回 not_inserted，不报错；部分插入返回 partially_inserted。文本限制与 send_text 相同。</p><p class="permission">所需能力：<code>input.text</code></p><pre><code>print(input.text(&quot;Draft only&quot;));</code></pre><a href="#input.text" class="anchor">链接到本命令 ↗</a></article><article class="command" id="input.send_text" data-search="input.send_text 只向当前游戏 UI 发送字符事件，不打开聊天框、不自动提交。文本非空，最多 256 UTF-16 单元，无控制字符；没有输入框返回 not_inserted，接收部分返回 partially_inserted，否则 inserted_not_sent。"><h3>input.send_text</h3><p class="signature"><code>input.send_text(text)</code></p><p>只向当前游戏 UI 发送字符事件，不打开聊天框、不自动提交。文本非空，最多 256 UTF-16 单元，无控制字符；没有输入框返回 not_inserted，接收部分返回 partially_inserted，否则 inserted_not_sent。</p><p class="permission">所需能力：<code>input.text</code></p><pre><code>print(input.send_text(&quot;Hello&quot;));</code></pre><a href="#input.send_text" class="anchor">链接到本命令 ↗</a></article><article class="command" id="input.key" data-search="input.key key 为下文列出的别名或 GLFW 数字键码；duration 大于 0、不超过 30s。按下、等待、自动释放；世界内走实际按键绑定，菜单中交给当前界面。未处理按键报错。"><h3>input.key</h3><p class="signature"><code>input.key(key, duration=100ms, modifiers=0)</code></p><p>key 为下文列出的别名或 GLFW 数字键码；duration 大于 0、不超过 30s。按下、等待、自动释放；世界内走实际按键绑定，菜单中交给当前界面。未处理按键报错。</p><p class="permission">所需能力：<code>input.keys</code></p><pre><code>input.key(&quot;W&quot;, duration=250ms);</code></pre><a href="#input.key" class="anchor">链接到本命令 ↗</a></article><article class="command" id="input.key_down" data-search="input.key_down 按下并保持世界内绑定按键；通过 key_up 释放。所有权只属于本次脚本，结束、切换菜单或租约过期会释放；不能接管玩家已经按住的键。菜单中仅发送一次按下事件。"><h3>input.key_down</h3><p class="signature"><code>input.key_down(key, modifiers=0)</code></p><p>按下并保持世界内绑定按键；通过 key_up 释放。所有权只属于本次脚本，结束、切换菜单或租约过期会释放；不能接管玩家已经按住的键。菜单中仅发送一次按下事件。</p><p class="permission">所需能力：<code>input.keys</code></p><pre><code>input.key_down(&quot;SHIFT&quot;); sleep(1s); input.key_up(&quot;SHIFT&quot;);</code></pre><a href="#input.key_down" class="anchor">链接到本命令 ↗</a></article><article class="command" id="input.key_up" data-search="input.key_up 释放本脚本持有的绑定按键；菜单中发送释放事件，界面不处理会报错。不提供系统级键盘注入。"><h3>input.key_up</h3><p class="signature"><code>input.key_up(key, modifiers=0)</code></p><p>释放本脚本持有的绑定按键；菜单中发送释放事件，界面不处理会报错。不提供系统级键盘注入。</p><p class="permission">所需能力：<code>input.keys</code></p><pre><code>input.key_up(&quot;SHIFT&quot;);</code></pre><a href="#input.key_up" class="anchor">链接到本命令 ↗</a></article><article class="command" id="input.send_key" data-search="input.send_key 直接给游戏发送 press/release/repeat 键事件；世界内只支持真实绑定，repeat 要在游戏 UI 中使用。数字键码范围 32..348，组合修饰掩码 0..15。未处理事件报错，不模拟私有 F3 快捷逻辑。"><h3>input.send_key</h3><p class="signature"><code>input.send_key(key, action=&quot;press&quot;, modifiers=0)</code></p><p>直接给游戏发送 press/release/repeat 键事件；世界内只支持真实绑定，repeat 要在游戏 UI 中使用。数字键码范围 32..348，组合修饰掩码 0..15。未处理事件报错，不模拟私有 F3 快捷逻辑。</p><p class="permission">所需能力：<code>input.keys</code></p><pre><code>input.send_key(&quot;LEFT&quot;, action=&quot;press&quot;, modifiers=0);</code></pre><a href="#input.send_key" class="anchor">链接到本命令 ↗</a></article><article class="command" id="input.snapshot" data-search="input.snapshot 读取当前游戏窗口的物理输入缓存，返回 Record：focused、keys（code/name 记录 List）、mouse_buttons（0..7 编号 List）、position（窗口内鼠标 x/y）。失去焦点时列表为空，不监听其他应用。覆盖 GLFW 支持的全部键盘键码，不能保证记录两次轮询间快速按下又松开的键。"><h3>input.snapshot</h3><p class="signature"><code>input.snapshot()</code></p><p>读取当前游戏窗口的物理输入缓存，返回 Record：focused、keys（code/name 记录 List）、mouse_buttons（0..7 编号 List）、position（窗口内鼠标 x/y）。失去焦点时列表为空，不监听其他应用。覆盖 GLFW 支持的全部键盘键码，不能保证记录两次轮询间快速按下又松开的键。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Record keys = input.snapshot(); print(keys.focused, keys.keys);</code></pre><a href="#input.snapshot" class="anchor">链接到本命令 ↗</a></article><article class="command" id="input.pressed_keys" data-search="input.pressed_keys 返回当前按下的全部游戏窗口键盘键，List 中每项有 code（GLFW 数字键码）和 name。包括字母、数字、功能键、修饰键及小键盘；未提供专用名称的键以 KEY_加键码表示。鼠标请用 input.snapshot().mouse_buttons（先存入 Record 再读取字段）。"><h3>input.pressed_keys</h3><p class="signature"><code>input.pressed_keys()</code></p><p>返回当前按下的全部游戏窗口键盘键，List 中每项有 code（GLFW 数字键码）和 name。包括字母、数字、功能键、修饰键及小键盘；未提供专用名称的键以 KEY_加键码表示。鼠标请用 input.snapshot().mouse_buttons（先存入 Record 再读取字段）。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>for (key in input.pressed_keys()) { print(key.code, key.name); }</code></pre><a href="#input.pressed_keys" class="anchor">链接到本命令 ↗</a></article><article class="command" id="input.is_key_down" data-search="input.is_key_down 返回物理按键当前是否按下，key 为 GLFW 数字键码或 pressed_keys 返回的名称，字符串不区分大小写。SHIFT/CONTROL/ALT/SUPER 是左侧修饰键别名；右侧用 RIGHT_SHIFT 等。与可重绑的游戏动作输入不同，也不把脚本模拟的逻辑按键冒充为物理键。"><h3>input.is_key_down</h3><p class="signature"><code>input.is_key_down(key)</code></p><p>返回物理按键当前是否按下，key 为 GLFW 数字键码或 pressed_keys 返回的名称，字符串不区分大小写。SHIFT/CONTROL/ALT/SUPER 是左侧修饰键别名；右侧用 RIGHT_SHIFT 等。与可重绑的游戏动作输入不同，也不把脚本模拟的逻辑按键冒充为物理键。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>print(input.is_key_down(&quot;W&quot;));</code></pre><a href="#input.is_key_down" class="anchor">链接到本命令 ↗</a></article><article class="command" id="world.target" data-search="world.target 返回当前渲染器准星命中的 Record：kind 为 miss/block/entity，含 world。有效目标有 x/y/z、distance；方块还有 block_x/block_y/block_z、face；实体还有 id（UUID）、entity_id（运行时编号）、entity_type、name。菜单中的缓存可能陈旧；不是自动锁定。"><h3>world.target</h3><p class="signature"><code>world.target()</code></p><p>返回当前渲染器准星命中的 Record：kind 为 miss/block/entity，含 world。有效目标有 x/y/z、distance；方块还有 block_x/block_y/block_z、face；实体还有 id（UUID）、entity_id（运行时编号）、entity_type、name。菜单中的缓存可能陈旧；不是自动锁定。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Record hit = world.target(); print(hit.kind);</code></pre><a href="#world.target" class="anchor">链接到本命令 ↗</a></article><article class="command" id="world.collision" data-search="world.collision position 为玩家脚部 Vec3，范围 16 格。把当前姿态的真实玩家碰撞箱移到目标位置，返回 clear、supported、can_stand、world、distance。supported 仅表示向下 0.1 格会碰撞；区块未加载时报错，不生成区块。不是危险地形检测。"><h3>world.collision</h3><p class="signature"><code>world.collision(position)</code></p><p>position 为玩家脚部 Vec3，范围 16 格。把当前姿态的真实玩家碰撞箱移到目标位置，返回 clear、supported、can_stand、world、distance。supported 仅表示向下 0.1 格会碰撞；区块未加载时报错，不生成区块。不是危险地形检测。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Record space = world.collision(player.position); print(space.clear, space.supported);</code></pre><a href="#world.collision" class="anchor">链接到本命令 ↗</a></article><article class="command" id="world.can_stand" data-search="world.can_stand 返回目标处碰撞箱无阻挡且脚下有支撑的 bool。与 collision 一样使用当前姿态和 16 格范围；不保证没有熔岩、火或摔落风险。"><h3>world.can_stand</h3><p class="signature"><code>world.can_stand(position)</code></p><p>返回目标处碰撞箱无阻挡且脚下有支撑的 bool。与 collision 一样使用当前姿态和 16 格范围；不保证没有熔岩、火或摔落风险。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>print(world.can_stand(player.position));</code></pre><a href="#world.can_stand" class="anchor">链接到本命令 ↗</a></article><article class="command" id="world.path_clear" data-search="world.path_clear 从当前脚部到目标脚部沿直线每 0.25 格检查一次真实碰撞箱，最多 16 格，返回 bool。只检查直线碰撞，不检查沿路支撑、危险、跳跃能力，不会寻路或移动。"><h3>world.path_clear</h3><p class="signature"><code>world.path_clear(position)</code></p><p>从当前脚部到目标脚部沿直线每 0.25 格检查一次真实碰撞箱，最多 16 格，返回 bool。只检查直线碰撞，不检查沿路支撑、危险、跳跃能力，不会寻路或移动。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Vec3 here = player.position; print(world.path_clear(vec3(here.x + 1, here.y, here.z)));</code></pre><a href="#world.path_clear" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.item_tags" data-search="player.item_tags 读取当前主手物品的注册标签，返回最多 128 个标签 ID 的 List。支持模组添加的标签，不用枚举每种剑的物品 ID。空物品同样返回其实际标签列表。"><h3>player.item_tags</h3><p class="signature"><code>player.item_tags()</code></p><p>读取当前主手物品的注册标签，返回最多 128 个标签 ID 的 List。支持模组添加的标签，不用枚举每种剑的物品 ID。空物品同样返回其实际标签列表。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>print(player.item_tags());</code></pre><a href="#player.item_tags" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.item_is" data-search="player.item_is tag 为完整命名空间标签字符串，例如 minecraft:swords；返回主手物品是否拥有该标签的 bool。未知标签返回 false。模组或数据包会改变实际标签内容。"><h3>player.item_is</h3><p class="signature"><code>player.item_is(tag)</code></p><p>tag 为完整命名空间标签字符串，例如 minecraft:swords；返回主手物品是否拥有该标签的 bool。未知标签返回 false。模组或数据包会改变实际标签内容。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>if (player.item_is(&quot;minecraft:swords&quot;)) { print(&quot;Holding a sword&quot;); }</code></pre><a href="#player.item_is" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.container_slots" data-search="player.container_slots 分页读取当前容器（没有外部容器时为玩家背包），返回 token、total、slots。offset 为 0..512，不能超出实际槽位；limit 为 1..24。槽位有 slot、inventory_slot、item、count、empty、max_count、may_pickup、accepts_held（是否允许放入当前主手物品）。操作应使用 slot 菜单索引。"><h3>player.container_slots</h3><p class="signature"><code>player.container_slots(offset=0, limit=24)</code></p><p>分页读取当前容器（没有外部容器时为玩家背包），返回 token、total、slots。offset 为 0..512，不能超出实际槽位；limit 为 1..24。槽位有 slot、inventory_slot、item、count、empty、max_count、may_pickup、accepts_held（是否允许放入当前主手物品）。操作应使用 slot 菜单索引。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Record page = player.container_slots(); for (slot in page.slots) { print(slot.slot, slot.item, slot.count); }</code></pre><a href="#player.container_slots" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.container_move" data-search="player.container_move 按正常容器点击移动或拆分物品。from/to 是当前菜单槽位索引 0..511；count=0 为整组，1..64 为指定数量。必须提供最新 token，光标为空，来源允许取出，目标允许放入且兼容、有足够容量。返回 submitted_to_server；需再读取槽位核对服务端结果。"><h3>player.container_move</h3><p class="signature"><code>player.container_move(from, to, count=0, token=...)</code></p><p>按正常容器点击移动或拆分物品。from/to 是当前菜单槽位索引 0..511；count=0 为整组，1..64 为指定数量。必须提供最新 token，光标为空，来源允许取出，目标允许放入且兼容、有足够容量。返回 submitted_to_server；需再读取槽位核对服务端结果。</p><p class="permission">所需能力：<code>inventory.write</code></p><pre><code>Record menu = player.container; // Choose valid menu slot indices, then call player.container_move(from, to, count=1, token=menu.token);</code></pre><a href="#player.container_move" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.container_swap" data-search="player.container_swap 通过正常点击交换两个槽位，遵守两侧取放规则和容量。必须使用当前 token、空光标。相同且可合并的物品请使用 container_move，避免把合并误当交换。返回 submitted_to_server。"><h3>player.container_swap</h3><p class="signature"><code>player.container_swap(from, to, token=...)</code></p><p>通过正常点击交换两个槽位，遵守两侧取放规则和容量。必须使用当前 token、空光标。相同且可合并的物品请使用 container_move，避免把合并误当交换。返回 submitted_to_server。</p><p class="permission">所需能力：<code>inventory.write</code></p><pre><code>Record menu = player.container; // player.container_swap(from, to, token=menu.token);</code></pre><a href="#player.container_swap" class="anchor">链接到本命令 ↗</a></article><article class="command" id="player.container_quick_move" data-search="player.container_quick_move 正常 Shift 点击指定槽位，由原版或模组菜单决定目标槽位。来源允许取出、光标必须为空，token 必须匹配；返回 submitted_to_server，不保证移动量。"><h3>player.container_quick_move</h3><p class="signature"><code>player.container_quick_move(from, token=...)</code></p><p>正常 Shift 点击指定槽位，由原版或模组菜单决定目标槽位。来源允许取出、光标必须为空，token 必须匹配；返回 submitted_to_server，不保证移动量。</p><p class="permission">所需能力：<code>inventory.write</code></p><pre><code>Record menu = player.container; // player.container_quick_move(from, token=menu.token);</code></pre><a href="#player.container_quick_move" class="anchor">链接到本命令 ↗</a></article><article class="command" id="script.wait_event" data-search="script.wait_event 等待指定 type 事件，返回首个匹配 Record，超时返回 none。timeout 大于 0、不超过 60s，可停止。与 player.events 共用游标，会消费轮询页中的非匹配事件；第一次可能命中近期保留事件。检测频率仍受采样/游戏线程影响。"><h3>script.wait_event</h3><p class="signature"><code>script.wait_event(type, timeout=5s)</code></p><p>等待指定 type 事件，返回首个匹配 Record，超时返回 none。timeout 大于 0、不超过 60s，可停止。与 player.events 共用游标，会消费轮询页中的非匹配事件；第一次可能命中近期保留事件。检测频率仍受采样/游戏线程影响。</p><p class="permission">所需能力：<code>game.read</code></p><pre><code>Record hit = script.wait_event(&quot;hurt&quot;, timeout=10s); if (hit != none) { print(hit.damage_type); }</code></pre><a href="#script.wait_event" class="anchor">链接到本命令 ↗</a></article><article class="command" id="task.load" data-search="task.load 读取当前实例的命名检查点；不存在时返回 default。name 为 1..64 位英文字母、数字、下划线或连字符，不是文件路径。返回已保存的数值、字符串、bool、none、List 或 Record；文件损坏会报错。"><h3>task.load</h3><p class="signature"><code>task.load(name, default=none)</code></p><p>读取当前实例的命名检查点；不存在时返回 default。name 为 1..64 位英文字母、数字、下划线或连字符，不是文件路径。返回已保存的数值、字符串、bool、none、List 或 Record；文件损坏会报错。</p><p class="permission">所需能力：<code>storage.read</code></p><pre><code>int stage = task.load(&quot;demo_stage&quot;, default=0); print(stage);</code></pre><a href="#task.load" class="anchor">链接到本命令 ↗</a></article><article class="command" id="task.save" data-search="task.save 在当前实例专属托管目录原子保存一份检查点。只接受有限数值、字符串、bool、none、List/Record；最多 16 KiB JSON、8 层嵌套，每个集合最多 128 项，每个实例最多 64 份。不同实例隔离；不开放任意文件访问。存储记录不自动恢复按键、目标或运行位置。"><h3>task.save</h3><p class="signature"><code>task.save(name, value)</code></p><p>在当前实例专属托管目录原子保存一份检查点。只接受有限数值、字符串、bool、none、List/Record；最多 16 KiB JSON、8 层嵌套，每个集合最多 128 项，每个实例最多 64 份。不同实例隔离；不开放任意文件访问。存储记录不自动恢复按键、目标或运行位置。</p><p class="permission">所需能力：<code>storage.write</code></p><pre><code>task.save(&quot;demo_stage&quot;, 1);</code></pre><a href="#task.save" class="anchor">链接到本命令 ↗</a></article><article class="command" id="task.clear" data-search="task.clear 删除当前实例的一份命名检查点；存在并删除返回 true，不存在返回 false。名称规则与 load 相同。不会删除脚本文件。"><h3>task.clear</h3><p class="signature"><code>task.clear(name)</code></p><p>删除当前实例的一份命名检查点；存在并删除返回 true，不存在返回 false。名称规则与 load 相同。不会删除脚本文件。</p><p class="permission">所需能力：<code>storage.write</code></p><pre><code>print(task.clear(&quot;demo_stage&quot;));</code></pre><a href="#task.clear" class="anchor">链接到本命令 ↗</a></article><p id="empty" hidden>没有匹配的命令。试试英文函数名或更短的关键词。</p></section><section id="records"><h2>方块、输入与事件记录</h2><p>方块 Record 含 position、world、id、state、air、solid、replaceable、loaded、distance；准星查询额外有 face。solid 只是阻挡移动的提示，不是完整碰撞形状。优先把原 Record 传给 mine/place/lock，让运行器检查世界会话和目标类型。放置坐标是支撑格，不是目的格。已观察的客户端变化仍可能被多人服务器纠正。</p><p>事件 type 包括 world_enter、world_leave、move、hotbar、held_item、state、overflow，以及下表新增事件；非 overflow 事件含 sequence/time。move 含 x/y/z、position、distance、dx/dy/dz、world；hotbar 含 from_slot/to_slot/item；held_item 含 from_item/item/count；state 含 name/from/to。不同类型字段不同，不要直接读取不存在的字段。每个脚本有独立游标，首次调用可能读到桥接保留的近期事件。</p><table><thead><tr><th>事件</th><th>字段与依据</th></tr></thead><tbody><tr><td><code>look</code></td><td>yaw/pitch、from_yaw/from_pitch；采样旋转变化。</td></tr><tr><td><code>input_change</code></td><td>name/from/to；可重绑游戏动作输入变化。</td></tr><tr><td><code>input_press / input_release</code></td><td>device、code、name、evidence=sampled_input；focused 游戏窗口物理输入，短促输入可能遗漏。</td></tr><tr><td><code>mouse_move / mouse_scroll</code></td><td>dx/dy；move 还有 x/y 窗口位置。聚合本采样区间真实鼠标回调，失焦不监听其他应用。</td></tr><tr><td><code>mouse_button</code></td><td>button、action（0释放/1按下/2重复）；游戏窗口回调。</td></tr><tr><td><code>screen_open / screen_close</code></td><td>screen_type、open、paused、in_world；采样 UI 变化。</td></tr><tr><td><code>container_open / container_close</code></td><td>container_type、id、token、slot_count、open；外部菜单变化。</td></tr><tr><td><code>vital_change</code></td><td>name/from/to；生命、食物、空气、经验、火焰/水/熔岩/冻结/摔落等状态采样变化。</td></tr><tr><td><code>item_use_start / item_use_stop</code></td><td>item、animation、evidence=sampled_state；持续使用状态变化，瞬时使用未必出现。</td></tr><tr><td><code>item_use_result</code></td><td>item、hand、accepted、evidence=client_result；使用物品的客户端返回，不代表服务器接受。</td></tr><tr><td><code>item_use_complete / food_consumed</code></td><td>item、animation、evidence=client_use_completion；本地使用完成回调，eat 动画额外产生 food_consumed，不保证饱食度已被服务器确认。</td></tr><tr><td><code>attack_attempt</code></td><td>target_id、target_uuid、evidence=client_request；客户端尝试攻击。</td></tr><tr><td><code>hurt / attack_hit</code></td><td>target_id、source_id、direct_id、damage_type（可用时）、evidence=server_damage_event；伤害通知目标为本玩家时 hurt，伤害来源为本玩家时 attack_hit，来源可能包含投射物，不限定近战。没有编造伤害量；不是所有服务器都发送相同范围通知。</td></tr><tr><td><code>block_break</code></td><td>position、world、block_id、block_state、evidence=client_prediction；破坏方法成功返回时记录破坏前的方块。</td></tr><tr><td><code>block_interact / block_place_result</code></td><td>支撑方块位置、block_id、face、item、hand；interact 为 client_request，place_result 另含 accepted 和 evidence=client_result。</td></tr><tr><td><code>block_place</code></td><td>position、world、block_id、block_state、item、face、evidence=client_observed_change；点击后 2 秒内观察到目标格或邻格变为手持方块类型。客户端观察可能被服务器修正，不是最终归因证明。</td></tr></tbody></table><p>player.snapshot() 含 inputs/vitals/container/screen 嵌套记录；事件类型字段各不相同。序号是本次桥接进程的递增编号，time 是单调时钟时间；不要当作现实日期。world 会话标识不可跨游戏重启复用。检测依赖游戏实际回调与本地可见状态，不监视服务器未同步给客户端的内容。</p><p>按键别名：A..Z、0..9、SPACE、SHIFT、CONTROL、ALT、ENTER、ESCAPE、TAB、BACKSPACE、DELETE、LEFT、RIGHT、UP、DOWN、HOME、END。modifiers 为掩码：Shift=1、Control=2、Alt=4、Super=8，可相加。它们只作用于游戏，不是桌面自动化。原始输入权限可以操作聊天与菜单，但不会提升服务器权限。</p></section><section id="organization"><h2>函数、模块与任务检查点</h2><p>使用 <code>function name(arg1, arg2) { return value; }</code> 定义函数，可以提前调用，支持位置/命名参数。参数无类型标注，最多 16 个，必须全部提供。没有 return 时返回 none；return 可从循环中退出。局部变量隔离，可访问主脚本已有的全局变量；递归调用最多 16 层，仍受总运行预算约束。</p><pre><code>function describe(value) {
+</ul></section><section id="commands"><h2>全部命令</h2><p>先看「怎么用」和示例，再展开参数规则。权限一栏只说明本条命令的权限，示例里的其他命令可能还需要额外授权。</p><label for="search">按想做的事或英文命令搜索</label><input id="search" type="search" placeholder="例如：箱子、搭桥、player.trade"><p id="count" aria-live="polite"></p><article class="command" id="print" data-search="print print(value, ...) 将任意数量的值输出到脚本日志，以空格分隔；不接受命名参数。返回 none。 print(&quot;脚本已经开始&quot;); 无需额外能力 把信息写到输出面板 把想看的文字或变量放进括号，多个值用逗号隔开。文字用英文双引号包起来。 展开编辑器里的「输出与错误」。示例会在那里新增一行。 要在游戏里看到气泡用 say，要发送聊天用 chat.send。">
+<h3>把信息写到输出面板</h3>
+<p class="signature"><code>print(value, ...)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>把想看的文字或变量放进括号，多个值用逗号隔开。文字用英文双引号包起来。</dd>
+<dt>运行后</dt><dd>展开编辑器里的「输出与错误」。示例会在那里新增一行。</dd>
+<dt>卡住时</dt><dd>要在游戏里看到气泡用 say，要发送聊天用 chat.send。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>print(&quot;脚本已经开始&quot;);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>将任意数量的值输出到脚本日志，以空格分隔；不接受命名参数。返回 none。</p></details>
+<p class="permission">所需权限 <code>无需额外能力</code></p>
+<a href="#print" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="sleep" data-search="sleep sleep(duration) 必须使用 s 或 ms，范围 0..60s。等待结束才执行下一句，可随时停止。 sleep(200ms); 无需额外能力 等一会儿再继续 括号里填等待时间。200ms 是 0.2 秒，1s 是 1 秒。 脚本等完才执行下一行，期间可以点「停止」。 sleep(1) 缺少单位。等待一段时间只能延后操作，不能证明角色已落地或箱子已打开。">
+<h3>等一会儿再继续</h3>
+<p class="signature"><code>sleep(duration)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>括号里填等待时间。200ms 是 0.2 秒，1s 是 1 秒。</dd>
+<dt>运行后</dt><dd>脚本等完才执行下一行，期间可以点「停止」。</dd>
+<dt>卡住时</dt><dd>sleep(1) 缺少单位。等待一段时间只能延后操作，不能证明角色已落地或箱子已打开。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>sleep(200ms);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>必须使用 s 或 ms，范围 0..60s。等待结束才执行下一句，可随时停止。</p></details>
+<p class="permission">所需权限 <code>无需额外能力</code></p>
+<a href="#sleep" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="vec3" data-search="vec3 vec3(x, y, z) 三个有限数值，返回含 x/y/z 的坐标记录；不接受命名参数。 Vec3 position = vec3(100, 64, 200); 无需额外能力 把三个坐标组成一个位置 按 X、Y、Z 的顺序填数字。X 和 Z 表示水平方向，Y 表示高度。 示例把三个数存进 position。可用 position.y 读取高度，或把 position 传给移动和方块命令。 只写 vec3 不会移动角色。用于 walk_to 时要填角色脚部的 Y，而用于 world.block 时填方块所在的 Y。">
+<h3>把三个坐标组成一个位置</h3>
+<p class="signature"><code>vec3(x, y, z)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>按 X、Y、Z 的顺序填数字。X 和 Z 表示水平方向，Y 表示高度。</dd>
+<dt>运行后</dt><dd>示例把三个数存进 position。可用 position.y 读取高度，或把 position 传给移动和方块命令。</dd>
+<dt>卡住时</dt><dd>只写 vec3 不会移动角色。用于 walk_to 时要填角色脚部的 Y，而用于 world.block 时填方块所在的 Y。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Vec3 position = vec3(100, 64, 200);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>三个有限数值，返回含 x/y/z 的坐标记录；不接受命名参数。</p></details>
+<p class="permission">所需权限 <code>无需额外能力</code></p>
+<a href="#vec3" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="say" data-search="say say(text, duration=3s) 气泡显示在游戏悬浮球旁，等待显示时长后再继续。text 为非空字符串，最多 256 个 UTF-16 单元；duration 大于 0、不超过 30s。只在本地显示，不发送聊天。 say(&quot;Hello!&quot;, duration=5s); 无需额外能力 把文字显示为游戏内气泡 第一个参数填文字，duration 可改气泡停留时间。需要已连接的游戏桥接。 附近悬浮球会显示这段文字。示例等 5 秒后才执行下一行。 其他玩家看不到气泡。要发送给聊天频道，用 chat.send。">
+<h3>把文字显示为游戏内气泡</h3>
+<p class="signature"><code>say(text, duration=3s)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>第一个参数填文字，duration 可改气泡停留时间。需要已连接的游戏桥接。</dd>
+<dt>运行后</dt><dd>附近悬浮球会显示这段文字。示例等 5 秒后才执行下一行。</dd>
+<dt>卡住时</dt><dd>其他玩家看不到气泡。要发送给聊天频道，用 chat.send。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>say(&quot;Hello!&quot;, duration=5s);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>气泡显示在游戏悬浮球旁，等待显示时长后再继续。text 为非空字符串，最多 256 个 UTF-16 单元；duration 大于 0、不超过 30s。只在本地显示，不发送聊天。</p></details>
+<p class="permission">所需权限 <code>无需额外能力</code></p>
+<a href="#say" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="script.logs" data-search="script.logs script.logs() 返回本次运行先前的最多 200 行输出与错误，类型为 List；无参数，不读取任意文件。 print(&quot;第一行&quot;);
+List lines = script.logs();
+print(lines.length); 无需额外能力 查看当前脚本已经输出的内容 直接调用即可。把得到的列表存进变量，要查看行数就读 length，要看每一行就用 for 循环。 示例打印截至这一行之前已经记录的输出行数。刚开始时行数可能是 0。 要看游戏进程的日志，用 game.logs。要看眼前运行的输出，可以直接展开「输出与错误」。">
+<h3>查看当前脚本已经输出的内容</h3>
+<p class="signature"><code>script.logs()</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>直接调用即可。把得到的列表存进变量，要查看行数就读 length，要看每一行就用 for 循环。</dd>
+<dt>运行后</dt><dd>示例打印截至这一行之前已经记录的输出行数。刚开始时行数可能是 0。</dd>
+<dt>卡住时</dt><dd>要看游戏进程的日志，用 game.logs。要看眼前运行的输出，可以直接展开「输出与错误」。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>print(&quot;第一行&quot;);
+List lines = script.logs();
+print(lines.length);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>返回本次运行先前的最多 200 行输出与错误，类型为 List；无参数，不读取任意文件。</p></details>
+<p class="permission">所需权限 <code>无需额外能力</code></p>
+<a href="#script.logs" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="game.logs" data-search="game.logs game.logs(limit=40) limit 为 1..100 整数，返回此实例被启动器保留的游戏输出，可能为空；常见令牌形式会被脱敏。不是完整历史文件查询。 print(game.logs(limit=10)); logs.read 读取启动器保留的游戏日志 用 limit 指定保留日志中要取多少条。示例取最多 10 条。 返回列表，可逐条打印或先看 length。游戏刚启动时可能只有几条。 日志来自启动器当前保留的内容。查不到旧错误时，需要另看游戏的完整日志文件。">
+<h3>读取启动器保留的游戏日志</h3>
+<p class="signature"><code>game.logs(limit=40)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>用 limit 指定保留日志中要取多少条。示例取最多 10 条。</dd>
+<dt>运行后</dt><dd>返回列表，可逐条打印或先看 length。游戏刚启动时可能只有几条。</dd>
+<dt>卡住时</dt><dd>日志来自启动器当前保留的内容。查不到旧错误时，需要另看游戏的完整日志文件。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>print(game.logs(limit=10));</code></pre>
+<details><summary>查看参数范围和规则</summary><p>limit 为 1..100 整数，返回此实例被启动器保留的游戏输出，可能为空；常见令牌形式会被脱敏。不是完整历史文件查询。</p></details>
+<p class="permission">所需权限 <code>logs.read</code></p>
+<a href="#game.logs" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.snapshot" data-search="player.snapshot player.snapshot() 返回 Record：in_world、world、position、x/y/z、yaw/pitch、slot、item、count，以及 swimming/sprinting/crouching/underwater/fallflying/on_ground/flying/may_fly/jumping、inputs、vitals、container、screen。世界外仅保证 in_world=false，请先检查。 Record state = player.snapshot(); if (state.in_world) { print(state.position); } game.read 一次读取角色当前状态 先把结果保存为 Record，再访问需要的字段。进入世界后，可读 position、item、count 和 on_ground。 示例只在 in_world 为 true 时输出位置。另一个常用做法是读 item 确认主手方块，或等 on_ground 为 true 再次起跳。 主菜单里只保证能读到 in_world。状态会变化，循环里要重新调用，旧 Record 保留当时的值。">
+<h3>一次读取角色当前状态</h3>
+<p class="signature"><code>player.snapshot()</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>先把结果保存为 Record，再访问需要的字段。进入世界后，可读 position、item、count 和 on_ground。</dd>
+<dt>运行后</dt><dd>示例只在 in_world 为 true 时输出位置。另一个常用做法是读 item 确认主手方块，或等 on_ground 为 true 再次起跳。</dd>
+<dt>卡住时</dt><dd>主菜单里只保证能读到 in_world。状态会变化，循环里要重新调用，旧 Record 保留当时的值。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record state = player.snapshot(); if (state.in_world) { print(state.position); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>返回 Record：in_world、world、position、x/y/z、yaw/pitch、slot、item、count，以及 swimming/sprinting/crouching/underwater/fallflying/on_ground/flying/may_fly/jumping、inputs、vitals、container、screen。世界外仅保证 in_world=false，请先检查。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#player.snapshot" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.events" data-search="player.events player.events() 返回此脚本上次读取之后的新观察记录 List，每页至多 64 条，并受消息大小限制；一次可能少于 64 条。状态以最高 10 Hz 采样，动作/伤害使用被动回调，移动距离是采样位移，并非精确步行路程；游戏保留 256 条，遗漏时加入 type=overflow 记录。可能错过短于采样间隔的动作。 for (event in player.events()) { print(event); } game.read 逐条读取新发生的游戏事件 在循环里定期调用。每条事件先看 type，再读取该类事件的字段，例如换手持物品时读 item。 返回一个列表，空列表表示这次没有新记录。下次读取会从本脚本上次读到的位置继续。 看到 overflow 表示中间有记录丢失，可以读取 snapshot 重建当前状态。短促操作也可能跳过采样。">
+<h3>逐条读取新发生的游戏事件</h3>
+<p class="signature"><code>player.events()</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>在循环里定期调用。每条事件先看 type，再读取该类事件的字段，例如换手持物品时读 item。</dd>
+<dt>运行后</dt><dd>返回一个列表，空列表表示这次没有新记录。下次读取会从本脚本上次读到的位置继续。</dd>
+<dt>卡住时</dt><dd>看到 overflow 表示中间有记录丢失，可以读取 snapshot 重建当前状态。短促操作也可能跳过采样。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>for (event in player.events()) { print(event); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>返回此脚本上次读取之后的新观察记录 List，每页至多 64 条，并受消息大小限制；一次可能少于 64 条。状态以最高 10 Hz 采样，动作/伤害使用被动回调，移动距离是采样位移，并非精确步行路程；游戏保留 256 条，遗漏时加入 type=overflow 记录。可能错过短于采样间隔的动作。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#player.events" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="world.find_player" data-search="world.find_player world.find_player(name) name 必填，使用字符串玩家名；在客户端已加载、128 格内的其他玩家中匹配，返回 Player 或 none。先检查 none 再访问字段。 Player target = world.find_player(&quot;BetaF1sh&quot;); if (target != none) { print(target.position); } game.read 按名字找附近玩家 将示例中的名字换成另一位玩家的实际游戏名，保留引号。两人需要在同一维度，目标需要在客户端可见的数据中。 找到时可读 position 和 id。未找到时拿到 none，所以要先判断再访问字段。 检查拼写、维度和距离。知道名字也只能查到当前客户端加载的玩家。">
+<h3>按名字找附近玩家</h3>
+<p class="signature"><code>world.find_player(name)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>将示例中的名字换成另一位玩家的实际游戏名，保留引号。两人需要在同一维度，目标需要在客户端可见的数据中。</dd>
+<dt>运行后</dt><dd>找到时可读 position 和 id。未找到时拿到 none，所以要先判断再访问字段。</dd>
+<dt>卡住时</dt><dd>检查拼写、维度和距离。知道名字也只能查到当前客户端加载的玩家。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Player target = world.find_player(&quot;BetaF1sh&quot;); if (target != none) { print(target.position); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>name 必填，使用字符串玩家名；在客户端已加载、128 格内的其他玩家中匹配，返回 Player 或 none。先检查 none 再访问字段。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#world.find_player" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="world.nearby_players" data-search="world.nearby_players world.nearby_players(radius=16) radius 为数值，大于 0、不超过 128。排除自己，按距离排序，最多返回 16 个含 id/name/position 的玩家记录。 List players = world.nearby_players(radius=32); print(players.length); game.read 列出周围的玩家 radius 用普通数字表示搜索多少格。示例检查 32 格内，并用 length 查看人数。 返回按远近排序的列表，最多 16 项。用 for 遍历可以查看每个人的名字和位置。 列表不含你自己。离线、其他维度或未加载的玩家不会出现在结果里。">
+<h3>列出周围的玩家</h3>
+<p class="signature"><code>world.nearby_players(radius=16)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>radius 用普通数字表示搜索多少格。示例检查 32 格内，并用 length 查看人数。</dd>
+<dt>运行后</dt><dd>返回按远近排序的列表，最多 16 项。用 for 遍历可以查看每个人的名字和位置。</dd>
+<dt>卡住时</dt><dd>列表不含你自己。离线、其他维度或未加载的玩家不会出现在结果里。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>List players = world.nearby_players(radius=32); print(players.length);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>radius 为数值，大于 0、不超过 128。排除自己，按距离排序，最多返回 16 个含 id/name/position 的玩家记录。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#world.nearby_players" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="world.nearest_player" data-search="world.nearest_player world.nearest_player(radius=16) radius 为 1..64 整数，返回最近已加载玩家的记录或 none；记录包含 position、distance、yaw、pitch 和可用身份信息。 Record target = world.nearest_player(radius=32); print(target); game.read 找离自己最近的玩家 用整数 radius 限定搜索范围。只想找一个目标时用这条命令。 找到时返回玩家的身份、位置、距离和朝向。找不到时返回 none。 如果后面要读 position，先检查 none。想逐个处理附近玩家时用 world.nearby_players。">
+<h3>找离自己最近的玩家</h3>
+<p class="signature"><code>world.nearest_player(radius=16)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>用整数 radius 限定搜索范围。只想找一个目标时用这条命令。</dd>
+<dt>运行后</dt><dd>找到时返回玩家的身份、位置、距离和朝向。找不到时返回 none。</dd>
+<dt>卡住时</dt><dd>如果后面要读 position，先检查 none。想逐个处理附近玩家时用 world.nearby_players。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record target = world.nearest_player(radius=32); print(target);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>radius 为 1..64 整数，返回最近已加载玩家的记录或 none；记录包含 position、distance、yaw、pitch 和可用身份信息。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#world.nearest_player" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="world.nearest_entity" data-search="world.nearest_entity world.nearest_entity(type=&quot;&quot;, radius=16) type 可省略以匹配任意已加载实体，或填写 minecraft:zombie 等注册 ID。radius 为 1..64 整数。返回最近实体 Record 或 none。 Record target = world.nearest_entity(&quot;minecraft:zombie&quot;, radius=16);
+print(target); game.read 找附近指定种类的实体 type 填物种 ID，例如 minecraft:villager 或 minecraft:cow。radius 填数字。省略 type 时，掉落物等实体也可能匹配。 找到时返回带 UUID 的记录。挤奶、开交易界面时可把该记录直接传给交互命令。 找到实体只是读到它的位置。交互前仍需靠近，并确保中间没有墙或其他挡住准星的实体。">
+<h3>找附近指定种类的实体</h3>
+<p class="signature"><code>world.nearest_entity(type=&quot;&quot;, radius=16)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>type 填物种 ID，例如 minecraft:villager 或 minecraft:cow。radius 填数字。省略 type 时，掉落物等实体也可能匹配。</dd>
+<dt>运行后</dt><dd>找到时返回带 UUID 的记录。挤奶、开交易界面时可把该记录直接传给交互命令。</dd>
+<dt>卡住时</dt><dd>找到实体只是读到它的位置。交互前仍需靠近，并确保中间没有墙或其他挡住准星的实体。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record target = world.nearest_entity(&quot;minecraft:zombie&quot;, radius=16);
+print(target);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>type 可省略以匹配任意已加载实体，或填写 minecraft:zombie 等注册 ID。radius 为 1..64 整数。返回最近实体 Record 或 none。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#world.nearest_entity" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="world.nearest_block" data-search="world.nearest_block world.nearest_block(type, radius=16, exclude_column=...) type 为必填方块注册 ID，radius 为 1..16 整数；只扫描已加载区块。返回 Record 或 none，position 是方块中心，另有 distance/yaw/pitch。可用 exclude_column 传入 Vec3，排除相同 X/Z 柱。 Record block = world.nearest_block(&quot;minecraft:stone&quot;, radius=8); print(block); game.read 找最近的某一种方块 type 填完整方块 ID，例如 minecraft:oak_log。要绕开上一次找到的树干，可把旧结果的 position 传给 exclude_column。 返回最近匹配方块的中心坐标。给出排除参数后，同一 X、Z 上下整柱都会跳过。 查铁资源可能还要搜索深层铁矿。想按资源类别一次查多种方块时用 world.find_resource。">
+<h3>找最近的某一种方块</h3>
+<p class="signature"><code>world.nearest_block(type, radius=16, exclude_column=...)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>type 填完整方块 ID，例如 minecraft:oak_log。要绕开上一次找到的树干，可把旧结果的 position 传给 exclude_column。</dd>
+<dt>运行后</dt><dd>返回最近匹配方块的中心坐标。给出排除参数后，同一 X、Z 上下整柱都会跳过。</dd>
+<dt>卡住时</dt><dd>查铁资源可能还要搜索深层铁矿。想按资源类别一次查多种方块时用 world.find_resource。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record block = world.nearest_block(&quot;minecraft:stone&quot;, radius=8); print(block);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>type 为必填方块注册 ID，radius 为 1..16 整数；只扫描已加载区块。返回 Record 或 none，position 是方块中心，另有 distance/yaw/pitch。可用 exclude_column 传入 Vec3，排除相同 X/Z 柱。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#world.nearest_block" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="world.find_resource" data-search="world.find_resource world.find_resource(type, radius=16, exclude_column=...) 在当前维度已加载区块中按资源类别查找最近的方块。半径为 1..24。支持 wood、coal、iron、copper、gold、redstone、lapis、diamond、emerald、quartz、ancient_debris、obsidian、nether_portal、end_portal。返回含 position、distance、type、evidence 的 Record，或 none。 Record ore = world.find_resource(&quot;iron&quot;, radius=24); if (ore != none) { print(ore.position, ore.evidence); } game.read 按资源名称找附近方块 传入类别，例如 iron、wood 或 nether_portal。类别和方块 ID 的格式不同，这里直接写 iron。 结果的 position 是位置，evidence 是实际匹配的方块 ID。查到铁时，你可以区分普通铁矿和深层铁矿。 none 表示这一轮在范围内没有匹配。尝试走到新的区域重新搜索，挖掘仍需视线和距离满足条件。">
+<h3>按资源名称找附近方块</h3>
+<p class="signature"><code>world.find_resource(type, radius=16, exclude_column=...)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>传入类别，例如 iron、wood 或 nether_portal。类别和方块 ID 的格式不同，这里直接写 iron。</dd>
+<dt>运行后</dt><dd>结果的 position 是位置，evidence 是实际匹配的方块 ID。查到铁时，你可以区分普通铁矿和深层铁矿。</dd>
+<dt>卡住时</dt><dd>none 表示这一轮在范围内没有匹配。尝试走到新的区域重新搜索，挖掘仍需视线和距离满足条件。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record ore = world.find_resource(&quot;iron&quot;, radius=24); if (ore != none) { print(ore.position, ore.evidence); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>在当前维度已加载区块中按资源类别查找最近的方块。半径为 1..24。支持 wood、coal、iron、copper、gold、redstone、lapis、diamond、emerald、quartz、ancient_debris、obsidian、nether_portal、end_portal。返回含 position、distance、type、evidence 的 Record，或 none。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#world.find_resource" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="world.find_structure" data-search="world.find_structure world.find_structure(type, radius=16, exclude_column=...) 查找已加载区块内最近的结构线索，半径为 1..24。支持 village、stronghold、nether_fortress、bastion_remnant、ruined_portal、ancient_city、end_city、ocean_monument。evidence 是实际方块 ID。同种方块也可能由玩家搭建。 Record clue = world.find_structure(&quot;stronghold&quot;, radius=24); if (clue != none) { print(clue.position, clue.evidence); } game.read 在附近找结构留下的线索 type 可填 village 或 stronghold 等类别。找村庄时脚本检查钟，找要塞时检查末地门框。 打印 position 和 evidence 可以知道线索在哪里、由哪个方块匹配。 村庄可能在搜索范围之外，也可能只有玩家自己放的钟。到达后结合附近方块核对。">
+<h3>在附近找结构留下的线索</h3>
+<p class="signature"><code>world.find_structure(type, radius=16, exclude_column=...)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>type 可填 village 或 stronghold 等类别。找村庄时脚本检查钟，找要塞时检查末地门框。</dd>
+<dt>运行后</dt><dd>打印 position 和 evidence 可以知道线索在哪里、由哪个方块匹配。</dd>
+<dt>卡住时</dt><dd>村庄可能在搜索范围之外，也可能只有玩家自己放的钟。到达后结合附近方块核对。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record clue = world.find_structure(&quot;stronghold&quot;, radius=24); if (clue != none) { print(clue.position, clue.evidence); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>查找已加载区块内最近的结构线索，半径为 1..24。支持 village、stronghold、nether_fortress、bastion_remnant、ruined_portal、ancient_city、end_city、ocean_monument。evidence 是实际方块 ID。同种方块也可能由玩家搭建。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#world.find_structure" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.use_block" data-search="player.use_block player.use_block(target, face=..., hand=&quot;main&quot;, item=...) 对坐标或方块记录执行一次普通右键交互。可指定命中面、主手或副手及预期物品 ID。返回 accepted、result、before、after，状态为客户端读数。 Record result = player.use_block(vec3(100, 64, 200)); print(result.accepted); world.interact + game.read + player.look 对指定方块右键一次 把真实方块坐标填进示例，或先用 world.block 取记录。按按钮或开箱时通常可以省略 face。要确保手里是指定物品时再传 item。 accepted 表示客户端接受了这次操作。按钮可以再读方块状态，箱子可以读 player.container 确认菜单。 走到正常右键距离内，移开中间的障碍。指定 face 后，命中的一面也必须一致。">
+<h3>对指定方块右键一次</h3>
+<p class="signature"><code>player.use_block(target, face=..., hand=&quot;main&quot;, item=...)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>把真实方块坐标填进示例，或先用 world.block 取记录。按按钮或开箱时通常可以省略 face。要确保手里是指定物品时再传 item。</dd>
+<dt>运行后</dt><dd>accepted 表示客户端接受了这次操作。按钮可以再读方块状态，箱子可以读 player.container 确认菜单。</dd>
+<dt>卡住时</dt><dd>走到正常右键距离内，移开中间的障碍。指定 face 后，命中的一面也必须一致。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record result = player.use_block(vec3(100, 64, 200)); print(result.accepted);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>对坐标或方块记录执行一次普通右键交互。可指定命中面、主手或副手及预期物品 ID。返回 accepted、result、before、after，状态为客户端读数。</p></details>
+<p class="permission">所需权限 <code>world.interact + game.read + player.look</code></p>
+<a href="#player.use_block" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.use_item_on_block" data-search="player.use_item_on_block player.use_item_on_block(target, face=..., hand=&quot;main&quot;, item=...) 对指定方块使用手持物品，与 use_block 使用同一原版交互。item 为可选物品 ID。 Record frame = world.block(vec3(100, 32, 200)); player.use_item_on_block(frame, face=&quot;up&quot;, item=&quot;minecraft:ender_eye&quot;); world.interact + game.read + player.look 用手持物品右键指定方块 例如主手拿末影之眼，对可触及的门框使用。把示例坐标换成你的门框坐标，face 填能看到的面，item 填末影之眼的 ID。 检查 accepted 后再读门框的 state。看到 eye=true 表示客户端已经读到门框有眼。 门框状态或手持物品变化会让旧请求失败。重新读取目标并确认结果，再决定是否需要下一次交互。">
+<h3>用手持物品右键指定方块</h3>
+<p class="signature"><code>player.use_item_on_block(target, face=..., hand=&quot;main&quot;, item=...)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>例如主手拿末影之眼，对可触及的门框使用。把示例坐标换成你的门框坐标，face 填能看到的面，item 填末影之眼的 ID。</dd>
+<dt>运行后</dt><dd>检查 accepted 后再读门框的 state。看到 eye=true 表示客户端已经读到门框有眼。</dd>
+<dt>卡住时</dt><dd>门框状态或手持物品变化会让旧请求失败。重新读取目标并确认结果，再决定是否需要下一次交互。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record frame = world.block(vec3(100, 32, 200)); player.use_item_on_block(frame, face=&quot;up&quot;, item=&quot;minecraft:ender_eye&quot;);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>对指定方块使用手持物品，与 use_block 使用同一原版交互。item 为可选物品 ID。</p></details>
+<p class="permission">所需权限 <code>world.interact + game.read + player.look</code></p>
+<a href="#player.use_item_on_block" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.use_item" data-search="player.use_item player.use_item(hand=&quot;main&quot;, item=...) 朝当前方向使用一次物品。hand 为 main 或 off，item 可锁定预期物品 ID。 player.use_item(item=&quot;minecraft:snowball&quot;); player.use 朝当前方向使用手持物品一次 先对准方向、选中物品。比如用雪球测试，传 item=&quot;minecraft:snowball&quot; 可以防止跑脚本时用到别的物品。 客户端返回 accepted 和 result。投掷后可读背包或手持物品数量，确认是否消耗了一颗。 一次调用相当于一次使用。需要持续按住才能完成的动作，还需专门处理按住和释放。">
+<h3>朝当前方向使用手持物品一次</h3>
+<p class="signature"><code>player.use_item(hand=&quot;main&quot;, item=...)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>先对准方向、选中物品。比如用雪球测试，传 item=&quot;minecraft:snowball&quot; 可以防止跑脚本时用到别的物品。</dd>
+<dt>运行后</dt><dd>客户端返回 accepted 和 result。投掷后可读背包或手持物品数量，确认是否消耗了一颗。</dd>
+<dt>卡住时</dt><dd>一次调用相当于一次使用。需要持续按住才能完成的动作，还需专门处理按住和释放。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>player.use_item(item=&quot;minecraft:snowball&quot;);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>朝当前方向使用一次物品。hand 为 main 或 off，item 可锁定预期物品 ID。</p></details>
+<p class="permission">所需权限 <code>player.use</code></p>
+<a href="#player.use_item" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.use_entity" data-search="player.use_entity player.use_entity(target, hand=&quot;main&quot;, item=...) 对准给定生物记录，核对 UUID、遮挡与距离，再执行一次普通交互。可以喂动物、挤奶等，取决于手持物品与游戏规则。 Record cow = world.nearest_entity(&quot;minecraft:cow&quot;, radius=4); if (cow != none) { player.use_entity(cow, item=&quot;minecraft:bucket&quot;); } player.use + game.read + player.look 对某只生物执行普通右键 例如主手拿空桶，站到牛旁边。先找牛，确认结果非 none，再把实体记录传进去。 命令会对准并核对那只牛。执行后可读 player.snapshot 返回记录中的 item，检查主手是否变成奶桶。 先把 snapshot 存进变量，再读 item。附近有另一只生物挡住、目标太远或手持物品不符时，需要调整位置或选对物品。">
+<h3>对某只生物执行普通右键</h3>
+<p class="signature"><code>player.use_entity(target, hand=&quot;main&quot;, item=...)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>例如主手拿空桶，站到牛旁边。先找牛，确认结果非 none，再把实体记录传进去。</dd>
+<dt>运行后</dt><dd>命令会对准并核对那只牛。执行后可读 player.snapshot 返回记录中的 item，检查主手是否变成奶桶。</dd>
+<dt>卡住时</dt><dd>先把 snapshot 存进变量，再读 item。附近有另一只生物挡住、目标太远或手持物品不符时，需要调整位置或选对物品。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record cow = world.nearest_entity(&quot;minecraft:cow&quot;, radius=4); if (cow != none) { player.use_entity(cow, item=&quot;minecraft:bucket&quot;); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>对准给定生物记录，核对 UUID、遮挡与距离，再执行一次普通交互。可以喂动物、挤奶等，取决于手持物品与游戏规则。</p></details>
+<p class="permission">所需权限 <code>player.use + game.read + player.look</code></p>
+<a href="#player.use_entity" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.open_trade" data-search="player.open_trade player.open_trade(target, timeout=4s) 对准并打开村民或流浪商人交易菜单，等报价载入后返回第一页。timeout 为大于 0 且最多 15 秒。 Record villager = world.nearest_entity(&quot;minecraft:villager&quot;, radius=4); if (villager != none) { Record page = player.open_trade(villager); print(page.total); } player.use + game.read + player.look 打开交易并等报价出现 先找附近的村民或流浪商人并确认找到了目标。靠到能正常右键的位置，默认最多等 4 秒。 成功后返回第一页报价，total 是报价总数，可遍历 offers 看每一笔。打开菜单本身不会买东西。 没职业的村民可能没有报价。也可以先手动打开交易界面，再用 player.trade_offers 读取。">
+<h3>打开交易并等报价出现</h3>
+<p class="signature"><code>player.open_trade(target, timeout=4s)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>先找附近的村民或流浪商人并确认找到了目标。靠到能正常右键的位置，默认最多等 4 秒。</dd>
+<dt>运行后</dt><dd>成功后返回第一页报价，total 是报价总数，可遍历 offers 看每一笔。打开菜单本身不会买东西。</dd>
+<dt>卡住时</dt><dd>没职业的村民可能没有报价。也可以先手动打开交易界面，再用 player.trade_offers 读取。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record villager = world.nearest_entity(&quot;minecraft:villager&quot;, radius=4); if (villager != none) { Record page = player.open_trade(villager); print(page.total); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>对准并打开村民或流浪商人交易菜单，等报价载入后返回第一页。timeout 为大于 0 且最多 15 秒。</p></details>
+<p class="permission">所需权限 <code>player.use + game.read + player.look</code></p>
+<a href="#player.open_trade" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.trade_offers" data-search="player.trade_offers player.trade_offers(offset=0, limit=8) 读取当前交易菜单的报价，limit 为 1..12。返回 token、total、offers，报价含两项成本、产物、次数与售罄状态。 Record page = player.trade_offers(); for (offer in page.offers) { print(offer.cost_item, offer.cost_count, offer.result_item); } game.read 翻看当前商人的每条报价 交易界面打开时调用。offset 从 0 开始，例如 limit=8 的下一页传 offset=8。 每条报价可读 cost_item、cost_count、second_cost_item、second_cost_count、result_item、result_count 和 out_of_stock。 offset 超过 total 会报错。付款前看清是否需要第二种材料，以及报价是否售罄。">
+<h3>翻看当前商人的每条报价</h3>
+<p class="signature"><code>player.trade_offers(offset=0, limit=8)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>交易界面打开时调用。offset 从 0 开始，例如 limit=8 的下一页传 offset=8。</dd>
+<dt>运行后</dt><dd>每条报价可读 cost_item、cost_count、second_cost_item、second_cost_count、result_item、result_count 和 out_of_stock。</dd>
+<dt>卡住时</dt><dd>offset 超过 total 会报错。付款前看清是否需要第二种材料，以及报价是否售罄。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record page = player.trade_offers(); for (offer in page.offers) { print(offer.cost_item, offer.cost_count, offer.result_item); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>读取当前交易菜单的报价，limit 为 1..12。返回 token、total、offers，报价含两项成本、产物、次数与售罄状态。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#player.trade_offers" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.trade" data-search="player.trade player.trade(offer, timeout=4s) 执行一笔来自当前菜单的最新报价。复核成本、结果和容量后点击取出一份结果，观察到背包增加才返回 client_observed_trade。 function buy_one_pearl() {
+    Record page = player.trade_offers();
+    for (offer in page.offers) {
+        if (offer.result_item == &quot;minecraft:ender_pearl&quot; &amp;&amp; !offer.out_of_stock
+            &amp;&amp; offer.cost_item == &quot;minecraft:emerald&quot; &amp;&amp; offer.cost_count &lt;= 6
+            &amp;&amp; offer.second_cost_count == 0) {
+            print(player.trade(offer));
+            return;
+        }
+    }
+    print(&quot;这一页没有符合条件的报价&quot;);
+}
+buy_one_pearl(); inventory.write + game.read 按选中的报价成交一笔 在当前交易界面重新读取报价，从 offers 选中完整的一条记录传入。先检查产物、价格和售罄状态。 返回的 item 和 count 说明背包里观察到新增了什么。连续交易前重新读取报价，价格或剩余次数可能变化。 材料不足、背包已满或菜单发生变化时会失败。报结果未确认时先检查背包和交易格再决定是否重试。">
+<h3>按选中的报价成交一笔</h3>
+<p class="signature"><code>player.trade(offer, timeout=4s)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>在当前交易界面重新读取报价，从 offers 选中完整的一条记录传入。先检查产物、价格和售罄状态。</dd>
+<dt>运行后</dt><dd>返回的 item 和 count 说明背包里观察到新增了什么。连续交易前重新读取报价，价格或剩余次数可能变化。</dd>
+<dt>卡住时</dt><dd>材料不足、背包已满或菜单发生变化时会失败。报结果未确认时先检查背包和交易格再决定是否重试。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>function buy_one_pearl() {
+    Record page = player.trade_offers();
+    for (offer in page.offers) {
+        if (offer.result_item == &quot;minecraft:ender_pearl&quot; &amp;&amp; !offer.out_of_stock
+            &amp;&amp; offer.cost_item == &quot;minecraft:emerald&quot; &amp;&amp; offer.cost_count &lt;= 6
+            &amp;&amp; offer.second_cost_count == 0) {
+            print(player.trade(offer));
+            return;
+        }
+    }
+    print(&quot;这一页没有符合条件的报价&quot;);
+}
+buy_one_pearl();</code></pre>
+<details><summary>查看参数范围和规则</summary><p>执行一笔来自当前菜单的最新报价。复核成本、结果和容量后点击取出一份结果，观察到背包增加才返回 client_observed_trade。</p></details>
+<p class="permission">所需权限 <code>inventory.write + game.read</code></p>
+<a href="#player.trade" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.enter_portal" data-search="player.enter_portal player.enter_portal(position, timeout=30s) 从旁边走入已激活的下界或末地传送门，确认进入另一个维度后返回其 ID。position 指向门内的传送门方块。下界门选与脚同高的底部方块，末地门从无障碍的一侧进入。超时范围 (0s, 60s]。 Record gate = world.find_resource(&quot;nether_portal&quot;, radius=2); if (gate != none) { print(player.enter_portal(gate.position)); } player.move + game.read + player.look 走进已开启的传送门 从紧邻门的一侧开始。下界门传入与脚同高的底部传送门方块坐标，别选黑曜石边框。 新维度加载好后返回它的 ID，例如 minecraft:the_nether。可用返回值决定下一阶段。 如果门还没激活、入口被堵或目标不是门内方块，先处理这些条件。脚本在加载期间会等待。">
+<h3>走进已开启的传送门</h3>
+<p class="signature"><code>player.enter_portal(position, timeout=30s)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>从紧邻门的一侧开始。下界门传入与脚同高的底部传送门方块坐标，别选黑曜石边框。</dd>
+<dt>运行后</dt><dd>新维度加载好后返回它的 ID，例如 minecraft:the_nether。可用返回值决定下一阶段。</dd>
+<dt>卡住时</dt><dd>如果门还没激活、入口被堵或目标不是门内方块，先处理这些条件。脚本在加载期间会等待。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record gate = world.find_resource(&quot;nether_portal&quot;, radius=2); if (gate != none) { print(player.enter_portal(gate.position)); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>从旁边走入已激活的下界或末地传送门，确认进入另一个维度后返回其 ID。position 指向门内的传送门方块。下界门选与脚同高的底部方块，末地门从无障碍的一侧进入。超时范围 (0s, 60s]。</p></details>
+<p class="permission">所需权限 <code>player.move + game.read + player.look</code></p>
+<a href="#player.enter_portal" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="world.block" data-search="world.block world.block(position) position 可为 Vec3 或之前的方块 Record。坐标向下取整，查询范围 64 格，只读取已加载区块；返回方块 Record。记录中的 world/id 会用于拒绝失效目标。 Record block = world.block(vec3(100, 64, 200)); print(block.id, block.air); game.read 读指定位置是什么方块 填写实际方块坐标，例如整数 X、Y、Z。小数会向下取整，负数 -0.2 会被当成 -1。 可查看 id、position、air 及 state。state 里会列出诸如按钮 powered=true 和末地门框 eye=true 的属性。 超出范围或区块未加载时会报错。需要交互时，把新读取的 Record 传给动作命令能保留目标身份和世界信息。">
+<h3>读指定位置是什么方块</h3>
+<p class="signature"><code>world.block(position)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>填写实际方块坐标，例如整数 X、Y、Z。小数会向下取整，负数 -0.2 会被当成 -1。</dd>
+<dt>运行后</dt><dd>可查看 id、position、air 及 state。state 里会列出诸如按钮 powered=true 和末地门框 eye=true 的属性。</dd>
+<dt>卡住时</dt><dd>超出范围或区块未加载时会报错。需要交互时，把新读取的 Record 传给动作命令能保留目标身份和世界信息。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record block = world.block(vec3(100, 64, 200)); print(block.id, block.air);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>position 可为 Vec3 或之前的方块 Record。坐标向下取整，查询范围 64 格，只读取已加载区块；返回方块 Record。记录中的 world/id 会用于拒绝失效目标。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#world.block" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="world.target_block" data-search="world.target_block world.target_block() 无参数；返回准星下可交互距离内的方块 Record（含 face），没有方块则为 none。 Record block = world.target_block(); if (block != none) { print(block.position, block.face); } game.read 读取准星指着的方块 把准星指向近处一个你能交互的方块，再运行示例。 结果含方块坐标和面，例如 face 为 up 表示顶面。可把记录交给挖掘或放置命令。 看向空气、指着实体或目标太远时可能拿到 none。想区分三种准星结果，用 world.target。">
+<h3>读取准星指着的方块</h3>
+<p class="signature"><code>world.target_block()</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>把准星指向近处一个你能交互的方块，再运行示例。</dd>
+<dt>运行后</dt><dd>结果含方块坐标和面，例如 face 为 up 表示顶面。可把记录交给挖掘或放置命令。</dd>
+<dt>卡住时</dt><dd>看向空气、指着实体或目标太远时可能拿到 none。想区分三种准星结果，用 world.target。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record block = world.target_block(); if (block != none) { print(block.position, block.face); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>无参数；返回准星下可交互距离内的方块 Record（含 face），没有方块则为 none。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#world.target_block" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.look" data-search="player.look player.look(yaw, pitch, duration=0s) yaw/pitch 必填，数值或 deg 单位；yaw 范围 ±360000，pitch 为 -90..90。duration 为 0..10s，按有限步骤插值。 player.look(yaw=90deg, pitch=15deg, duration=500ms); player.look 用角度设置角色视角 yaw 控制左右方向，pitch 控制上下。pitch=0 是平视，正数朝下，负数朝上。duration=500ms 会用半秒慢慢转过去。 示例把视角转到指定方向并略向下看，转完后才执行下一行。 这里只转视角。想朝坐标或玩家看过去时，player.look_at 更方便。">
+<h3>用角度设置角色视角</h3>
+<p class="signature"><code>player.look(yaw, pitch, duration=0s)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>yaw 控制左右方向，pitch 控制上下。pitch=0 是平视，正数朝下，负数朝上。duration=500ms 会用半秒慢慢转过去。</dd>
+<dt>运行后</dt><dd>示例把视角转到指定方向并略向下看，转完后才执行下一行。</dd>
+<dt>卡住时</dt><dd>这里只转视角。想朝坐标或玩家看过去时，player.look_at 更方便。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>player.look(yaw=90deg, pitch=15deg, duration=500ms);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>yaw/pitch 必填，数值或 deg 单位；yaw 范围 ±360000，pitch 为 -90..90。duration 为 0..10s，按有限步骤插值。</p></details>
+<p class="permission">所需权限 <code>player.look</code></p>
+<a href="#player.look" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.look_at" data-search="player.look_at player.look_at(target, point=body.eyes, duration=0s) target 为 Player 或 Vec3。玩家目标支持 eyes/center/feet；Vec3 直接作为坐标。duration 为 0..10s。right_arm/left_arm 仅保留枚举，当前调用会明确报错。 player.look_at(vec3(100, 65, 200), duration=500ms); player.look 让角色看向一个坐标或玩家 传入 vec3 坐标或查到的 Player 记录。看玩家时，point 可以选眼睛、中央或脚部。 角色转向目标。传入坐标时，视角会朝该坐标本身。 如果目标可能没找到，先检查 none。想瞄准方块特定的一面时，用 player.look_at_block。">
+<h3>让角色看向一个坐标或玩家</h3>
+<p class="signature"><code>player.look_at(target, point=body.eyes, duration=0s)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>传入 vec3 坐标或查到的 Player 记录。看玩家时，point 可以选眼睛、中央或脚部。</dd>
+<dt>运行后</dt><dd>角色转向目标。传入坐标时，视角会朝该坐标本身。</dd>
+<dt>卡住时</dt><dd>如果目标可能没找到，先检查 none。想瞄准方块特定的一面时，用 player.look_at_block。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>player.look_at(vec3(100, 65, 200), duration=500ms);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>target 为 Player 或 Vec3。玩家目标支持 eyes/center/feet；Vec3 直接作为坐标。duration 为 0..10s。right_arm/left_arm 仅保留枚举，当前调用会明确报错。</p></details>
+<p class="permission">所需权限 <code>player.look</code></p>
+<a href="#player.look_at" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.look_at_block" data-search="player.look_at_block player.look_at_block(position, face, duration=0s) position 是 Vec3，face 必填字符串，支持 up/down/north/south/east/west（top/bottom 为别名）。看向指定面的中心附近；duration 为 0..10s，不保证目标可挖或可放置。 player.look_at_block(vec3(100, 64, 200), face=&quot;north&quot;); player.look 把视角转向方块的一面 先把坐标替换成实际方块。face=&quot;up&quot; 指顶面，north、south、west、east 指四个侧面。 准星会朝指定面转动。再用 world.target_block 查看实际命中了什么。 有遮挡时，准星可能先落在前方另一块方块上。按钮等不占满整格的方块可直接用 use_block 执行交互。">
+<h3>把视角转向方块的一面</h3>
+<p class="signature"><code>player.look_at_block(position, face, duration=0s)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>先把坐标替换成实际方块。face=&quot;up&quot; 指顶面，north、south、west、east 指四个侧面。</dd>
+<dt>运行后</dt><dd>准星会朝指定面转动。再用 world.target_block 查看实际命中了什么。</dd>
+<dt>卡住时</dt><dd>有遮挡时，准星可能先落在前方另一块方块上。按钮等不占满整格的方块可直接用 use_block 执行交互。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>player.look_at_block(vec3(100, 64, 200), face=&quot;north&quot;);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>position 是 Vec3，face 必填字符串，支持 up/down/north/south/east/west（top/bottom 为别名）。看向指定面的中心附近；duration 为 0..10s，不保证目标可挖或可放置。</p></details>
+<p class="permission">所需权限 <code>player.look</code></p>
+<a href="#player.look_at_block" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.lock_block" data-search="player.lock_block player.lock_block(position, face=&quot;up&quot;, duration=2s) position 可为 Vec3 或方块 Record；在大于 0、不超过 60s 的时间内持续调整视角。目标世界或方块类型变化则失败。同步等待，不会启动后台永久锁定。 Record block = world.target_block(); if (block != none) { player.lock_block(block, face=block.face, duration=2s); } player.look + game.read 短时间持续看住同一方块 先用准星选中一个近处方块，把记录和面传给命令。duration 设定保持多久。 这段时间脚本持续修正视角。时间到了才进入下一行。 目标被替换或你换了世界时会停止并报错。只是看一次时，用 player.look_at_block。">
+<h3>短时间持续看住同一方块</h3>
+<p class="signature"><code>player.lock_block(position, face=&quot;up&quot;, duration=2s)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>先用准星选中一个近处方块，把记录和面传给命令。duration 设定保持多久。</dd>
+<dt>运行后</dt><dd>这段时间脚本持续修正视角。时间到了才进入下一行。</dd>
+<dt>卡住时</dt><dd>目标被替换或你换了世界时会停止并报错。只是看一次时，用 player.look_at_block。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record block = world.target_block(); if (block != none) { player.lock_block(block, face=block.face, duration=2s); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>position 可为 Vec3 或方块 Record；在大于 0、不超过 60s 的时间内持续调整视角。目标世界或方块类型变化则失败。同步等待，不会启动后台永久锁定。</p></details>
+<p class="permission">所需权限 <code>player.look + game.read</code></p>
+<a href="#player.lock_block" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.walk_forward" data-search="player.walk_forward player.walk_forward(amount, timeout) amount 必须是大于 0 的时间或距离：最多 60s 或 128blocks。timeout 使用时间单位，最多 60s；默认时间移动为 amount+2s，距离移动为 30s。阻挡会超时，不传送。60s 时间移动需显式 timeout=60s。 player.walk_forward(3blocks, timeout=10s); player.move 沿当前朝向走一段距离或时间 先转向空旷地面。传 3blocks 表示走约三格，传 1s 表示按住前进一秒。 距离模式到达目标位移后松开。时间模式在指定时长结束后松开。 贴墙时累计位移可能达不到目标。距离模式会等到超时，时间模式按时结束但人可能没动。">
+<h3>沿当前朝向走一段距离或时间</h3>
+<p class="signature"><code>player.walk_forward(amount, timeout)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>先转向空旷地面。传 3blocks 表示走约三格，传 1s 表示按住前进一秒。</dd>
+<dt>运行后</dt><dd>距离模式到达目标位移后松开。时间模式在指定时长结束后松开。</dd>
+<dt>卡住时</dt><dd>贴墙时累计位移可能达不到目标。距离模式会等到超时，时间模式按时结束但人可能没动。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>player.walk_forward(3blocks, timeout=10s);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>amount 必须是大于 0 的时间或距离：最多 60s 或 128blocks。timeout 使用时间单位，最多 60s；默认时间移动为 amount+2s，距离移动为 30s。阻挡会超时，不传送。60s 时间移动需显式 timeout=60s。</p></details>
+<p class="permission">所需权限 <code>player.move</code></p>
+<a href="#player.walk_forward" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.run_forward" data-search="player.run_forward player.run_forward(amount, timeout) 参数与 walk_forward 相同，使用前进加疾跑按键；疾跑仍取决于游戏的饥饿、碰撞和服务端状态。距离按起点到当前点的水平直线距离计量。 player.run_forward(3blocks, timeout=10s); player.move 沿当前方向尝试疾跑 用法和 walk_forward 一样。先选一段有空间的路，并确保角色满足游戏的疾跑条件。 脚本同时尝试前进和疾跑。距离从起点算水平位移，时间参数控制按住的时长。 饥饿值不足或撞到障碍都会影响结果。需要绕障时改用 walk_to。">
+<h3>沿当前方向尝试疾跑</h3>
+<p class="signature"><code>player.run_forward(amount, timeout)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>用法和 walk_forward 一样。先选一段有空间的路，并确保角色满足游戏的疾跑条件。</dd>
+<dt>运行后</dt><dd>脚本同时尝试前进和疾跑。距离从起点算水平位移，时间参数控制按住的时长。</dd>
+<dt>卡住时</dt><dd>饥饿值不足或撞到障碍都会影响结果。需要绕障时改用 walk_to。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>player.run_forward(3blocks, timeout=10s);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>参数与 walk_forward 相同，使用前进加疾跑按键；疾跑仍取决于游戏的饥饿、碰撞和服务端状态。距离按起点到当前点的水平直线距离计量。</p></details>
+<p class="permission">所需权限 <code>player.move</code></p>
+<a href="#player.run_forward" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.walk_to" data-search="player.walk_to player.walk_to(position, timeout=30s, bridge=false, straight=false) 尝试通过普通移动到达脚部坐标。可以绕障、跳上一格或走下一格。bridge=true 允许消耗手持方块搭短桥，需要额外的 world.place 权限。straight=true 限定目标为同高的相邻一格。到达返回 arrived，无法到达时报错。 player.walk_to(vec3(100, 64, 200)); player.move + game.read + player.look 自动走到指定脚部坐标 把示例位置换成能站人的方块上方。地面在 Y=63 时，脚部目标的 Y 通常填 64。 会尝试绕障、处理一格高差并分段走较远距离，也能涉过有支撑的一格浅水。到达后返回 arrived。 深水和复杂地形可能走不过。bridge=true 允许消耗手持方块搭最多三格的短桥，前提是两岸同高并授予放置权限。">
+<h3>自动走到指定脚部坐标</h3>
+<p class="signature"><code>player.walk_to(position, timeout=30s, bridge=false, straight=false)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>把示例位置换成能站人的方块上方。地面在 Y=63 时，脚部目标的 Y 通常填 64。</dd>
+<dt>运行后</dt><dd>会尝试绕障、处理一格高差并分段走较远距离，也能涉过有支撑的一格浅水。到达后返回 arrived。</dd>
+<dt>卡住时</dt><dd>深水和复杂地形可能走不过。bridge=true 允许消耗手持方块搭最多三格的短桥，前提是两岸同高并授予放置权限。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>player.walk_to(vec3(100, 64, 200));</code></pre>
+<details><summary>查看参数范围和规则</summary><p>尝试通过普通移动到达脚部坐标。可以绕障、跳上一格或走下一格。bridge=true 允许消耗手持方块搭短桥，需要额外的 world.place 权限。straight=true 限定目标为同高的相邻一格。到达返回 arrived，无法到达时报错。</p></details>
+<p class="permission">所需权限 <code>player.move + game.read + player.look</code></p>
+<a href="#player.walk_to" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.try_walk_to" data-search="player.try_walk_to player.try_walk_to(position, timeout=30s) 仅步行。到达返回 arrived，无路、卡住、超时或支撑变化返回 unreachable。取消、手动干预和其他错误仍会报出。 print(player.try_walk_to(vec3(100, 64, 200), timeout=8s)); player.move + game.read + player.look 尝试走过去并为失败留出分支 填入脚部目标坐标和等待时间。将返回值存进 string，在下一行检查是否等于 arrived。 无法找到可走路线或走到一半卡住时通常返回 unreachable，适合换个方向再试。 玩家取消、手动干预和其他异常仍可能结束脚本。深水无法游过，当前接口也不提供搭桥参数。">
+<h3>尝试走过去并为失败留出分支</h3>
+<p class="signature"><code>player.try_walk_to(position, timeout=30s)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>填入脚部目标坐标和等待时间。将返回值存进 string，在下一行检查是否等于 arrived。</dd>
+<dt>运行后</dt><dd>无法找到可走路线或走到一半卡住时通常返回 unreachable，适合换个方向再试。</dd>
+<dt>卡住时</dt><dd>玩家取消、手动干预和其他异常仍可能结束脚本。深水无法游过，当前接口也不提供搭桥参数。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>print(player.try_walk_to(vec3(100, 64, 200), timeout=8s));</code></pre>
+<details><summary>查看参数范围和规则</summary><p>仅步行。到达返回 arrived，无路、卡住、超时或支撑变化返回 unreachable。取消、手动干预和其他错误仍会报出。</p></details>
+<p class="permission">所需权限 <code>player.move + game.read + player.look</code></p>
+<a href="#player.try_walk_to" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.find_recipe" data-search="player.find_recipe player.find_recipe(item) 按产物 ID 查找已解锁且当前背包材料足够的配方。返回含 display_id 的 Record，未找到时返回 none。合成时还需要尺寸合适的合成网格。 Record recipe = player.find_recipe(&quot;minecraft:stick&quot;); if (recipe != none) { player.craft(recipe.display_id); } game.read 按想做的东西查找合成配方 item 填产物 ID，例如 minecraft:stick。先准备对应材料，配方也要已解锁。 返回值包含 display_id。示例找到配方后就合成一次。 查得到配方仍要用合适大小的合成网格。拿到 none 先核对材料和是否解锁。">
+<h3>按想做的东西查找合成配方</h3>
+<p class="signature"><code>player.find_recipe(item)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>item 填产物 ID，例如 minecraft:stick。先准备对应材料，配方也要已解锁。</dd>
+<dt>运行后</dt><dd>返回值包含 display_id。示例找到配方后就合成一次。</dd>
+<dt>卡住时</dt><dd>查得到配方仍要用合适大小的合成网格。拿到 none 先核对材料和是否解锁。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record recipe = player.find_recipe(&quot;minecraft:stick&quot;); if (recipe != none) { player.craft(recipe.display_id); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>按产物 ID 查找已解锁且当前背包材料足够的配方。返回含 display_id 的 Record，未找到时返回 none。合成时还需要尺寸合适的合成网格。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#player.find_recipe" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.open_crafting_table" data-search="player.open_crafting_table player.open_crafting_table(position) 对可见且在交互距离内的工作台执行普通交互。打开后可通过 player.container 确认菜单状态。 player.open_crafting_table(vec3(100, 64, 200)); inventory.write + game.read + player.look 对附近工作台右键打开合成网格 把坐标换成工作台所在的整格坐标。确保玩家站在能看见并正常右键的位置。 工作台界面打开后，player.container 的 type 会显示 CraftingMenu。可再用合成命令做物品。 坐标必须是工作台本身。打开后给界面一点时间加载，再检查菜单类型。">
+<h3>对附近工作台右键打开合成网格</h3>
+<p class="signature"><code>player.open_crafting_table(position)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>把坐标换成工作台所在的整格坐标。确保玩家站在能看见并正常右键的位置。</dd>
+<dt>运行后</dt><dd>工作台界面打开后，player.container 的 type 会显示 CraftingMenu。可再用合成命令做物品。</dd>
+<dt>卡住时</dt><dd>坐标必须是工作台本身。打开后给界面一点时间加载，再检查菜单类型。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>player.open_crafting_table(vec3(100, 64, 200));</code></pre>
+<details><summary>查看参数范围和规则</summary><p>对可见且在交互距离内的工作台执行普通交互。打开后可通过 player.container 确认菜单状态。</p></details>
+<p class="permission">所需权限 <code>inventory.write + game.read + player.look</code></p>
+<a href="#player.open_crafting_table" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.jump" data-search="player.jump player.jump() 无参数；须在世界中且脚踩地面，执行普通跳跃。空中调用会失败。 player.jump(); player.move 让角色从地面跳一次 站在地面上调用，不用传参数。脚下的 on_ground 为 true 时才允许起跳。 动作开始后脚本会继续执行，不会自动等你升高或落地。 跳放方块时，先用 snapshot 等双脚高过目标格顶面。下一轮再等 on_ground 为 true。">
+<h3>让角色从地面跳一次</h3>
+<p class="signature"><code>player.jump()</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>站在地面上调用，不用传参数。脚下的 on_ground 为 true 时才允许起跳。</dd>
+<dt>运行后</dt><dd>动作开始后脚本会继续执行，不会自动等你升高或落地。</dd>
+<dt>卡住时</dt><dd>跳放方块时，先用 snapshot 等双脚高过目标格顶面。下一轮再等 on_ground 为 true。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>player.jump();</code></pre>
+<details><summary>查看参数范围和规则</summary><p>无参数；须在世界中且脚踩地面，执行普通跳跃。空中调用会失败。</p></details>
+<p class="permission">所需权限 <code>player.move</code></p>
+<a href="#player.jump" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.hit" data-search="player.hit player.hit(count, interval=1s, duration) count 必填整数 1..100，针对当前准星实体发起普通攻击尝试。interval 与 duration 二选一，间隔须为 0.1..60s，总计划最长 120s；duration 按 count-1 段分配。检查距离、冷却和模式，不保证造成伤害。 player.hit(count=3, interval=1s); player.attack 按计划攻击准星指着的实体 把准星对准近处目标。count 是尝试次数，interval 是两次之间的等待。duration 可以改为指定总时间。 示例尝试攻击三次，两次之间各等一秒。实际伤害可结合 attack_hit 事件观察。 冷却不足、目标走开或准星转到别处时可能失败。选择 interval 或 duration 其中一个即可。">
+<h3>按计划攻击准星指着的实体</h3>
+<p class="signature"><code>player.hit(count, interval=1s, duration)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>把准星对准近处目标。count 是尝试次数，interval 是两次之间的等待。duration 可以改为指定总时间。</dd>
+<dt>运行后</dt><dd>示例尝试攻击三次，两次之间各等一秒。实际伤害可结合 attack_hit 事件观察。</dd>
+<dt>卡住时</dt><dd>冷却不足、目标走开或准星转到别处时可能失败。选择 interval 或 duration 其中一个即可。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>player.hit(count=3, interval=1s);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>count 必填整数 1..100，针对当前准星实体发起普通攻击尝试。interval 与 duration 二选一，间隔须为 0.1..60s，总计划最长 120s；duration 按 count-1 段分配。检查距离、冷却和模式，不保证造成伤害。</p></details>
+<p class="permission">所需权限 <code>player.attack</code></p>
+<a href="#player.hit" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.set_state" data-search="player.set_state player.set_state(name, value) name 为 crouching/sprinting/swimming/flying，value 必须为 bool。潜游需在水中，疾跑可能需足够饥饿值，飞行必须已由服务器授予 may_fly。下蹲与疾跑是临时按键，结束后释放。其他读取状态不一定可写。 player.set_state(&quot;crouching&quot;, true); sleep(1s); player.set_state(&quot;crouching&quot;, false); player.state 请求改变下蹲疾跑等游戏状态 第一个参数填状态英文名，第二个填 true 或 false，例如 crouching 加 true。 示例下蹲一秒，再解除。也可读 player.states 核对游戏里的实际状态。 飞行必须已有游戏授权，潜游需要在水中。它只支持列出的状态名，on_ground 等读取字段不能这样设置。">
+<h3>请求改变下蹲疾跑等游戏状态</h3>
+<p class="signature"><code>player.set_state(name, value)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>第一个参数填状态英文名，第二个填 true 或 false，例如 crouching 加 true。</dd>
+<dt>运行后</dt><dd>示例下蹲一秒，再解除。也可读 player.states 核对游戏里的实际状态。</dd>
+<dt>卡住时</dt><dd>飞行必须已有游戏授权，潜游需要在水中。它只支持列出的状态名，on_ground 等读取字段不能这样设置。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>player.set_state(&quot;crouching&quot;, true); sleep(1s); player.set_state(&quot;crouching&quot;, false);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>name 为 crouching/sprinting/swimming/flying，value 必须为 bool。潜游需在水中，疾跑可能需足够饥饿值，飞行必须已由服务器授予 may_fly。下蹲与疾跑是临时按键，结束后释放。其他读取状态不一定可写。</p></details>
+<p class="permission">所需权限 <code>player.state</code></p>
+<a href="#player.set_state" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.select_hotbar" data-search="player.select_hotbar player.select_hotbar(slot) slot 为 0..8 的整数，即快捷栏第 1..9 格；游戏中的实际物品不会凭空生成。 player.select_hotbar(2); inventory.write 选中一个快捷栏格子 用 0 到 8 编号。游戏里从左数第三格，对应 slot=2。 角色会切换选中的格子。再读 snapshot.item 可以确认主手到底拿到了什么。 格子为空也可以被选中。先检查物品在第几格，避免把屏幕上的第 1 格写成 1。">
+<h3>选中一个快捷栏格子</h3>
+<p class="signature"><code>player.select_hotbar(slot)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>用 0 到 8 编号。游戏里从左数第三格，对应 slot=2。</dd>
+<dt>运行后</dt><dd>角色会切换选中的格子。再读 snapshot.item 可以确认主手到底拿到了什么。</dd>
+<dt>卡住时</dt><dd>格子为空也可以被选中。先检查物品在第几格，避免把屏幕上的第 1 格写成 1。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>player.select_hotbar(2);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>slot 为 0..8 的整数，即快捷栏第 1..9 格；游戏中的实际物品不会凭空生成。</p></details>
+<p class="permission">所需权限 <code>inventory.write</code></p>
+<a href="#player.select_hotbar" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.move_item" data-search="player.move_item player.move_item(from, to) from/to 为自身背包索引 0..35，不能相同；目标格必须为空，鼠标携带格也须为空。外部容器打开时拒绝操作，仍遵守槽位权限。 player.move_item(0, 12); inventory.write 在自己的背包里搬动整组物品 关闭箱子等外部菜单，清空鼠标上拿着的物品。from 与 to 是自己的背包编号，目标格必须空着。 示例把第 0 格的物品移到第 12 格。可用 player.inventory.slots 读回位置。 此命令不会把两组合并或交换。移动箱子里的东西需使用 container_move 或 container_quick_move。">
+<h3>在自己的背包里搬动整组物品</h3>
+<p class="signature"><code>player.move_item(from, to)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>关闭箱子等外部菜单，清空鼠标上拿着的物品。from 与 to 是自己的背包编号，目标格必须空着。</dd>
+<dt>运行后</dt><dd>示例把第 0 格的物品移到第 12 格。可用 player.inventory.slots 读回位置。</dd>
+<dt>卡住时</dt><dd>此命令不会把两组合并或交换。移动箱子里的东西需使用 container_move 或 container_quick_move。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>player.move_item(0, 12);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>from/to 为自身背包索引 0..35，不能相同；目标格必须为空，鼠标携带格也须为空。外部容器打开时拒绝操作，仍遵守槽位权限。</p></details>
+<p class="permission">所需权限 <code>inventory.write</code></p>
+<a href="#player.move_item" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.craft" data-search="player.craft player.craft(display_id) display_id 必须来自本次游戏的 player.find_recipe 或 player.recipes；需要解锁配方、足够材料和合适合成网格。只能在自身背包或工作台菜单中执行，鼠标及先前输出格须为空；最多等待 2.5s，返回 submitted_to_server，非最终服务器保证。 Record recipe = player.find_recipe(&quot;minecraft:stick&quot;);
+if (recipe != none) { print(player.craft(recipe.display_id)); } inventory.write 按本次游戏里的配方编号合成 多数情况下先用 find_recipe 取得 display_id，再把它传给本命令。保持合成格、输出格和鼠标状态符合要求。 提交后可以再遍历背包，检查产物数量是否增加。保留着工作台界面时，也可看物品是否已取出。 别照抄别人游戏里的数字编号。缺材料、配方未解锁或网格太小都可能失败。">
+<h3>按本次游戏里的配方编号合成</h3>
+<p class="signature"><code>player.craft(display_id)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>多数情况下先用 find_recipe 取得 display_id，再把它传给本命令。保持合成格、输出格和鼠标状态符合要求。</dd>
+<dt>运行后</dt><dd>提交后可以再遍历背包，检查产物数量是否增加。保留着工作台界面时，也可看物品是否已取出。</dd>
+<dt>卡住时</dt><dd>别照抄别人游戏里的数字编号。缺材料、配方未解锁或网格太小都可能失败。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record recipe = player.find_recipe(&quot;minecraft:stick&quot;);
+if (recipe != none) { print(player.craft(recipe.display_id)); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>display_id 必须来自本次游戏的 player.find_recipe 或 player.recipes；需要解锁配方、足够材料和合适合成网格。只能在自身背包或工作台菜单中执行，鼠标及先前输出格须为空；最多等待 2.5s，返回 submitted_to_server，非最终服务器保证。</p></details>
+<p class="permission">所需权限 <code>inventory.write</code></p>
+<a href="#player.craft" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.mine" data-search="player.mine player.mine(position, face=&quot;up&quot;, timeout=30s) position 为 Vec3 或方块 Record；timeout 大于 0、不超过 60s。检查已加载、距离、视线、目标类型及手动攻击占用，正常挖掘并轮询结果，返回 client_observed_break。工具和服务器权限仍适用。 Record block = world.target_block(); if (block != none) { print(player.mine(block, face=block.face, timeout=15s)); } world.break + game.read + player.look 正常挖掘一块方块 先站到方块附近，用准星获取目标和面。工具需要适合该方块，timeout 可为难挖的方块设得更长。 客户端观察到原方块被破坏后才返回。想知道是否拾取掉落物，还要另外看背包。 空位、遮挡、超出距离或服务端禁止挖掘时会失败。目标变化后，应重新读取方块。">
+<h3>正常挖掘一块方块</h3>
+<p class="signature"><code>player.mine(position, face=&quot;up&quot;, timeout=30s)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>先站到方块附近，用准星获取目标和面。工具需要适合该方块，timeout 可为难挖的方块设得更长。</dd>
+<dt>运行后</dt><dd>客户端观察到原方块被破坏后才返回。想知道是否拾取掉落物，还要另外看背包。</dd>
+<dt>卡住时</dt><dd>空位、遮挡、超出距离或服务端禁止挖掘时会失败。目标变化后，应重新读取方块。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record block = world.target_block(); if (block != none) { print(player.mine(block, face=block.face, timeout=15s)); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>position 为 Vec3 或方块 Record；timeout 大于 0、不超过 60s。检查已加载、距离、视线、目标类型及手动攻击占用，正常挖掘并轮询结果，返回 client_observed_break。工具和服务器权限仍适用。</p></details>
+<p class="permission">所需权限 <code>world.break + game.read + player.look</code></p>
+<a href="#player.mine" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.place_block" data-search="player.place_block player.place_block(position, face=&quot;up&quot;, timeout=2s) position 指支撑方块，目的格是其指定面的邻格；须手持主手方块物品且目的格可替换。timeout 大于 0、不超过 60s。检查实际射线与面，提交后回读并返回含 status=client_observed_placement 的 Record；服务端仍可能纠正。 Record support = world.target_block(); if (support != none) { print(player.place_block(support, face=support.face)); } world.place + game.read + player.look 贴着支撑方块的一面放置 position 填已有的支撑方块，face 选要贴上的面。例如支撑在 (0,0,0)，face=&quot;up&quot; 的新方块会在 (0,1,0)。 返回的记录指向新放的方块。可以取它的 position 作为下一轮的支撑位置。 手持方块、目的格可替换、身体没有挡住，才能成功。向上跳放时尤其要等脚高过新方块的顶面。">
+<h3>贴着支撑方块的一面放置</h3>
+<p class="signature"><code>player.place_block(position, face=&quot;up&quot;, timeout=2s)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>position 填已有的支撑方块，face 选要贴上的面。例如支撑在 (0,0,0)，face=&quot;up&quot; 的新方块会在 (0,1,0)。</dd>
+<dt>运行后</dt><dd>返回的记录指向新放的方块。可以取它的 position 作为下一轮的支撑位置。</dd>
+<dt>卡住时</dt><dd>手持方块、目的格可替换、身体没有挡住，才能成功。向上跳放时尤其要等脚高过新方块的顶面。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record support = world.target_block(); if (support != none) { print(player.place_block(support, face=support.face)); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>position 指支撑方块，目的格是其指定面的邻格；须手持主手方块物品且目的格可替换。timeout 大于 0、不超过 60s。检查实际射线与面，提交后回读并返回含 status=client_observed_placement 的 Record；服务端仍可能纠正。</p></details>
+<p class="permission">所需权限 <code>world.place + game.read + player.look</code></p>
+<a href="#player.place_block" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="game.command" data-search="game.command game.command(text) 字符串最多 256 字符，不允许换行；可带开头 /，会按普通玩家命令提交。返回 submitted_to_server，OP 与作弊权限由服务器决定。提交不等于执行成功。 print(game.command(&quot;time query daytime&quot;)); game.command 以玩家身份提交 Minecraft 指令 在 text 里写游戏命令，例如 time query daytime。命令可以带开头的斜杠。 返回 submitted_to_server 说明已提交。是否执行成功，可再看游戏反馈或相关状态。 出现权限错误时按游戏或服务器规则处理。只是发普通聊天，请用 chat.send。">
+<h3>以玩家身份提交 Minecraft 指令</h3>
+<p class="signature"><code>game.command(text)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>在 text 里写游戏命令，例如 time query daytime。命令可以带开头的斜杠。</dd>
+<dt>运行后</dt><dd>返回 submitted_to_server 说明已提交。是否执行成功，可再看游戏反馈或相关状态。</dd>
+<dt>卡住时</dt><dd>出现权限错误时按游戏或服务器规则处理。只是发普通聊天，请用 chat.send。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>print(game.command(&quot;time query daytime&quot;));</code></pre>
+<details><summary>查看参数范围和规则</summary><p>字符串最多 256 字符，不允许换行；可带开头 /，会按普通玩家命令提交。返回 submitted_to_server，OP 与作弊权限由服务器决定。提交不等于执行成功。</p></details>
+<p class="permission">所需权限 <code>game.command</code></p>
+<a href="#game.command" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="chat.send" data-search="chat.send chat.send(text) 真正发送聊天，返回 submitted_to_server；非空、最多 256 UTF-16 单元、不含控制字符，拒绝开头 /（命令用 game.command）。服务端可拒绝或限流。 chat.send(&quot;Hello from Ochre Script!&quot;); chat.send 发出其他玩家能看到的聊天 传入确实打算发送的文字。例如把提示语和字符串变量用加号接起来，然后作为一个参数传入。 调用会发送普通聊天消息。返回 submitted_to_server 说明已提交给服务端。 开头是斜杠的内容请用 game.command。这里只想预填一条消息时用 input.text。">
+<h3>发出其他玩家能看到的聊天</h3>
+<p class="signature"><code>chat.send(text)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>传入确实打算发送的文字。例如把提示语和字符串变量用加号接起来，然后作为一个参数传入。</dd>
+<dt>运行后</dt><dd>调用会发送普通聊天消息。返回 submitted_to_server 说明已提交给服务端。</dd>
+<dt>卡住时</dt><dd>开头是斜杠的内容请用 game.command。这里只想预填一条消息时用 input.text。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>chat.send(&quot;Hello from Ochre Script!&quot;);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>真正发送聊天，返回 submitted_to_server；非空、最多 256 UTF-16 单元、不含控制字符，拒绝开头 /（命令用 game.command）。服务端可拒绝或限流。</p></details>
+<p class="permission">所需权限 <code>chat.send</code></p>
+<a href="#chat.send" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="input.text" data-search="input.text input.text(text) 向当前游戏输入控件插入文本；世界中没有界面时会打开预填聊天框，但不会发送。没有可接收控件时返回 not_inserted，不报错；部分插入返回 partially_inserted。文本限制与 send_text 相同。 print(input.text(&quot;Draft only&quot;)); input.text 在游戏里填好一段文字 输入框已经打开时会填入当前控件。世界里没有界面时，会尝试打开预填聊天框。 你可以在发送前检查或修改内容。命令本身不会按回车。 看返回值区分完全插入、部分插入和没有输入框。要保证不打开聊天框时用 input.send_text。">
+<h3>在游戏里填好一段文字</h3>
+<p class="signature"><code>input.text(text)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>输入框已经打开时会填入当前控件。世界里没有界面时，会尝试打开预填聊天框。</dd>
+<dt>运行后</dt><dd>你可以在发送前检查或修改内容。命令本身不会按回车。</dd>
+<dt>卡住时</dt><dd>看返回值区分完全插入、部分插入和没有输入框。要保证不打开聊天框时用 input.send_text。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>print(input.text(&quot;Draft only&quot;));</code></pre>
+<details><summary>查看参数范围和规则</summary><p>向当前游戏输入控件插入文本；世界中没有界面时会打开预填聊天框，但不会发送。没有可接收控件时返回 not_inserted，不报错；部分插入返回 partially_inserted。文本限制与 send_text 相同。</p></details>
+<p class="permission">所需权限 <code>input.text</code></p>
+<a href="#input.text" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="input.send_text" data-search="input.send_text input.send_text(text) 只向当前游戏 UI 发送字符事件，不打开聊天框、不自动提交。文本非空，最多 256 UTF-16 单元，无控制字符；没有输入框返回 not_inserted，接收部分返回 partially_inserted，否则 inserted_not_sent。 print(input.send_text(&quot;Hello&quot;)); input.text 只向眼前的输入框写文字 先打开有文本输入的游戏界面，并让目标输入框获得焦点，再传入文字。 inserted_not_sent 表示文字已填入。你可以在界面里查看并决定是否提交。 not_inserted 时先检查焦点。若只收到 partially_inserted，检查输入框的最大长度或允许的字符。">
+<h3>只向眼前的输入框写文字</h3>
+<p class="signature"><code>input.send_text(text)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>先打开有文本输入的游戏界面，并让目标输入框获得焦点，再传入文字。</dd>
+<dt>运行后</dt><dd>inserted_not_sent 表示文字已填入。你可以在界面里查看并决定是否提交。</dd>
+<dt>卡住时</dt><dd>not_inserted 时先检查焦点。若只收到 partially_inserted，检查输入框的最大长度或允许的字符。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>print(input.send_text(&quot;Hello&quot;));</code></pre>
+<details><summary>查看参数范围和规则</summary><p>只向当前游戏 UI 发送字符事件，不打开聊天框、不自动提交。文本非空，最多 256 UTF-16 单元，无控制字符；没有输入框返回 not_inserted，接收部分返回 partially_inserted，否则 inserted_not_sent。</p></details>
+<p class="permission">所需权限 <code>input.text</code></p>
+<a href="#input.send_text" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="input.key" data-search="input.key input.key(key, duration=100ms, modifiers=0) key 为下文列出的别名或 GLFW 数字键码；duration 大于 0、不超过 30s。按下、等待、自动释放；世界内走实际按键绑定，菜单中交给当前界面。未处理按键报错。 input.key(&quot;W&quot;, duration=250ms); input.keys 按下一个键再自动松开 key 可以写 &quot;W&quot; 或 &quot;SPACE&quot;，duration 设定按多久。脚本按真实绑定处理，改过键时应传对应的物理键。 示例尝试按住 W 四分之一秒后松开。游戏菜单打开时，事件会交给菜单。 想跳一下可用 player.jump，直走固定距离可用 walk_forward。菜单中某键没作用时可能会报未处理。">
+<h3>按下一个键再自动松开</h3>
+<p class="signature"><code>input.key(key, duration=100ms, modifiers=0)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>key 可以写 &quot;W&quot; 或 &quot;SPACE&quot;，duration 设定按多久。脚本按真实绑定处理，改过键时应传对应的物理键。</dd>
+<dt>运行后</dt><dd>示例尝试按住 W 四分之一秒后松开。游戏菜单打开时，事件会交给菜单。</dd>
+<dt>卡住时</dt><dd>想跳一下可用 player.jump，直走固定距离可用 walk_forward。菜单中某键没作用时可能会报未处理。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>input.key(&quot;W&quot;, duration=250ms);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>key 为下文列出的别名或 GLFW 数字键码；duration 大于 0、不超过 30s。按下、等待、自动释放；世界内走实际按键绑定，菜单中交给当前界面。未处理按键报错。</p></details>
+<p class="permission">所需权限 <code>input.keys</code></p>
+<a href="#input.key" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="input.key_down" data-search="input.key_down input.key_down(key, modifiers=0) 按下并保持世界内绑定按键；通过 key_up 释放。所有权只属于本次脚本，结束、切换菜单或租约过期会释放；不能接管玩家已经按住的键。菜单中仅发送一次按下事件。 input.key_down(&quot;SHIFT&quot;); sleep(1s); input.key_up(&quot;SHIFT&quot;); input.keys 按住某个游戏键 选一个当前没有被玩家按住的键。计划在后续用 input.key_up 松开同一个键。 示例和 sleep、key_up 一起使用，让 Shift 保持约一秒。脚本停止后会释放它持有的键。 如果菜单打开，通常只会收到一次按下事件。要短按一个键时，input.key 更省事。">
+<h3>按住某个游戏键</h3>
+<p class="signature"><code>input.key_down(key, modifiers=0)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>选一个当前没有被玩家按住的键。计划在后续用 input.key_up 松开同一个键。</dd>
+<dt>运行后</dt><dd>示例和 sleep、key_up 一起使用，让 Shift 保持约一秒。脚本停止后会释放它持有的键。</dd>
+<dt>卡住时</dt><dd>如果菜单打开，通常只会收到一次按下事件。要短按一个键时，input.key 更省事。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>input.key_down(&quot;SHIFT&quot;); sleep(1s); input.key_up(&quot;SHIFT&quot;);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>按下并保持世界内绑定按键；通过 key_up 释放。所有权只属于本次脚本，结束、切换菜单或租约过期会释放；不能接管玩家已经按住的键。菜单中仅发送一次按下事件。</p></details>
+<p class="permission">所需权限 <code>input.keys</code></p>
+<a href="#input.key_down" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="input.key_up" data-search="input.key_up input.key_up(key, modifiers=0) 释放本脚本持有的绑定按键；菜单中发送释放事件，界面不处理会报错。不提供系统级键盘注入。 input.key_down(&quot;SHIFT&quot;);
+sleep(250ms);
+input.key_up(&quot;SHIFT&quot;); input.keys 松开脚本已经按住的键 传入同一次脚本中交给 input.key_down 的键名。 脚本释放自己持有的键，角色可恢复正常输入。 只调用 key_up 时，需要同一个脚本先按住该键。脚本无法替玩家松开物理键。">
+<h3>松开脚本已经按住的键</h3>
+<p class="signature"><code>input.key_up(key, modifiers=0)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>传入同一次脚本中交给 input.key_down 的键名。</dd>
+<dt>运行后</dt><dd>脚本释放自己持有的键，角色可恢复正常输入。</dd>
+<dt>卡住时</dt><dd>只调用 key_up 时，需要同一个脚本先按住该键。脚本无法替玩家松开物理键。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>input.key_down(&quot;SHIFT&quot;);
+sleep(250ms);
+input.key_up(&quot;SHIFT&quot;);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>释放本脚本持有的绑定按键；菜单中发送释放事件，界面不处理会报错。不提供系统级键盘注入。</p></details>
+<p class="permission">所需权限 <code>input.keys</code></p>
+<a href="#input.key_up" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="input.send_key" data-search="input.send_key input.send_key(key, action=&quot;press&quot;, modifiers=0) 直接给游戏发送 press/release/repeat 键事件；世界内只支持真实绑定，repeat 要在游戏 UI 中使用。数字键码范围 32..348，组合修饰掩码 0..15。未处理事件报错，不模拟私有 F3 快捷逻辑。 input.send_key(&quot;LEFT&quot;, action=&quot;press&quot;, modifiers=0); input.keys 向游戏发送单次键盘事件 用 action 选择 press、release 或 repeat。初次使用保留 modifiers=0，不加修饰键。 事件交给当前游戏界面或实际绑定。可用于选择菜单项等单次动作。 示例需在会处理左方向键的界面里试。持续操作或自动松键更适合 input.key。">
+<h3>向游戏发送单次键盘事件</h3>
+<p class="signature"><code>input.send_key(key, action=&quot;press&quot;, modifiers=0)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>用 action 选择 press、release 或 repeat。初次使用保留 modifiers=0，不加修饰键。</dd>
+<dt>运行后</dt><dd>事件交给当前游戏界面或实际绑定。可用于选择菜单项等单次动作。</dd>
+<dt>卡住时</dt><dd>示例需在会处理左方向键的界面里试。持续操作或自动松键更适合 input.key。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>input.send_key(&quot;LEFT&quot;, action=&quot;press&quot;, modifiers=0);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>直接给游戏发送 press/release/repeat 键事件；世界内只支持真实绑定，repeat 要在游戏 UI 中使用。数字键码范围 32..348，组合修饰掩码 0..15。未处理事件报错，不模拟私有 F3 快捷逻辑。</p></details>
+<p class="permission">所需权限 <code>input.keys</code></p>
+<a href="#input.send_key" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="input.snapshot" data-search="input.snapshot input.snapshot() 读取当前游戏窗口的物理输入缓存，返回 Record：focused、keys（code/name 记录 List）、mouse_buttons（0..7 编号 List）、position（窗口内鼠标 x/y）。失去焦点时列表为空，不监听其他应用。覆盖 GLFW 支持的全部键盘键码，不能保证记录两次轮询间快速按下又松开的键。 Record keys = input.snapshot(); print(keys.focused, keys.keys); game.read 查看键盘鼠标和焦点 先把输出存为 Record。读 focused 可确认游戏窗口焦点，读 keys 或 mouse_buttons 可看当前有哪些键或鼠标按钮按住。 鼠标 position 是窗口内的屏幕坐标，keys 包含键名和数字码。 窗口失去焦点时键列表可能为空。要持续观察输入，用短间隔循环重复读快照。">
+<h3>查看键盘鼠标和焦点</h3>
+<p class="signature"><code>input.snapshot()</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>先把输出存为 Record。读 focused 可确认游戏窗口焦点，读 keys 或 mouse_buttons 可看当前有哪些键或鼠标按钮按住。</dd>
+<dt>运行后</dt><dd>鼠标 position 是窗口内的屏幕坐标，keys 包含键名和数字码。</dd>
+<dt>卡住时</dt><dd>窗口失去焦点时键列表可能为空。要持续观察输入，用短间隔循环重复读快照。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record keys = input.snapshot(); print(keys.focused, keys.keys);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>读取当前游戏窗口的物理输入缓存，返回 Record：focused、keys（code/name 记录 List）、mouse_buttons（0..7 编号 List）、position（窗口内鼠标 x/y）。失去焦点时列表为空，不监听其他应用。覆盖 GLFW 支持的全部键盘键码，不能保证记录两次轮询间快速按下又松开的键。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#input.snapshot" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="input.pressed_keys" data-search="input.pressed_keys input.pressed_keys() 返回当前按下的全部游戏窗口键盘键，List 中每项有 code（GLFW 数字键码）和 name。包括字母、数字、功能键、修饰键及小键盘；未提供专用名称的键以 KEY_加键码表示。鼠标请用 input.snapshot().mouse_buttons（先存入 Record 再读取字段）。 for (key in input.pressed_keys()) { print(key.code, key.name); } game.read 列出此刻按下的游戏键 用 for 遍历返回的列表。每个 key 的 name 是名称，code 是数字键码。测试时返回游戏窗口并按住想查的键。 示例会逐行打印按住的键。没有键按下时，循环不会输出内容。 想只查 W 时用 input.is_key_down(&quot;W&quot;)。落在两次读取之间的短按可能漏掉。">
+<h3>列出此刻按下的游戏键</h3>
+<p class="signature"><code>input.pressed_keys()</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>用 for 遍历返回的列表。每个 key 的 name 是名称，code 是数字键码。测试时返回游戏窗口并按住想查的键。</dd>
+<dt>运行后</dt><dd>示例会逐行打印按住的键。没有键按下时，循环不会输出内容。</dd>
+<dt>卡住时</dt><dd>想只查 W 时用 input.is_key_down(&quot;W&quot;)。落在两次读取之间的短按可能漏掉。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>for (key in input.pressed_keys()) { print(key.code, key.name); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>返回当前按下的全部游戏窗口键盘键，List 中每项有 code（GLFW 数字键码）和 name。包括字母、数字、功能键、修饰键及小键盘；未提供专用名称的键以 KEY_加键码表示。鼠标请用 input.snapshot().mouse_buttons（先存入 Record 再读取字段）。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#input.pressed_keys" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="input.is_key_down" data-search="input.is_key_down input.is_key_down(key) 返回物理按键当前是否按下，key 为 GLFW 数字键码或 pressed_keys 返回的名称，字符串不区分大小写。SHIFT/CONTROL/ALT/SUPER 是左侧修饰键别名；右侧用 RIGHT_SHIFT 等。与可重绑的游戏动作输入不同，也不把脚本模拟的逻辑按键冒充为物理键。 print(input.is_key_down(&quot;W&quot;)); game.read 判断一个物理键是否按下 传入键名，例如 &quot;W&quot;，或使用 input.pressed_keys 读到的数字键码。 返回 true 或 false。想只在刚按下时触发一次，需要和上一轮的值比较。 如果玩家改了前进键，请用实际按键名。想读「前进」这个游戏动作时，可以读 player.inputs.forward。">
+<h3>判断一个物理键是否按下</h3>
+<p class="signature"><code>input.is_key_down(key)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>传入键名，例如 &quot;W&quot;，或使用 input.pressed_keys 读到的数字键码。</dd>
+<dt>运行后</dt><dd>返回 true 或 false。想只在刚按下时触发一次，需要和上一轮的值比较。</dd>
+<dt>卡住时</dt><dd>如果玩家改了前进键，请用实际按键名。想读「前进」这个游戏动作时，可以读 player.inputs.forward。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>print(input.is_key_down(&quot;W&quot;));</code></pre>
+<details><summary>查看参数范围和规则</summary><p>返回物理按键当前是否按下，key 为 GLFW 数字键码或 pressed_keys 返回的名称，字符串不区分大小写。SHIFT/CONTROL/ALT/SUPER 是左侧修饰键别名；右侧用 RIGHT_SHIFT 等。与可重绑的游戏动作输入不同，也不把脚本模拟的逻辑按键冒充为物理键。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#input.is_key_down" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="world.target" data-search="world.target world.target() 返回当前渲染器准星命中的 Record：kind 为 miss/block/entity，含 world。有效目标有 x/y/z、distance；方块还有 block_x/block_y/block_z、face；实体还有 id（UUID）、entity_id（运行时编号）、entity_type、name。菜单中的缓存可能陈旧；不是自动锁定。 Record hit = world.target(); print(hit.kind); game.read 区分准星指向方块生物或空处 到游戏世界中，把准星指向你想检查的东西，再读取 kind。 kind 是 block、entity 或 miss。判断类型后才读取面、方块坐标或实体 UUID 等字段。 菜单里的命中结果可能是较早的。先回到游戏再查询，执行交互前仍应复核目标。">
+<h3>区分准星指向方块生物或空处</h3>
+<p class="signature"><code>world.target()</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>到游戏世界中，把准星指向你想检查的东西，再读取 kind。</dd>
+<dt>运行后</dt><dd>kind 是 block、entity 或 miss。判断类型后才读取面、方块坐标或实体 UUID 等字段。</dd>
+<dt>卡住时</dt><dd>菜单里的命中结果可能是较早的。先回到游戏再查询，执行交互前仍应复核目标。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record hit = world.target(); print(hit.kind);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>返回当前渲染器准星命中的 Record：kind 为 miss/block/entity，含 world。有效目标有 x/y/z、distance；方块还有 block_x/block_y/block_z、face；实体还有 id（UUID）、entity_id（运行时编号）、entity_type、name。菜单中的缓存可能陈旧；不是自动锁定。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#world.target" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="world.collision" data-search="world.collision world.collision(position) position 为玩家脚部 Vec3，范围 16 格。把当前姿态的真实玩家碰撞箱移到目标位置，返回 clear、supported、can_stand、world、distance。supported 仅表示向下 0.1 格会碰撞；区块未加载时报错，不生成区块。不是危险地形检测。 Record space = world.collision(player.position); print(space.clear, space.supported); game.read 分别查看空间和脚下支撑 把位置填为角色双脚将到达的坐标。返回 clear 检查身体能不能放下，supported 检查脚下有没有碰撞支撑。 两个条件都满足时，can_stand 为 true。示例在当前位置打印前两项。 这只检查碰撞形状。遇到岩浆、火或落差，还要单独检查地形。">
+<h3>分别查看空间和脚下支撑</h3>
+<p class="signature"><code>world.collision(position)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>把位置填为角色双脚将到达的坐标。返回 clear 检查身体能不能放下，supported 检查脚下有没有碰撞支撑。</dd>
+<dt>运行后</dt><dd>两个条件都满足时，can_stand 为 true。示例在当前位置打印前两项。</dd>
+<dt>卡住时</dt><dd>这只检查碰撞形状。遇到岩浆、火或落差，还要单独检查地形。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record space = world.collision(player.position); print(space.clear, space.supported);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>position 为玩家脚部 Vec3，范围 16 格。把当前姿态的真实玩家碰撞箱移到目标位置，返回 clear、supported、can_stand、world、distance。supported 仅表示向下 0.1 格会碰撞；区块未加载时报错，不生成区块。不是危险地形检测。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#world.collision" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="world.can_stand" data-search="world.can_stand world.can_stand(position) 返回目标处碰撞箱无阻挡且脚下有支撑的 bool。与 collision 一样使用当前姿态和 16 格范围；不保证没有熔岩、火或摔落风险。 print(world.can_stand(player.position)); game.read 判断脚部位置能不能站住 传入计划落脚的 Vec3，Y 填角色脚的高度。当前玩家的姿态会影响碰撞箱。 true 表示有身体空间且脚下有支撑。可以用它先筛掉一些明显走不了的落脚点。 只说明目标格几何上可站。到那个位置是否有路、地面是否安全，需要另外判断。">
+<h3>判断脚部位置能不能站住</h3>
+<p class="signature"><code>world.can_stand(position)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>传入计划落脚的 Vec3，Y 填角色脚的高度。当前玩家的姿态会影响碰撞箱。</dd>
+<dt>运行后</dt><dd>true 表示有身体空间且脚下有支撑。可以用它先筛掉一些明显走不了的落脚点。</dd>
+<dt>卡住时</dt><dd>只说明目标格几何上可站。到那个位置是否有路、地面是否安全，需要另外判断。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>print(world.can_stand(player.position));</code></pre>
+<details><summary>查看参数范围和规则</summary><p>返回目标处碰撞箱无阻挡且脚下有支撑的 bool。与 collision 一样使用当前姿态和 16 格范围；不保证没有熔岩、火或摔落风险。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#world.can_stand" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="world.path_clear" data-search="world.path_clear world.path_clear(position) 从当前脚部到目标脚部沿直线每 0.25 格检查一次真实碰撞箱，最多 16 格，返回 bool。只检查直线碰撞，不检查沿路支撑、危险、跳跃能力，不会寻路或移动。 Vec3 here = player.position; print(world.path_clear(vec3(here.x + 1, here.y, here.z))); game.read 检查直线上的身体空间 传目标脚部坐标，离玩家最多 16 格。示例检查 X 方向相隔一格的位置。 true 表示沿这条直线检查时未撞到方块。当前位置和目标都不会改变。 直线上即使没有墙，途中也可能是悬崖。走路之前还要考虑支撑，复杂路线可以交给 walk_to。">
+<h3>检查直线上的身体空间</h3>
+<p class="signature"><code>world.path_clear(position)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>传目标脚部坐标，离玩家最多 16 格。示例检查 X 方向相隔一格的位置。</dd>
+<dt>运行后</dt><dd>true 表示沿这条直线检查时未撞到方块。当前位置和目标都不会改变。</dd>
+<dt>卡住时</dt><dd>直线上即使没有墙，途中也可能是悬崖。走路之前还要考虑支撑，复杂路线可以交给 walk_to。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Vec3 here = player.position; print(world.path_clear(vec3(here.x + 1, here.y, here.z)));</code></pre>
+<details><summary>查看参数范围和规则</summary><p>从当前脚部到目标脚部沿直线每 0.25 格检查一次真实碰撞箱，最多 16 格，返回 bool。只检查直线碰撞，不检查沿路支撑、危险、跳跃能力，不会寻路或移动。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#world.path_clear" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.item_tags" data-search="player.item_tags player.item_tags() 读取当前主手物品的注册标签，返回最多 128 个标签 ID 的 List。支持模组添加的标签，不用枚举每种剑的物品 ID。空物品同样返回其实际标签列表。 print(player.item_tags()); game.read 列出当前主手物品的分类标签 主手选中要检查的物品，直接打印返回值。可用于查某把剑或某种食物有哪些标签。 返回标签 ID 列表。找到一个合适的标签后，可以在脚本里用 item_is 判断同类物品。 手里没有物品或物品没这些标签时，结果可能为空。想知道物品本身的 ID 可读 snapshot.item。">
+<h3>列出当前主手物品的分类标签</h3>
+<p class="signature"><code>player.item_tags()</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>主手选中要检查的物品，直接打印返回值。可用于查某把剑或某种食物有哪些标签。</dd>
+<dt>运行后</dt><dd>返回标签 ID 列表。找到一个合适的标签后，可以在脚本里用 item_is 判断同类物品。</dd>
+<dt>卡住时</dt><dd>手里没有物品或物品没这些标签时，结果可能为空。想知道物品本身的 ID 可读 snapshot.item。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>print(player.item_tags());</code></pre>
+<details><summary>查看参数范围和规则</summary><p>读取当前主手物品的注册标签，返回最多 128 个标签 ID 的 List。支持模组添加的标签，不用枚举每种剑的物品 ID。空物品同样返回其实际标签列表。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#player.item_tags" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.item_is" data-search="player.item_is player.item_is(tag) tag 为完整命名空间标签字符串，例如 minecraft:swords；返回主手物品是否拥有该标签的 bool。未知标签返回 false。模组或数据包会改变实际标签内容。 if (player.item_is(&quot;minecraft:swords&quot;)) { print(&quot;Holding a sword&quot;); } game.read 检查主手物品是否属于一类 在 tag 填完整标签名，例如 &quot;minecraft:swords&quot;。这里使用标签名，不用加井号。 返回 true 时可以进入 if 内的动作，例如显示持剑提示。 填一件物品的 ID 通常不是有效标签。先用 item_tags 查看当前物品实际有哪些标签。">
+<h3>检查主手物品是否属于一类</h3>
+<p class="signature"><code>player.item_is(tag)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>在 tag 填完整标签名，例如 &quot;minecraft:swords&quot;。这里使用标签名，不用加井号。</dd>
+<dt>运行后</dt><dd>返回 true 时可以进入 if 内的动作，例如显示持剑提示。</dd>
+<dt>卡住时</dt><dd>填一件物品的 ID 通常不是有效标签。先用 item_tags 查看当前物品实际有哪些标签。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>if (player.item_is(&quot;minecraft:swords&quot;)) { print(&quot;Holding a sword&quot;); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>tag 为完整命名空间标签字符串，例如 minecraft:swords；返回主手物品是否拥有该标签的 bool。未知标签返回 false。模组或数据包会改变实际标签内容。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#player.item_is" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.container_slots" data-search="player.container_slots player.container_slots(offset=0, limit=24) 分页读取当前容器（没有外部容器时为玩家背包），返回 token、total、slots。offset 为 0..512，不能超出实际槽位；limit 为 1..24。槽位有 slot、inventory_slot、item、count、empty、max_count、may_pickup、accepts_held（是否允许放入当前主手物品）。操作应使用 slot 菜单索引。 Record page = player.container_slots(); for (slot in page.slots) { print(slot.slot, slot.item, slot.count); } game.read 列出当前箱子或背包的槽位 打开箱子后先运行示例。没有打开额外容器时，结果来自玩家自身菜单。需要更多槽位时，按 offset 翻页。 每行可打印槽位编号、物品 ID 和数量。空槽可以看 empty，后续移动使用 slot 和本次 page.token。 inventory_slot 是底层编号，移动时用 slot。不同菜单的布局不同，别直接照抄其他箱子的槽位编号。">
+<h3>列出当前箱子或背包的槽位</h3>
+<p class="signature"><code>player.container_slots(offset=0, limit=24)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>打开箱子后先运行示例。没有打开额外容器时，结果来自玩家自身菜单。需要更多槽位时，按 offset 翻页。</dd>
+<dt>运行后</dt><dd>每行可打印槽位编号、物品 ID 和数量。空槽可以看 empty，后续移动使用 slot 和本次 page.token。</dd>
+<dt>卡住时</dt><dd>inventory_slot 是底层编号，移动时用 slot。不同菜单的布局不同，别直接照抄其他箱子的槽位编号。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record page = player.container_slots(); for (slot in page.slots) { print(slot.slot, slot.item, slot.count); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>分页读取当前容器（没有外部容器时为玩家背包），返回 token、total、slots。offset 为 0..512，不能超出实际槽位；limit 为 1..24。槽位有 slot、inventory_slot、item、count、empty、max_count、may_pickup、accepts_held（是否允许放入当前主手物品）。操作应使用 slot 菜单索引。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#player.container_slots" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.container_move" data-search="player.container_move player.container_move(from, to, count=0, token=...) 按正常容器点击移动或拆分物品。from/to 是当前菜单槽位索引 0..511；count=0 为整组，1..64 为指定数量。必须提供最新 token，光标为空，来源允许取出，目标允许放入且兼容、有足够容量。返回 submitted_to_server；需再读取槽位核对服务端结果。 // 先在测试箱子中确认槽位 0 有物品，槽位 1 为空。
+Record page = player.container_slots();
+player.container_move(0, 1, count=1, token=page.token); inventory.write 把指定数量移到指定容器格子 先读取槽位，确认有物品的 from、要放的 to 和当前 token。count=1 只移动一个。鼠标携带物品必须为空。 提交后再读源格、目标格或背包，确认实际移动了多少。 目标格必须兼容且有空间。换了箱子、重开同一个箱子或切换世界后，需要取得新的 token。">
+<h3>把指定数量移到指定容器格子</h3>
+<p class="signature"><code>player.container_move(from, to, count=0, token=...)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>先读取槽位，确认有物品的 from、要放的 to 和当前 token。count=1 只移动一个。鼠标携带物品必须为空。</dd>
+<dt>运行后</dt><dd>提交后再读源格、目标格或背包，确认实际移动了多少。</dd>
+<dt>卡住时</dt><dd>目标格必须兼容且有空间。换了箱子、重开同一个箱子或切换世界后，需要取得新的 token。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>// 先在测试箱子中确认槽位 0 有物品，槽位 1 为空。
+Record page = player.container_slots();
+player.container_move(0, 1, count=1, token=page.token);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>按正常容器点击移动或拆分物品。from/to 是当前菜单槽位索引 0..511；count=0 为整组，1..64 为指定数量。必须提供最新 token，光标为空，来源允许取出，目标允许放入且兼容、有足够容量。返回 submitted_to_server；需再读取槽位核对服务端结果。</p></details>
+<p class="permission">所需权限 <code>inventory.write</code></p>
+<a href="#player.container_move" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.container_swap" data-search="player.container_swap player.container_swap(from, to, token=...) 通过正常点击交换两个槽位，遵守两侧取放规则和容量。必须使用当前 token、空光标。相同且可合并的物品请使用 container_move，避免把合并误当交换。返回 submitted_to_server。 // 先在测试箱子中确认槽位 0 和 1 都放有不同种类的物品。
+Record page = player.container_slots();
+player.container_swap(0, 1, token=page.token); inventory.write 把两个容器格的物品交换 先在当前菜单查到两个槽号和 token。确保双方格子都能收下对面的物品。 一次交换完成后，重新打印两个槽的内容确认结果。 想把同种物品叠到一起时，用 container_move。装备或特殊槽位可能拒绝不适用的物品。">
+<h3>把两个容器格的物品交换</h3>
+<p class="signature"><code>player.container_swap(from, to, token=...)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>先在当前菜单查到两个槽号和 token。确保双方格子都能收下对面的物品。</dd>
+<dt>运行后</dt><dd>一次交换完成后，重新打印两个槽的内容确认结果。</dd>
+<dt>卡住时</dt><dd>想把同种物品叠到一起时，用 container_move。装备或特殊槽位可能拒绝不适用的物品。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>// 先在测试箱子中确认槽位 0 和 1 都放有不同种类的物品。
+Record page = player.container_slots();
+player.container_swap(0, 1, token=page.token);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>通过正常点击交换两个槽位，遵守两侧取放规则和容量。必须使用当前 token、空光标。相同且可合并的物品请使用 container_move，避免把合并误当交换。返回 submitted_to_server。</p></details>
+<p class="permission">所需权限 <code>inventory.write</code></p>
+<a href="#player.container_swap" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="player.container_quick_move" data-search="player.container_quick_move player.container_quick_move(from, token=...) 正常 Shift 点击指定槽位，由原版或模组菜单决定目标槽位。来源允许取出、光标必须为空，token 必须匹配；返回 submitted_to_server，不保证移动量。 // 打开测试箱子，确认槽位 0 是要取的那一格。
+Record page = player.container_slots();
+player.container_quick_move(0, token=page.token); inventory.write 像 Shift 点击一样快速转移整组 打开箱子，先用 container_slots 找到要取的箱子格。用它的 slot 作 from，并传当前 page.token。 游戏决定放到背包哪个格子。背包空间不足时可能只移了一部分，需重新检查。 从背包侧点击通常会向箱子送物品。先明确源格是哪一侧，再做操作。">
+<h3>像 Shift 点击一样快速转移整组</h3>
+<p class="signature"><code>player.container_quick_move(from, token=...)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>打开箱子，先用 container_slots 找到要取的箱子格。用它的 slot 作 from，并传当前 page.token。</dd>
+<dt>运行后</dt><dd>游戏决定放到背包哪个格子。背包空间不足时可能只移了一部分，需重新检查。</dd>
+<dt>卡住时</dt><dd>从背包侧点击通常会向箱子送物品。先明确源格是哪一侧，再做操作。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>// 打开测试箱子，确认槽位 0 是要取的那一格。
+Record page = player.container_slots();
+player.container_quick_move(0, token=page.token);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>正常 Shift 点击指定槽位，由原版或模组菜单决定目标槽位。来源允许取出、光标必须为空，token 必须匹配；返回 submitted_to_server，不保证移动量。</p></details>
+<p class="permission">所需权限 <code>inventory.write</code></p>
+<a href="#player.container_quick_move" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="script.wait_event" data-search="script.wait_event script.wait_event(type, timeout=5s) 等待指定 type 事件，返回首个匹配 Record，超时返回 none。timeout 大于 0、不超过 60s，可停止。与 player.events 共用游标，会消费轮询页中的非匹配事件；第一次可能命中近期保留事件。检测频率仍受采样/游戏线程影响。 Record hit = script.wait_event(&quot;hurt&quot;, timeout=10s); if (hit != none) { print(hit.damage_type); } game.read 等某一类事件出现 type 填事件名。比如 hurt 代表受到伤害，timeout 指最多等多久。 收到第一个匹配事件时返回其记录，等不到时返回 none。示例会先检查结果是否存在。 它与 player.events 共用读取位置，等待期间经过的其他事件也会被读走。首次可能读到已保留的近期事件。">
+<h3>等某一类事件出现</h3>
+<p class="signature"><code>script.wait_event(type, timeout=5s)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>type 填事件名。比如 hurt 代表受到伤害，timeout 指最多等多久。</dd>
+<dt>运行后</dt><dd>收到第一个匹配事件时返回其记录，等不到时返回 none。示例会先检查结果是否存在。</dd>
+<dt>卡住时</dt><dd>它与 player.events 共用读取位置，等待期间经过的其他事件也会被读走。首次可能读到已保留的近期事件。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>Record hit = script.wait_event(&quot;hurt&quot;, timeout=10s); if (hit != none) { print(hit.damage_type); }</code></pre>
+<details><summary>查看参数范围和规则</summary><p>等待指定 type 事件，返回首个匹配 Record，超时返回 none。timeout 大于 0、不超过 60s，可停止。与 player.events 共用游标，会消费轮询页中的非匹配事件；第一次可能命中近期保留事件。检测频率仍受采样/游戏线程影响。</p></details>
+<p class="permission">所需权限 <code>game.read</code></p>
+<a href="#script.wait_event" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="task.load" data-search="task.load task.load(name, default=none) 读取当前实例的命名检查点；不存在时返回 default。name 为 1..64 位英文字母、数字、下划线或连字符，不是文件路径。返回已保存的数值、字符串、bool、none、List 或 Record；文件损坏会报错。 int stage = task.load(&quot;demo_stage&quot;, default=0); print(stage); storage.read 读取上次保存的任务进度 传入和 task.save 一样的名字。以数字变量接收时，通常把 default 也设为数字。 示例找到已存进度就打印它，否则输出 0。 检查点按游戏实例保存。同一实例里的多个存档若共用一个名字，可能读到另一张地图的进度。">
+<h3>读取上次保存的任务进度</h3>
+<p class="signature"><code>task.load(name, default=none)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>传入和 task.save 一样的名字。以数字变量接收时，通常把 default 也设为数字。</dd>
+<dt>运行后</dt><dd>示例找到已存进度就打印它，否则输出 0。</dd>
+<dt>卡住时</dt><dd>检查点按游戏实例保存。同一实例里的多个存档若共用一个名字，可能读到另一张地图的进度。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>int stage = task.load(&quot;demo_stage&quot;, default=0); print(stage);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>读取当前实例的命名检查点；不存在时返回 default。name 为 1..64 位英文字母、数字、下划线或连字符，不是文件路径。返回已保存的数值、字符串、bool、none、List 或 Record；文件损坏会报错。</p></details>
+<p class="permission">所需权限 <code>storage.read</code></p>
+<a href="#task.load" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="task.save" data-search="task.save task.save(name, value) 在当前实例专属托管目录原子保存一份检查点。只接受有限数值、字符串、bool、none、List/Record；最多 16 KiB JSON、8 层嵌套，每个集合最多 128 项，每个实例最多 64 份。不同实例隔离；不开放任意文件访问。存储记录不自动恢复按键、目标或运行位置。 task.save(&quot;demo_stage&quot;, 1); storage.write 保存任务进度供下次运行 给进度取名，例如 demo_stage，第二项填已完成的阶段、坐标或其他可保存的数据。完成一步后再保存。 重开脚本时可用 task.load 读回同一条记录。保存会覆盖同名旧值。 继续前应重新确认世界、背包和目标。上次的容器 token 或按键状态已经失效。">
+<h3>保存任务进度供下次运行</h3>
+<p class="signature"><code>task.save(name, value)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>给进度取名，例如 demo_stage，第二项填已完成的阶段、坐标或其他可保存的数据。完成一步后再保存。</dd>
+<dt>运行后</dt><dd>重开脚本时可用 task.load 读回同一条记录。保存会覆盖同名旧值。</dd>
+<dt>卡住时</dt><dd>继续前应重新确认世界、背包和目标。上次的容器 token 或按键状态已经失效。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>task.save(&quot;demo_stage&quot;, 1);</code></pre>
+<details><summary>查看参数范围和规则</summary><p>在当前实例专属托管目录原子保存一份检查点。只接受有限数值、字符串、bool、none、List/Record；最多 16 KiB JSON、8 层嵌套，每个集合最多 128 项，每个实例最多 64 份。不同实例隔离；不开放任意文件访问。存储记录不自动恢复按键、目标或运行位置。</p></details>
+<p class="permission">所需权限 <code>storage.write</code></p>
+<a href="#task.save" class="anchor">链接到本命令 ↗</a>
+</article><article class="command" id="task.clear" data-search="task.clear task.clear(name) 删除当前实例的一份命名检查点；存在并删除返回 true，不存在返回 false。名称规则与 load 相同。不会删除脚本文件。 print(task.clear(&quot;demo_stage&quot;)); storage.write 清除一个命名的任务存档 填写要重置的那个检查点名称。示例只清除 demo_stage。 删除成功返回 true，之前没有该记录则返回 false。下一次 load 会走默认值。 任务若把起点和阶段分开保存，要按脚本约定分别处理这些键。">
+<h3>清除一个命名的任务存档</h3>
+<p class="signature"><code>task.clear(name)</code></p>
+<dl class="command-guide">
+<dt>怎么用</dt><dd>填写要重置的那个检查点名称。示例只清除 demo_stage。</dd>
+<dt>运行后</dt><dd>删除成功返回 true，之前没有该记录则返回 false。下一次 load 会走默认值。</dd>
+<dt>卡住时</dt><dd>任务若把起点和阶段分开保存，要按脚本约定分别处理这些键。</dd>
+</dl>
+<h4>示例</h4>
+<pre><code>print(task.clear(&quot;demo_stage&quot;));</code></pre>
+<details><summary>查看参数范围和规则</summary><p>删除当前实例的一份命名检查点；存在并删除返回 true，不存在返回 false。名称规则与 load 相同。不会删除脚本文件。</p></details>
+<p class="permission">所需权限 <code>storage.write</code></p>
+<a href="#task.clear" class="anchor">链接到本命令 ↗</a>
+</article><p id="empty" hidden>没有匹配的命令。试试英文函数名或更短的关键词。</p></section><section id="records"><h2>方块、输入与事件记录</h2><p>方块 Record 含 position、world、id、state、air、solid、replaceable、loaded、distance；准星查询额外有 face。solid 只是阻挡移动的提示，不是完整碰撞形状。优先把原 Record 传给 mine/place/lock，让运行器检查世界会话和目标类型。放置坐标是支撑格，不是目的格。已观察的客户端变化仍可能被多人服务器纠正。</p><p>事件 type 包括 world_enter、world_leave、move、hotbar、held_item、state、overflow，以及下表新增事件；非 overflow 事件含 sequence/time。move 含 x/y/z、position、distance、dx/dy/dz、world；hotbar 含 from_slot/to_slot/item；held_item 含 from_item/item/count；state 含 name/from/to。不同类型字段不同，不要直接读取不存在的字段。每个脚本有独立游标，首次调用可能读到桥接保留的近期事件。</p><table><thead><tr><th>事件</th><th>字段与依据</th></tr></thead><tbody><tr><td><code>look</code></td><td>yaw/pitch、from_yaw/from_pitch；采样旋转变化。</td></tr><tr><td><code>input_change</code></td><td>name/from/to；可重绑游戏动作输入变化。</td></tr><tr><td><code>input_press / input_release</code></td><td>device、code、name、evidence=sampled_input；focused 游戏窗口物理输入，短促输入可能遗漏。</td></tr><tr><td><code>mouse_move / mouse_scroll</code></td><td>dx/dy；move 还有 x/y 窗口位置。聚合本采样区间真实鼠标回调，失焦不监听其他应用。</td></tr><tr><td><code>mouse_button</code></td><td>button、action（0释放/1按下/2重复）；游戏窗口回调。</td></tr><tr><td><code>screen_open / screen_close</code></td><td>screen_type、open、paused、in_world；采样 UI 变化。</td></tr><tr><td><code>container_open / container_close</code></td><td>container_type、id、token、slot_count、open；外部菜单变化。</td></tr><tr><td><code>vital_change</code></td><td>name/from/to；生命、食物、空气、经验、火焰/水/熔岩/冻结/摔落等状态采样变化。</td></tr><tr><td><code>item_use_start / item_use_stop</code></td><td>item、animation、evidence=sampled_state；持续使用状态变化，瞬时使用未必出现。</td></tr><tr><td><code>item_use_result</code></td><td>item、hand、accepted、evidence=client_result；使用物品的客户端返回，不代表服务器接受。</td></tr><tr><td><code>item_use_complete / food_consumed</code></td><td>item、animation、evidence=client_use_completion；本地使用完成回调，eat 动画额外产生 food_consumed，不保证饱食度已被服务器确认。</td></tr><tr><td><code>attack_attempt</code></td><td>target_id、target_uuid、evidence=client_request；客户端尝试攻击。</td></tr><tr><td><code>hurt / attack_hit</code></td><td>target_id、source_id、direct_id、damage_type（可用时）、evidence=server_damage_event；伤害通知目标为本玩家时 hurt，伤害来源为本玩家时 attack_hit，来源可能包含投射物，不限定近战。没有编造伤害量；不是所有服务器都发送相同范围通知。</td></tr><tr><td><code>block_break</code></td><td>position、world、block_id、block_state、evidence=client_prediction；破坏方法成功返回时记录破坏前的方块。</td></tr><tr><td><code>block_interact / block_place_result</code></td><td>支撑方块位置、block_id、face、item、hand；interact 为 client_request，place_result 另含 accepted 和 evidence=client_result。</td></tr><tr><td><code>block_place</code></td><td>position、world、block_id、block_state、item、face、evidence=client_observed_change；点击后 2 秒内观察到目标格或邻格变为手持方块类型。客户端观察可能被服务器修正，不是最终归因证明。</td></tr></tbody></table><p>player.snapshot() 含 inputs/vitals/container/screen 嵌套记录；事件类型字段各不相同。序号是本次桥接进程的递增编号，time 是单调时钟时间；不要当作现实日期。world 会话标识不可跨游戏重启复用。检测依赖游戏实际回调与本地可见状态，不监视服务器未同步给客户端的内容。</p><p>按键别名：A..Z、0..9、SPACE、SHIFT、CONTROL、ALT、ENTER、ESCAPE、TAB、BACKSPACE、DELETE、LEFT、RIGHT、UP、DOWN、HOME、END。modifiers 为掩码：Shift=1、Control=2、Alt=4、Super=8，可相加。它们只作用于游戏，不是桌面自动化。原始输入权限可以操作聊天与菜单，但不会提升服务器权限。</p></section><section id="organization"><h2>函数、模块与任务检查点</h2><p>使用 <code>function name(arg1, arg2) { return value; }</code> 定义函数，可以提前调用，支持位置/命名参数。参数无类型标注，最多 16 个，必须全部提供。没有 return 时返回 none；return 可从循环中退出。局部变量隔离，可访问主脚本已有的全局变量；递归调用最多 16 层，仍受总运行预算约束。</p><pre><code>function describe(value) {
     print("Observed:", value);
     return value;
 }
